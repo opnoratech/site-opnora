@@ -8,7 +8,13 @@ type Props = {
   className?: string;
 };
 
-export function SectionHeading({ eyebrow, title, description, align = "left", className = "" }: Props) {
+export function SectionHeading({
+  eyebrow,
+  title,
+  description,
+  align = "left",
+  className = "",
+}: Props) {
   const isCenter = align === "center";
   return (
     <div className={`${isCenter ? "mx-auto max-w-2xl text-center" : "max-w-3xl"} ${className}`}>

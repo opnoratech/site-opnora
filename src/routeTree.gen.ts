@@ -9,13 +9,20 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TermosRouteImport } from './routes/termos'
 import { Route as SolucoesRouteImport } from './routes/solucoes'
 import { Route as SobreRouteImport } from './routes/sobre'
-import { Route as ProjetosRouteImport } from './routes/projetos'
-import { Route as ProcessoRouteImport } from './routes/processo'
+import { Route as PrivacidadeRouteImport } from './routes/privacidade'
+import { Route as PrecosRouteImport } from './routes/precos'
+import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as ContatoRouteImport } from './routes/contato'
 import { Route as IndexRouteImport } from './routes/index'
 
+const TermosRoute = TermosRouteImport.update({
+  id: '/termos',
+  path: '/termos',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SolucoesRoute = SolucoesRouteImport.update({
   id: '/solucoes',
   path: '/solucoes',
@@ -26,14 +33,19 @@ const SobreRoute = SobreRouteImport.update({
   path: '/sobre',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProjetosRoute = ProjetosRouteImport.update({
-  id: '/projetos',
-  path: '/projetos',
+const PrivacidadeRoute = PrivacidadeRouteImport.update({
+  id: '/privacidade',
+  path: '/privacidade',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProcessoRoute = ProcessoRouteImport.update({
-  id: '/processo',
-  path: '/processo',
+const PrecosRoute = PrecosRouteImport.update({
+  id: '/precos',
+  path: '/precos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CookiesRoute = CookiesRouteImport.update({
+  id: '/cookies',
+  path: '/cookies',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContatoRoute = ContatoRouteImport.update({
@@ -50,60 +62,87 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/contato': typeof ContatoRoute
-  '/processo': typeof ProcessoRoute
-  '/projetos': typeof ProjetosRoute
+  '/cookies': typeof CookiesRoute
+  '/precos': typeof PrecosRoute
+  '/privacidade': typeof PrivacidadeRoute
   '/sobre': typeof SobreRoute
   '/solucoes': typeof SolucoesRoute
+  '/termos': typeof TermosRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/contato': typeof ContatoRoute
-  '/processo': typeof ProcessoRoute
-  '/projetos': typeof ProjetosRoute
+  '/cookies': typeof CookiesRoute
+  '/precos': typeof PrecosRoute
+  '/privacidade': typeof PrivacidadeRoute
   '/sobre': typeof SobreRoute
   '/solucoes': typeof SolucoesRoute
+  '/termos': typeof TermosRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/contato': typeof ContatoRoute
-  '/processo': typeof ProcessoRoute
-  '/projetos': typeof ProjetosRoute
+  '/cookies': typeof CookiesRoute
+  '/precos': typeof PrecosRoute
+  '/privacidade': typeof PrivacidadeRoute
   '/sobre': typeof SobreRoute
   '/solucoes': typeof SolucoesRoute
+  '/termos': typeof TermosRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/contato'
-    | '/processo'
-    | '/projetos'
+    | '/cookies'
+    | '/precos'
+    | '/privacidade'
     | '/sobre'
     | '/solucoes'
+    | '/termos'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/contato' | '/processo' | '/projetos' | '/sobre' | '/solucoes'
+  to:
+    | '/'
+    | '/contato'
+    | '/cookies'
+    | '/precos'
+    | '/privacidade'
+    | '/sobre'
+    | '/solucoes'
+    | '/termos'
   id:
     | '__root__'
     | '/'
     | '/contato'
-    | '/processo'
-    | '/projetos'
+    | '/cookies'
+    | '/precos'
+    | '/privacidade'
     | '/sobre'
     | '/solucoes'
+    | '/termos'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ContatoRoute: typeof ContatoRoute
-  ProcessoRoute: typeof ProcessoRoute
-  ProjetosRoute: typeof ProjetosRoute
+  CookiesRoute: typeof CookiesRoute
+  PrecosRoute: typeof PrecosRoute
+  PrivacidadeRoute: typeof PrivacidadeRoute
   SobreRoute: typeof SobreRoute
   SolucoesRoute: typeof SolucoesRoute
+  TermosRoute: typeof TermosRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/termos': {
+      id: '/termos'
+      path: '/termos'
+      fullPath: '/termos'
+      preLoaderRoute: typeof TermosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/solucoes': {
       id: '/solucoes'
       path: '/solucoes'
@@ -118,18 +157,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SobreRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/projetos': {
-      id: '/projetos'
-      path: '/projetos'
-      fullPath: '/projetos'
-      preLoaderRoute: typeof ProjetosRouteImport
+    '/privacidade': {
+      id: '/privacidade'
+      path: '/privacidade'
+      fullPath: '/privacidade'
+      preLoaderRoute: typeof PrivacidadeRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/processo': {
-      id: '/processo'
-      path: '/processo'
-      fullPath: '/processo'
-      preLoaderRoute: typeof ProcessoRouteImport
+    '/precos': {
+      id: '/precos'
+      path: '/precos'
+      fullPath: '/precos'
+      preLoaderRoute: typeof PrecosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cookies': {
+      id: '/cookies'
+      path: '/cookies'
+      fullPath: '/cookies'
+      preLoaderRoute: typeof CookiesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contato': {
@@ -152,11 +198,23 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ContatoRoute: ContatoRoute,
-  ProcessoRoute: ProcessoRoute,
-  ProjetosRoute: ProjetosRoute,
+  CookiesRoute: CookiesRoute,
+  PrecosRoute: PrecosRoute,
+  PrivacidadeRoute: PrivacidadeRoute,
   SobreRoute: SobreRoute,
   SolucoesRoute: SolucoesRoute,
+  TermosRoute: TermosRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

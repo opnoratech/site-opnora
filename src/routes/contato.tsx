@@ -2,9 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { z } from "zod";
 import { toast } from "sonner";
-import { MessageCircle, Mail, Send } from "lucide-react";
-import { AuroraBackground } from "@/components/site/AuroraBackground";
-import { Section } from "@/components/site/Section";
+import { FaMessage, FaEnvelope, FaPaperPlane } from "react-icons/fa6";
+import { AuroraBackground } from "@/components/site/backgrounds/AuroraBackground";
+import { Section } from "@/components/site/shared/Section";
 import { CONTACT } from "@/config/site";
 
 export const Route = createFileRoute("/contato")({
@@ -48,7 +48,12 @@ const TIPOS = [
 
 function ContatoPage() {
   const [values, setValues] = useState<FormState>({
-    nome: "", empresa: "", email: "", whatsapp: "", tipo: "", mensagem: "",
+    nome: "",
+    empresa: "",
+    email: "",
+    whatsapp: "",
+    tipo: "",
+    mensagem: "",
   });
   const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>({});
   const [submitting, setSubmitting] = useState(false);
@@ -94,7 +99,8 @@ function ContatoPage() {
             Vamos construir uma <span className="text-aurora">solução</span> juntos.
           </h1>
           <p className="mt-6 max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Conte qual problema sua empresa precisa resolver. Respondemos cada mensagem pessoalmente.
+            Conte qual problema sua empresa precisa resolver. Respondemos cada mensagem
+            pessoalmente.
           </p>
         </div>
       </section>
@@ -109,13 +115,13 @@ function ContatoPage() {
               </p>
               <ul className="mt-5 space-y-3 text-sm">
                 <li className="flex items-start gap-3">
-                  <Mail size={18} className="mt-0.5 text-aurora-cyan" aria-hidden />
+                  <FaEnvelope size={18} className="mt-0.5 text-aurora-cyan" aria-hidden />
                   <a href={`mailto:${CONTACT.email}`} className="text-foreground hover:underline">
                     {CONTACT.email}
                   </a>
                 </li>
                 <li className="flex items-start gap-3">
-                  <MessageCircle size={18} className="mt-0.5 text-aurora-cyan" aria-hidden />
+                  <FaMessage size={18} className="mt-0.5 text-aurora-cyan" aria-hidden />
                   <a
                     href={CONTACT.whatsappUrl || "#"}
                     className="text-foreground hover:underline"
@@ -143,31 +149,89 @@ function ContatoPage() {
           <form onSubmit={onSubmit} noValidate className="card-aurora rounded-2xl p-6 sm:p-8">
             <div className="grid gap-5 sm:grid-cols-2">
               <Field label="Nome" id="nome" error={errors.nome} required>
-                <input id="nome" name="nome" type="text" autoComplete="name" value={values.nome}
-                  onChange={(e) => update("nome", e.target.value)} className={inputCls(errors.nome)} />
+                <input
+                  id="nome"
+                  name="nome"
+                  type="text"
+                  autoComplete="name"
+                  value={values.nome}
+                  onChange={(e) => update("nome", e.target.value)}
+                  className={inputCls(errors.nome)}
+                />
               </Field>
               <Field label="Empresa" id="empresa" error={errors.empresa}>
-                <input id="empresa" name="empresa" type="text" autoComplete="organization" value={values.empresa}
-                  onChange={(e) => update("empresa", e.target.value)} className={inputCls(errors.empresa)} />
+                <input
+                  id="empresa"
+                  name="empresa"
+                  type="text"
+                  autoComplete="organization"
+                  value={values.empresa}
+                  onChange={(e) => update("empresa", e.target.value)}
+                  className={inputCls(errors.empresa)}
+                />
               </Field>
               <Field label="E-mail" id="email" error={errors.email} required>
-                <input id="email" name="email" type="email" autoComplete="email" value={values.email}
-                  onChange={(e) => update("email", e.target.value)} className={inputCls(errors.email)} />
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  value={values.email}
+                  onChange={(e) => update("email", e.target.value)}
+                  className={inputCls(errors.email)}
+                />
               </Field>
               <Field label="WhatsApp" id="whatsapp" error={errors.whatsapp}>
-                <input id="whatsapp" name="whatsapp" type="tel" inputMode="tel" autoComplete="tel" placeholder="(00) 00000-0000" value={values.whatsapp}
-                  onChange={(e) => update("whatsapp", e.target.value)} className={inputCls(errors.whatsapp)} />
+                <input
+                  id="whatsapp"
+                  name="whatsapp"
+                  type="tel"
+                  inputMode="tel"
+                  autoComplete="tel"
+                  placeholder="(00) 00000-0000"
+                  value={values.whatsapp}
+                  onChange={(e) => update("whatsapp", e.target.value)}
+                  className={inputCls(errors.whatsapp)}
+                />
               </Field>
-              <Field label="Tipo de projeto" id="tipo" error={errors.tipo} required className="sm:col-span-2">
-                <select id="tipo" name="tipo" value={values.tipo}
-                  onChange={(e) => update("tipo", e.target.value)} className={inputCls(errors.tipo)}>
+              <Field
+                label="Tipo de projeto"
+                id="tipo"
+                error={errors.tipo}
+                required
+                className="sm:col-span-2"
+              >
+                <select
+                  id="tipo"
+                  name="tipo"
+                  value={values.tipo}
+                  onChange={(e) => update("tipo", e.target.value)}
+                  className={inputCls(errors.tipo)}
+                >
                   <option value="">Selecione...</option>
-                  {TIPOS.map((t) => <option key={t} value={t}>{t}</option>)}
+                  {TIPOS.map((t) => (
+                    <option key={t} value={t}>
+                      {t}
+                    </option>
+                  ))}
                 </select>
               </Field>
-              <Field label="Mensagem" id="mensagem" error={errors.mensagem} required className="sm:col-span-2">
-                <textarea id="mensagem" name="mensagem" rows={5} value={values.mensagem}
-                  onChange={(e) => update("mensagem", e.target.value)} className={inputCls(errors.mensagem) + " resize-y"} placeholder="Conte qual problema sua empresa precisa resolver." />
+              <Field
+                label="Mensagem"
+                id="mensagem"
+                error={errors.mensagem}
+                required
+                className="sm:col-span-2"
+              >
+                <textarea
+                  id="mensagem"
+                  name="mensagem"
+                  rows={5}
+                  value={values.mensagem}
+                  onChange={(e) => update("mensagem", e.target.value)}
+                  className={inputCls(errors.mensagem) + " resize-y"}
+                  placeholder="Conte qual problema sua empresa precisa resolver."
+                />
               </Field>
             </div>
 
@@ -178,14 +242,14 @@ function ContatoPage() {
                 className="inline-flex h-12 items-center gap-2 rounded-full px-6 text-sm btn-aurora disabled:opacity-60"
               >
                 {submitting ? "Enviando..." : "Enviar mensagem"}
-                <Send size={16} />
+                <FaPaperPlane size={16} />
               </button>
               {CONTACT.whatsappUrl && (
                 <a
                   href={CONTACT.whatsappUrl}
                   className="inline-flex h-12 items-center gap-2 rounded-full px-6 text-sm btn-ghost-aurora"
                 >
-                  <MessageCircle size={16} />
+                  <FaMessage size={16} />
                   Falar no WhatsApp
                 </a>
               )}
@@ -209,14 +273,29 @@ function inputCls(err?: string) {
 }
 
 function Field({
-  label, id, children, error, required, className = "",
+  label,
+  id,
+  children,
+  error,
+  required,
+  className = "",
 }: {
-  label: string; id: string; children: React.ReactNode; error?: string; required?: boolean; className?: string;
+  label: string;
+  id: string;
+  children: React.ReactNode;
+  error?: string;
+  required?: boolean;
+  className?: string;
 }) {
   return (
     <div className={className}>
       <label htmlFor={id} className="block text-sm font-medium text-foreground">
-        {label} {required && <span className="text-aurora-magenta" aria-hidden>*</span>}
+        {label}{" "}
+        {required && (
+          <span className="text-aurora-magenta" aria-hidden>
+            *
+          </span>
+        )}
       </label>
       <div className="mt-1.5">{children}</div>
       {error && <p className="mt-1.5 text-xs text-destructive">{error}</p>}
