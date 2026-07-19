@@ -9,30 +9,35 @@ import {
 
 const FAQS = [
   {
-    question: "Como funciona o ciclo de pagamento?",
+    question: "O valor pode mudar?",
     answer:
-      "Trabalhamos com ciclos mensais ou contratos anuais com desconto de 20%. O faturamento ocorre sempre no dia 1º de cada mês, com emissão de nota fiscal para a sua empresa.",
+      "Sim. Os valores são iniciais e podem variar conforme escopo, quantidade de páginas, funcionalidades, integrações e prazo.",
   },
   {
-    question: "Posso mudar de plano durante o projeto?",
+    question: "A verba de tráfego pago está inclusa?",
     answer:
-      "Sim! A Opnora é super flexível. Se o seu projeto escalar e você precisar migrar do Start para o Pro, ajustamos o escopo e a diferença de valor no próximo ciclo.",
+      "Não. A verba dos anúncios é separada do valor do serviço da Opnora.",
   },
   {
-    question: "Vocês cobram alguma taxa de setup inicial?",
+    question: "Vocês fazem sistemas personalizados?",
     answer:
-      "Depende da complexidade da infraestrutura. Para o plano Start, o setup geralmente está incluso. Para os planos Pro e Enterprise, faremos um mapeamento na nossa reunião de discovery.",
+      "Sim. Projetos como sistemas, plataformas, dashboards e automações são avaliados sob medida.",
   },
   {
-    question: "O código fonte desenvolvido é meu?",
+    question: "Posso começar pequeno e evoluir depois?",
     answer:
-      "Absolutamente! Após a quitação do projeto, a propriedade intelectual do código fonte e dos designs pertence 100% à sua empresa.",
+      "Sim. A ideia é permitir que o projeto comece com uma estrutura viável e evolua conforme a necessidade do negócio.",
+  },
+  {
+    question: "Tem manutenção mensal?",
+    answer:
+      "Sim. A manutenção pode ser contratada separadamente de acordo com o tipo de projeto.",
   },
 ];
 
 export function PrecosFAQ() {
   return (
-    <section className="relative py-24 border-t border-white/5">
+    <section className="relative py-24 border-t border-white/5 bg-[#07070a]">
       <div className="absolute top-1/2 left-0 w-[400px] h-[400px] bg-[#a280ff]/5 blur-[150px] rounded-full -translate-y-1/2 pointer-events-none" />
 
       <div className="relative mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 z-10">
@@ -44,7 +49,7 @@ export function PrecosFAQ() {
             Perguntas frequentes
           </h2>
           <p className="text-slate-400">
-            Tudo o que você precisa saber antes de contratar a Opnora.
+            Tudo o que você precisa saber antes de iniciar seu projeto com a Opnora.
           </p>
         </ScrollReveal>
 

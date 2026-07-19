@@ -2,7 +2,11 @@ import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { AnimatedNumber } from "@/components/ui/animated-number";
 import { TerminalPanel } from "@/components/site/home/TerminalPanel";
 
-export function HomeAbout() {
+type HomeAboutProps = {
+  eyebrow?: string;
+};
+
+export function HomeAbout({ eyebrow = "01 / OS PROBLEMAS QUE RESOLVEMOS" }: HomeAboutProps = {}) {
   return (
     <section className="relative bg-[#0e0e12] min-h-dvh flex flex-col items-center justify-center overflow-hidden border-t border-white/5 py-24">
       <div className="relative z-10 mx-auto max-w-[90rem] px-4 sm:px-6 lg:px-12">
@@ -11,8 +15,8 @@ export function HomeAbout() {
           <div className="flex flex-col items-start text-left">
             <ScrollReveal delay={0} className="flex items-center gap-4 mb-6">
               <div className="h-[2px] w-8 bg-gradient-to-r from-aurora-violet to-aurora-cyan"></div>
-              <span className="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">
-                01 / SOBRE
+              <span className="font-mono text-[11px] sm:text-xs font-bold uppercase tracking-[0.2em] text-slate-400">
+                {eyebrow}
               </span>
             </ScrollReveal>
 
@@ -22,9 +26,7 @@ export function HomeAbout() {
               className="font-bold leading-[1.1] mb-6 tracking-tight font-display uppercase"
               style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.75rem)" }}
             >
-              <span className="text-white">
-                Construímos sistemas{" "}
-              </span>
+              <span className="text-white">Construímos sistemas </span>
               <span
                 className="text-transparent bg-clip-text"
                 style={{
@@ -41,14 +43,14 @@ export function HomeAbout() {
               className="space-y-4 text-sm sm:text-base text-slate-400 font-light leading-relaxed mb-10 max-w-xl"
             >
               <p>
-                A Opnora é uma iniciativa de desenvolvimento de software em construção. Criamos
-                soluções sob medida para empresas, projetos e instituições que precisam organizar
-                processos, melhorar experiências e transformar ideias em sistemas funcionais.
+                Muitas empresas operam com planilhas soltas, processos manuais repetitivos e
+                sistemas que não conversam entre si. Isso gera lentidão, falhas no atendimento e
+                perda de visibilidade dos dados.
               </p>
               <p>
-                Do mapeamento do problema à entrega final, focamos em uma arquitetura limpa e
-                escalável. Nosso objetivo não é apenas escrever código, mas construir fundações
-                digitais sólidas que impulsionem operações e acelerem resultados no longo prazo.
+                A Opnora desenvolve software sob medida, automações e plataformas digitais para
+                estruturar sua operação. Substituímos remendos tecnológicos por arquiteturas
+                sólidas, organizadas e feitas para o seu fluxo de trabalho.
               </p>
             </ScrollReveal>
 
@@ -58,11 +60,9 @@ export function HomeAbout() {
                 className="flex flex-col pl-4 border-l-2 border-[#a280ff]/40"
               >
                 <div className="text-3xl font-bold text-[#b3a1ff] font-display mb-1 tracking-tight">
-                  <AnimatedNumber end={3} suffix={"\u200A+"} duration={2000} />
+                  <AnimatedNumber end={3} duration={1500} />
                 </div>
-                <div className="font-mono text-[11px] md:text-xs text-slate-400">
-                  Divisões Ativas
-                </div>
+                <div className="font-mono text-xs text-slate-400">Frentes Digitais</div>
               </ScrollReveal>
               <ScrollReveal
                 delay={400}
@@ -90,10 +90,7 @@ export function HomeAbout() {
           </div>
 
           {/* Right Column: Terminal */}
-          <ScrollReveal
-            delay={400}
-            className="w-full relative"
-          >
+          <ScrollReveal delay={400} className="w-full relative">
             {/* Optional glow behind terminal */}
             <div className="absolute -inset-4 bg-gradient-to-tr from-[#a280ff]/10 to-[#60a5fa]/10 blur-3xl z-0 rounded-full opacity-50"></div>
             <div className="relative z-10">

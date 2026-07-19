@@ -27,7 +27,7 @@ const EQUIPE = [
 
 export function SobreEquipe() {
   return (
-    <section className="relative min-h-dvh flex flex-col justify-center py-24 lg:py-32 border-b border-white/5 bg-[#0e0e12]">
+    <section className="relative min-h-dvh flex flex-col justify-center py-24 lg:py-32 border-b border-white/5 bg-[#0c0c0f]">
       <div className="relative z-10 mx-auto w-full max-w-[90rem] px-4 sm:px-6 lg:px-12">
         <div className="mb-20">
           <ScrollReveal className="flex items-center gap-4 mb-8">

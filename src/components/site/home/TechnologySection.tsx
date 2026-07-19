@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import { Link } from "@tanstack/react-router";
 import {
   FaBrain,
   FaLaptopCode,
@@ -145,7 +146,17 @@ function CardItem({ card, delay = 0 }: { card: TechCard; delay?: number }) {
   );
 }
 
-export function TechnologySection() {
+type TechnologySectionProps = {
+  showDetails?: boolean;
+  bgClass?: string;
+  eyebrow?: string;
+};
+
+export function TechnologySection({
+  showDetails = true,
+  bgClass = "bg-[#0c0c0f]",
+  eyebrow = "ENGENHARIA & STACK",
+}: TechnologySectionProps = {}) {
   const sectionRef = useRef<HTMLElement>(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isSectionHovered, setIsSectionHovered] = useState(false);
@@ -165,15 +176,15 @@ export function TechnologySection() {
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsSectionHovered(true)}
       onMouseLeave={() => setIsSectionHovered(false)}
-      className="relative min-h-dvh flex flex-col items-center justify-center overflow-hidden bg-[#0c0c0f] border-t border-white/5 py-24 lg:py-32"
+      className={`relative min-h-dvh flex flex-col items-center justify-center overflow-hidden border-t border-white/5 py-24 lg:py-32 ${bgClass}`}
     >
       <div className="relative z-10 mx-auto w-full max-w-[90rem] px-4 sm:px-6 lg:px-12">
         {/* Header da Seção */}
-        <div className="flex flex-col items-start text-left mb-16 lg:mb-20">
+        <div className="flex flex-col items-start text-left mb-16 lg:mb-20 max-w-3xl">
           <ScrollReveal delay={0} className="flex items-center gap-4 mb-6">
             <div className="h-[2px] w-8 bg-gradient-to-r from-aurora-violet to-aurora-cyan"></div>
             <span className="font-mono text-[10px] sm:text-[11px] text-slate-400 font-bold uppercase tracking-[0.2em]">
-              04 / TECNOLOGIA
+              {eyebrow}
             </span>
           </ScrollReveal>
 
@@ -182,7 +193,15 @@ export function TechnologySection() {
             delay={50}
             className="text-3xl sm:text-4xl md:text-5xl font-display font-bold leading-[1.1] mb-6 tracking-tight text-white max-w-4xl"
           >
-            Tecnologias que estamos construindo
+            Capacidades técnicas &{" "}
+            <span
+              className="text-transparent bg-clip-text"
+              style={{
+                backgroundImage: "linear-gradient(135deg, #a280ff 0%, #40c4ff 100%)",
+              }}
+            >
+              stack moderna
+            </span>
           </ScrollReveal>
 
           <ScrollReveal
@@ -190,17 +209,50 @@ export function TechnologySection() {
             delay={100}
             className="text-sm sm:text-base text-slate-400 font-light leading-relaxed max-w-2xl"
           >
-            Uma visão ao vivo dos experimentos, produtos e projetos atualmente em andamento em
-            Opnora.
+            Não utilizamos soluções engessadas. Selecionamos a tecnologia certa para cada desafio,
+            garantindo que sua aplicação tenha arquitetura limpa, velocidade de execução e
+            facilidade de evolução.
           </ScrollReveal>
         </div>
 
         {/* Grid de Cards */}
-        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3 relative z-10">
-          {TECH_CARDS.map((card, idx) => (
-            <CardItem key={idx} card={card} delay={idx * 100} />
-          ))}
-        </div>
+        {showDetails ? (
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3 relative z-10">
+            {TECH_CARDS.map((card, idx) => (
+              <CardItem key={idx} card={card} delay={idx * 100} />
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6 relative z-10">
+            {TECH_CARDS.map((card, idx) => {
+              const Icon = card.icon;
+              return (
+                <ScrollReveal
+                  key={idx}
+                  delay={idx * 80}
+                  className="group relative rounded-sm bg-[#131318] border border-white/[0.05] p-6 sm:p-7 transition-all duration-700 ease-out hover:bg-[#181820] hover:-translate-y-2 overflow-hidden"
+                >
+
+                  {/* Conteúdo Horizontal Limpo */}
+                  <div className="flex items-start gap-5">
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-sm bg-gradient-to-br from-[#a280ff]/15 to-white/[0.02] border border-[#a280ff]/25 flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:border-[#a280ff]/50 transition-all duration-300">
+                      <Icon className="size-5 sm:size-6 text-[#a280ff]" />
+                    </div>
+
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-display text-base sm:text-lg font-bold text-white mb-2 group-hover:text-[#c4b3ff] transition-colors">
+                        {card.title}
+                      </h3>
+                      <p className="text-xs sm:text-sm text-slate-400 font-light leading-relaxed">
+                        {card.desc}
+                      </p>
+                    </div>
+                  </div>
+                </ScrollReveal>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       {/* Global Spotlight Effect over the entire section */}

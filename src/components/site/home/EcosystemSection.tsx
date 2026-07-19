@@ -30,16 +30,8 @@ function CardItem({ card, delay = 0 }: { card: CardData; delay?: number }) {
     <ScrollReveal delay={delay} className={`h-full ${card.span ? "md:col-span-2" : ""}`}>
       <div
         onMouseMove={handleMouseMove}
-        className="group relative h-full w-full rounded-sm bg-[#131318] border border-white/[0.05] transition-all duration-700 ease-out hover:bg-[#181820] hover:-translate-y-2"
+        className="group relative h-full w-full rounded-sm bg-[#131318] border border-white/[0.05] transition-all duration-700 ease-out hover:bg-[#181820] hover:border-[#b3a1ff]/20 hover:shadow-[0_8px_30px_rgba(179,161,255,0.08)] hover:-translate-y-2 overflow-hidden"
       >
-        {/* Neon Border Glow Overlay (Static Full Border) */}
-        <div
-          className="absolute -inset-[1px] rounded-sm opacity-0 group-hover:opacity-40 transition-opacity duration-700 pointer-events-none z-20"
-          style={{
-            boxShadow: `0 0 10px ${card.glow}`,
-            border: `1px solid ${card.color}`,
-          }}
-        />
 
         {/* Actual Card Body */}
         <div className="relative z-10 flex h-full w-full flex-col items-start p-6 sm:p-8 overflow-hidden rounded-sm">
@@ -114,7 +106,13 @@ function CardItem({ card, delay = 0 }: { card: CardData; delay?: number }) {
   );
 }
 
-export function EcosystemSection() {
+type EcosystemSectionProps = {
+  eyebrow?: string;
+};
+
+export function EcosystemSection({
+  eyebrow = "03 / FRENTES DA OPNORA",
+}: EcosystemSectionProps = {}) {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
 
@@ -134,9 +132,9 @@ export function EcosystemSection() {
       desc: "Desenvolvimento de sistemas, plataformas, sites, painéis administrativos e ferramentas digitais sob medida.",
       tags: ["Sistemas web", "Plataformas", "Dashboards", "Portais", "Software sob medida"],
       icon: FaCode,
-      color: "#38bdf8", // ciano / azul
-      glow: "rgba(56, 189, 248, 0.15)",
-      borderGlow: "rgba(56, 189, 248, 0.6)",
+      color: "#b873ff", // roxo vivo
+      glow: "rgba(184, 115, 255, 0.18)",
+      borderGlow: "rgba(184, 115, 255, 0.65)",
     },
     {
       num: "02",
@@ -145,9 +143,9 @@ export function EcosystemSection() {
       desc: "Uso de inteligência artificial, automação, dados, bots, integrações e fluxos inteligentes para tornar os processos mais eficientes.",
       tags: ["Automação", "Integrações", "Dados", "WhatsApp", "Fluxos digitais"],
       icon: FaDiagramProject,
-      color: "#34d399", // verde/ciano
-      glow: "rgba(52, 211, 153, 0.15)",
-      borderGlow: "rgba(52, 211, 153, 0.6)",
+      color: "#00d8ff", // azul ciano vivo
+      glow: "rgba(0, 216, 255, 0.18)",
+      borderGlow: "rgba(0, 216, 255, 0.65)",
     },
     {
       num: "03",
@@ -156,15 +154,15 @@ export function EcosystemSection() {
       desc: "Pesquisa, prototipação e experimentação de novas ideias, conectando aprendizado, inovação e soluções digitais futuras.",
       tags: ["MVPs", "Protótipos", "Pesquisa", "Experimentação", "Inovação"],
       icon: FaFlaskVial,
-      color: "#a280ff", // violeta
-      glow: "rgba(162, 128, 255, 0.15)",
-      borderGlow: "rgba(162, 128, 255, 0.6)",
+      color: "#00ff88", // verde neon vivo
+      glow: "rgba(0, 255, 136, 0.18)",
+      borderGlow: "rgba(0, 255, 136, 0.65)",
     },
   ];
 
   return (
     <section
-      className="relative min-h-dvh flex flex-col items-center justify-center overflow-hidden bg-[#0e0e12] border-t border-white/5 py-24 lg:py-32"
+      className="relative min-h-dvh flex flex-col items-center justify-center overflow-hidden bg-[#0c0c0f] border-t border-white/5 py-24 lg:py-32"
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -175,7 +173,7 @@ export function EcosystemSection() {
           <ScrollReveal delay={0} className="flex items-center gap-4 mb-6">
             <div className="h-[2px] w-8 bg-gradient-to-r from-aurora-violet to-aurora-cyan"></div>
             <span className="font-mono text-[10px] sm:text-[11px] text-slate-400 font-bold uppercase tracking-[0.2em]">
-              03 / FRENTES DA OPNORA
+              {eyebrow}
             </span>
           </ScrollReveal>
 
@@ -184,9 +182,7 @@ export function EcosystemSection() {
             as="h2"
             className="text-3xl sm:text-4xl md:text-5xl font-bold leading-[1.3] mb-6 tracking-tight font-display max-w-3xl"
           >
-            <span className="text-white">
-              O ecossistema {" "}
-            </span>
+            <span className="text-white">O ecossistema </span>
             <span
               className="text-transparent bg-clip-text"
               style={{
@@ -225,4 +221,3 @@ export function EcosystemSection() {
     </section>
   );
 }
-

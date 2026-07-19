@@ -6,7 +6,7 @@ export function Logo({ className = "" }: Props) {
   return (
     <span className={`inline-flex items-center ${className}`}>
       <img 
-        src="/images/portal_icon.png" 
+        src="/images/portal_icon.webp" 
         alt="Opnora Icon" 
         className="h-[120%] w-auto object-contain scale-110"
       />

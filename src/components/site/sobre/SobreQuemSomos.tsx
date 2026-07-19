@@ -66,7 +66,7 @@ export function SobreQuemSomos() {
                 className="p-8 md:p-12 flex flex-col items-center justify-center border-b border-white/5"
               >
                 <div className="text-3xl sm:text-4xl font-display font-bold mb-2 bg-gradient-to-r from-[#b3a1ff] to-[#7f94ff] text-transparent bg-clip-text">
-                  <AnimatedNumber end={3} suffix="+" duration={2500} />
+                  <AnimatedNumber end={1} suffix="+" duration={1000} />
                 </div>
                 <div className="font-mono text-[10px] text-muted-foreground uppercase tracking-[0.2em] mt-2 text-center">
                   Projetos Ativos

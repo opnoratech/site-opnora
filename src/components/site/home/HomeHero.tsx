@@ -37,7 +37,7 @@ export function HomeHero() {
         <ScrollReveal
           as="h1"
           delay={0}
-          className="flex flex-col items-center uppercase leading-[0.85] w-full select-none font-display font-[900] tracking-[-0.04em]"
+          className="flex flex-col items-center uppercase leading-[0.95] py-2 w-full select-none font-display font-[900] tracking-[-0.04em]"
         >
           {/* Linha 1: OPNORA */}
           <span
@@ -51,10 +51,9 @@ export function HomeHero() {
 
           {/* Linha 2: TECNOLOGIAS */}
           <span
-            className="mt-2 sm:mt-1 max-w-full aurora-holographic-text"
+            className="mt-1 max-w-full aurora-holographic-text"
             style={{
               fontSize: "clamp(3rem, 11vw, 9rem)",
-              lineHeight: "0.9",
             }}
           >
             TECNOLOGIAS
@@ -67,7 +66,7 @@ export function HomeHero() {
           delay={150}
           className="mx-auto mt-8 text-base sm:text-lg md:text-xl font-display font-medium text-white tracking-wide"
         >
-          Engenharia do Futuro da Tecnologia
+          Desenvolvimento & Engenharia de Software
         </ScrollReveal>
 
         {/* Subtitle */}
@@ -76,7 +75,8 @@ export function HomeHero() {
           delay={250}
           className="mx-auto mt-4 max-w-[680px] text-sm font-light leading-relaxed text-slate-400 sm:text-base"
         >
-          A Opnora cria software, automação e inteligência artificial para transformar desafios reais em soluções digitais inteligentes.
+          Desenvolvemos software sob medida, automações e soluções com IA para empresas que querem
+          organizar processos e evoluir com tecnologia.
         </ScrollReveal>
 
         {/* Buttons */}
@@ -85,17 +85,18 @@ export function HomeHero() {
           className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row w-full px-4 sm:px-0"
         >
           <Link
-            to="/solucoes"
+            to="/contato"
+            hash="formulario-contato"
             className="inline-flex h-10 md:h-11 w-full sm:w-60 items-center justify-center rounded-sm px-6 text-[11px] sm:text-xs font-bold uppercase tracking-[0.15em] text-black transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_4px_14px_rgba(255,255,255,0.15)] whitespace-nowrap"
             style={{ backgroundColor: "#ffffff" }}
           >
-            CONHECER SOLUÇÕES
+            INICIAR UM PROJETO
           </Link>
           <Link
-            to="/sobre"
+            to="/solucoes"
             className="inline-flex h-10 md:h-11 w-full sm:w-60 items-center justify-center rounded-sm border border-white/20 bg-transparent px-6 text-[11px] sm:text-xs font-bold uppercase tracking-[0.15em] text-white transition-all duration-300 hover:-translate-y-1 hover:bg-white/5 hover:border-white/50 hover:shadow-[0_4px_14px_rgba(255,255,255,0.05)] whitespace-nowrap"
           >
-            SOBRE A OPNORA
+            VER SOLUÇÕES
           </Link>
         </ScrollReveal>
       </div>

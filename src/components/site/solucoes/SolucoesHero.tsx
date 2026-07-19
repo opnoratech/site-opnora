@@ -161,21 +161,19 @@ export function SolucoesHero() {
         <div className="relative z-10 w-full max-w-[90rem] mx-auto px-6 lg:px-12 flex flex-col items-start justify-center pt-24 lg:pt-0">
           <div className="flex flex-col items-start lg:py-0 w-full max-w-4xl">
             <ScrollReveal delay={0}>
-              <div className="flex items-center gap-4 mb-6">
+              <div className="flex items-center gap-4 mb-1.5">
                 <div className="h-[2px] w-8 bg-gradient-to-r from-aurora-violet to-aurora-cyan" />
-                <span className="font-mono text-xs text-[#b3a1ff] uppercase tracking-[0.25em]">
+                <span className="font-mono text-[11px] text-[#b3a1ff] uppercase tracking-[0.25em]">
                   NOSSAS SOLUÇÕES
                 </span>
               </div>
             </ScrollReveal>
 
             <ScrollReveal delay={100}>
-              <h1 className="font-display text-[1.8rem] sm:text-[2.8rem] md:text-[3.8rem] lg:text-[4.7rem] font-black tracking-tighter leading-[0.9] uppercase mb-6">
-                <span className="block text-white">
-                  Opnora
-                </span>
+              <h1 className="font-display text-[2.1rem] sm:text-[3.0rem] md:text-[4.5rem] lg:text-[6rem] font-black tracking-tight leading-[1.02] uppercase py-2">
+                <span className="block text-white">Opnora</span>
                 <span
-                  className="inline-block text-transparent bg-clip-text w-fit pb-2 leading-[1.15]"
+                  className="inline-block text-transparent bg-clip-text w-fit py-4 -my-4"
                   style={{
                     backgroundImage: "linear-gradient(160deg, #a79df0, #82b8f7, #4ed4cf, #58e5a6)",
                   }}
@@ -188,9 +186,11 @@ export function SolucoesHero() {
             <ScrollReveal
               delay={200}
               as="p"
-              className="text-sm sm:text-base text-slate-300 font-light leading-relaxed max-w-xl mb-12"
+              className="mt-3 max-w-4xl text-sm sm:text-lg text-slate-400 font-light leading-relaxed mb-12"
             >
-              Software sob medida, inteligência artificial e visão de negócio. Nossas três frentes — Build, Intelligence e Labs — trabalham juntas para criar soluções que ajudam empresas a evoluir.
+              Software sob medida, inteligência artificial e visão de negócio. Nossas três frentes —
+              Build, Intelligence e Labs — trabalham juntas para criar soluções que ajudam empresas
+              a evoluir.
             </ScrollReveal>
           </div>
         </div>

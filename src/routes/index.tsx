@@ -5,7 +5,9 @@ import { HomeMarquee } from "@/components/site/home/HomeMarquee";
 import { HomeAbout } from "@/components/site/home/HomeAbout";
 import { SolucoesSection } from "@/components/site/home/SolucoesSection";
 import { EcosystemSection } from "@/components/site/home/EcosystemSection";
-import { TechnologySection } from "@/components/site/home/TechnologySection";
+import { SolucoesAutomacaoIA } from "@/components/site/solucoes/SolucoesAutomacaoIA";
+import { SolucoesProjetos } from "@/components/site/solucoes/SolucoesProjetos";
+import { HomePricingSummary } from "@/components/site/home/HomePricingSummary";
 import { AuroraSection } from "@/components/site/home/AuroraSection";
 import { CTASection } from "@/components/site/shared/CTASection";
 
@@ -16,15 +18,8 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "A Opnora desenvolve sites, sistemas, plataformas e dashboards para empresas que querem sair do improviso digital e crescer com tecnologia.",
+          "Desenvolvimento de software sob medida para empresas que buscam modernização, arquitetura escalável e sistemas de alto desempenho.",
       },
-      { property: "og:title", content: "Opnora — Software para sair do improviso digital" },
-      {
-        property: "og:description",
-        content:
-          "Sites, sistemas e plataformas sob medida. Iniciativa de desenvolvimento focada em transformar problemas reais em soluções digitais.",
-      },
-      { property: "og:url", content: "/" },
     ],
     links: [{ rel: "canonical", href: "/" }],
   }),
@@ -34,14 +29,22 @@ export const Route = createFileRoute("/")({
 function HomePage() {
   return (
     <>
+      {/* 1. Hero & Marquee */}
       <HomeHero />
       <HomeMarquee />
-      <HomeAbout />
-      <SolucoesSection />
-      <EcosystemSection />
-      <TechnologySection />
+      {/* 2. Sobre */}
+      <HomeAbout eyebrow="QUEM SOMOS" />
+      {/* 3. Frentes */}
+      <EcosystemSection eyebrow="O ECOSSISTEMA" />
+      {/* 4. Como Construímos */}
+      <SolucoesSection bgClass="bg-[#0e0e12]" eyebrow="METODOLOGIA" />
+      {/* 5. NOSSO PORTFÓLIO (Em destaque na Início) */}
+      <SolucoesProjetos bgClass="bg-[#0c0c0f]" />
+      {/* 7. Preços */}
+      <HomePricingSummary bgClass="bg-[#0e0e12]" eyebrow="INVESTIMENTO" />
+      {/* 9. CTA Final */}
       <AuroraSection />
-      <CTASection className="bg-[#0e0e12]" />
+      <CTASection className="bg-[#0c0c0f]" />
     </>
   );
 }

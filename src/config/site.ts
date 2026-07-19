@@ -15,7 +15,8 @@ export const SITE = {
 export const CONTACT = {
   // Placeholders — troque ao definir canais oficiais.
   email: "contato@opnora.dev",
-  whatsappUrl: "https://wa.me/", // adicionar número quando definido
+  whatsappUrl: "https://wa.me/5585999973965",
+  whatsappFormatted: "(85) 99997-3965",
   instagramUrl: "",
   linkedinUrl: "",
   githubUrl: "",

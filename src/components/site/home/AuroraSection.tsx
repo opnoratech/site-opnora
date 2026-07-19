@@ -117,7 +117,8 @@ export function AuroraSection() {
           delay={300}
           className="mt-6 max-w-2xl text-sm font-light leading-relaxed text-slate-400 sm:text-base md:text-lg"
         >
-          Acreditamos que software de excelência não é apenas funcional. Ele também precisa ser claro, útil e construído com cuidado em cada detalhe da experiência.
+          Acreditamos que software de excelência não é apenas funcional. Ele também precisa ser
+          claro, útil e construído com cuidado em cada detalhe da experiência.
         </ScrollReveal>
 
         <ScrollReveal delay={400} className="mt-10">
@@ -125,11 +126,10 @@ export function AuroraSection() {
             to="/solucoes"
             className="inline-flex h-11 md:h-12 w-full sm:w-auto items-center justify-center rounded-sm bg-white px-8 text-[11px] sm:text-xs font-black uppercase tracking-[0.15em] text-black transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_4px_14px_rgba(255,255,255,0.15)]"
           >
-            CONHECER PROJETOS
+            CONHECER SOLUÇÕES
           </Link>
         </ScrollReveal>
       </div>
     </section>
   );
 }
-
