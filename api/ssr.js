@@ -1,12 +1,28 @@
-import { createServer } from "node:http";
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
+import { fileURLToPath } from "node:url";
+import { dirname, resolve } from "node:path";
 
-// Import the built SSR server (Fetch API interface)
-const serverModule = await import("../../dist/server/server.js");
-const server = serverModule.default;
+// Resolve the path to the built SSR server relative to this file
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const serverPath = resolve(__dirname, "../dist/server/server.js");
+
+// Dynamically import the built SSR server (Fetch API interface)
+let server;
+try {
+  const serverModule = await import(serverPath);
+  server = serverModule.default;
+} catch (e) {
+  console.error("Failed to load SSR server:", e);
+}
 
 export default async function handler(req, res) {
+  if (!server) {
+    res.statusCode = 500;
+    res.setHeader("Content-Type", "text/plain");
+    res.end("SSR server failed to load");
+    return;
+  }
+
   // Build a Web API Request from the Node.js IncomingMessage
   const protocol = req.headers["x-forwarded-proto"] || "https";
   const host = req.headers["x-forwarded-host"] || req.headers.host;
@@ -30,7 +46,6 @@ export default async function handler(req, res) {
 
     res.statusCode = response.status;
 
-    // Copy response headers
     response.headers.forEach((value, key) => {
       res.setHeader(key, value);
     });
