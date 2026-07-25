@@ -18,13 +18,7 @@ const PROJETOS: Projeto[] = [
     title: "TFBrand",
     resumo:
       "Plataforma de e-commerce de alta performance para moda feminina. Oferece uma experiência de compra moderna e fluida, com catálogo dinâmico de busca, carrinho de compras inteligente com finalização de pedido direto no WhatsApp, e um painel de controle administrativo completo para gestão simplificada de estoque e vendas.",
-    recursos: [
-      "React",
-      "Supabase",
-      "Cloudinary",
-      "Admin Dashboard",
-      "Checkout WhatsApp",
-    ],
+    recursos: ["React", "Supabase", "Cloudinary", "Admin Dashboard", "Checkout WhatsApp"],
     status: "Concluído",
     url: "https://tfbrand.vercel.app/",
     accentColor: "var(--aurora-violet)",

@@ -5,7 +5,7 @@ export function SobreHeroSection() {
     <section
       className="relative overflow-hidden bg-[#050507] min-h-dvh flex flex-col items-center justify-center border-b border-[#1c1c21]"
       style={{
-        backgroundImage: "url('/aurora-hero.webp')",
+        backgroundImage: "url('/images/aurora-hero.webp')",
         backgroundSize: "cover",
         backgroundPosition: "right center",
         backgroundRepeat: "no-repeat",

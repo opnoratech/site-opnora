@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { FaBullhorn, FaWrench, FaRobot, FaChartLine, FaCheck, FaWhatsapp } from "react-icons/fa6";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
@@ -11,6 +11,7 @@ interface AdicionalItem {
   idealPara: string;
   idealParaShort: string;
   badge: string;
+  levels?: { name: string; price: string }[];
   features: string[];
   note?: string | null;
   icon: React.ComponentType<{ className?: string }>;
@@ -29,12 +30,16 @@ interface AdicionalItem {
 const ADICIONAIS: AdicionalItem[] = [
   {
     name: "Tráfego pago",
-    price: "A partir de R$ 399/mês",
+    price: "A partir de R$ 250/mês",
     desc: "Estrutura inicial e gestão contínua de campanhas pagas para empresas que desejam gerar mais oportunidades rápidas e previsibilidade.",
     idealPara:
       "Empresas que querem atrair mais contatos, validar campanhas e criar previsibilidade comercial.",
     idealParaShort: "Gerar leads e previsibilidade",
     badge: "Crescimento",
+    levels: [
+      { name: "Setup inicial", price: "R$ 350/mês" },
+      { name: "Gestão & Escala", price: "R$ 700/mês" },
+    ],
     icon: FaBullhorn,
     features: [
       "Meta Ads (Instagram/Facebook)",
@@ -58,7 +63,7 @@ const ADICIONAIS: AdicionalItem[] = [
   },
   {
     name: "Manutenção mensal",
-    price: "A partir de R$ 149/mês",
+    price: "R$ 150/mês",
     desc: "Acompanhamento técnico recorrente para manter site, landing page ou sistema funcionando com alta segurança, velocidade e estabilidade.",
     idealPara: "Empresas que querem suporte recorrente, atualizações e pequenas melhorias mensais.",
     idealParaShort: "Segurança e estabilidade",
@@ -85,12 +90,16 @@ const ADICIONAIS: AdicionalItem[] = [
   },
   {
     name: "Automação com IA",
-    price: "A partir de R$ 479/mês",
+    price: "A partir de R$ 200/mês",
     desc: "Fluxos inteligentes, bots para WhatsApp e integração de sistemas para reduzir tarefas repetitivas e acelerar suas conversões.",
     idealPara:
       "Empresas que querem automatizar atendimento, organizar informações e integrar ferramentas.",
     idealParaShort: "Atendimento inteligente",
     badge: "Evolução",
+    levels: [
+      { name: "Fluxo básico", price: "R$ 300/mês" },
+      { name: "IA Avançada", price: "R$ 600/mês" },
+    ],
     icon: FaRobot,
     features: [
       "Automação e fluxos de WhatsApp",
@@ -104,32 +113,34 @@ const ADICIONAIS: AdicionalItem[] = [
     cta: "Solicitar serviço",
     ctaSearch: { plano: "automacao" },
     theme: {
-      bg: "bg-[#40c4ff]/10",
-      bgSolid: "bg-[#40c4ff]",
-      border: "border-[#40c4ff]/20",
-      text: "text-[#40c4ff]",
-      glow: "bg-[#40c4ff]/15",
-      iconShadow: "shadow-[0_0_20px_rgba(64,196,255,0.4)]",
+      bg: "bg-[#b3a1ff]/10",
+      bgSolid: "bg-[#b3a1ff]",
+      border: "border-[#b3a1ff]/20",
+      text: "text-[#b3a1ff]",
+      glow: "bg-[#b3a1ff]/10",
+      iconShadow: "shadow-[0_0_20px_rgba(179,161,255,0.3)]",
     },
   },
   {
-    name: "Dashboard e métricas",
-    price: "A partir de R$ 299/mês",
+    name: "Dashboard & Métricas",
+    price: "A partir de R$ 200/mês",
     desc: "Painéis e indicadores estratégicos (KPIs) sob medida para acompanhar conversões de campanhas, funil de vendas e a operação.",
-    idealPara:
-      "Empresas que precisam visualizar seus números com mais clareza e apoiar decisões com dados.",
-    idealParaShort: "Decisões com base em dados",
-    badge: "Análise",
-    icon: FaChartLine,
+    idealPara: "Visualizar métricas reais e tomar decisões baseadas em dados",
+    idealParaShort: "Decisões orientadas a dados",
+    badge: "Métricas",
+    levels: [
+      { name: "Painel simples", price: "R$ 200/mês" },
+      { name: "Painel avançado", price: "R$ 400/mês" },
+    ],
     features: [
-      "Dashboard comercial interativo",
-      "Métricas e conversão de campanhas",
-      "Acompanhamento e funil de leads",
-      "Relatórios de chamados/atendimento",
-      "Indicadores operacionais estratégicos",
-      "Visão consolidada do negócio",
+      "Centralização de dados do negócio",
+      "Indicadores de vendas e leads em tempo real",
+      "Visualização clara e intuitiva",
+      "Integração com GA4, CRM e Ads",
+      "Acompanhamento de ROI e metas",
     ],
     note: null,
+    icon: FaChartLine,
     cta: "Solicitar serviço",
     ctaSearch: { plano: "dashboard" },
     theme: {
@@ -142,6 +153,145 @@ const ADICIONAIS: AdicionalItem[] = [
     },
   },
 ];
+
+function AdicionalCard({ item, index }: { item: AdicionalItem; index: number }) {
+  const [selectedLevelIdx, setSelectedLevelIdx] = useState<number>(0);
+  const selectedLvl = item.levels ? item.levels[selectedLevelIdx] : null;
+
+  return (
+    <ScrollReveal delay={100 * (index + 1)} className="flex">
+      <div className="group relative w-full h-full flex flex-col rounded-lg bg-[#121218] border border-white/10 p-6 sm:p-7 transition-all duration-500 overflow-hidden hover:border-white/15 hover:shadow-[0_10px_35px_rgba(0,0,0,0.5)]">
+        {/* Glow de fundo */}
+        <div
+          className={`absolute -top-20 -right-20 w-48 h-48 rounded-full blur-[60px] pointer-events-none transition-opacity duration-500 opacity-0 group-hover:opacity-100 ${item.theme.glow}`}
+        />
+
+        {/* Ícone e Badge */}
+        <div className="flex items-center justify-between mb-6 flex-shrink-0">
+          <div
+            className={`w-12 h-12 rounded-lg ${item.theme.bgSolid} flex items-center justify-center ${item.theme.iconShadow} flex-shrink-0`}
+          >
+            <item.icon className="size-6 text-black transition-transform duration-500 group-hover:scale-110" />
+          </div>
+          <span className="text-[9px] uppercase font-mono tracking-wider font-bold bg-white/5 border border-white/10 px-2.5 py-0.5 rounded-sm text-slate-400">
+            {item.badge}
+          </span>
+        </div>
+
+        {/* Título */}
+        <h3 className="font-display text-xl sm:text-2xl font-bold text-white mb-4 h-[64px] flex items-center leading-tight flex-shrink-0">
+          {item.name}
+        </h3>
+
+        {/* Rótulo 'IDEAL PARA' */}
+        <span className="font-mono text-[9px] font-bold uppercase tracking-wider block mb-1.5 flex-shrink-0">
+          <span className="text-slate-500">Ideal para:</span>{" "}
+          <span className={item.theme.text}>{item.idealParaShort}</span>
+        </span>
+
+        {/* Descrição */}
+        <p className="text-xs sm:text-sm text-slate-400 font-light leading-relaxed mb-6 h-[116px] overflow-hidden flex items-start flex-shrink-0">
+          {item.desc}
+        </p>
+
+        {/* Preço / Níveis Interativos */}
+        <div className="mb-6 h-[124px] flex flex-col flex-shrink-0">
+          {item.levels && item.levels.length >= 2 ? (
+            <div className="flex flex-col justify-start gap-1.5 w-full h-[124px] bg-white/[0.03] p-2.5 rounded-xl border border-white/10">
+              <span className="text-[9px] text-slate-500 font-bold uppercase tracking-wider block mb-0.5">
+                Clique para escolher o nível:
+              </span>
+              {item.levels.map((lvl, idx) => {
+                const isSelected = selectedLevelIdx === idx;
+                return (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => setSelectedLevelIdx(idx)}
+                    className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg border text-left transition-all duration-200 cursor-pointer ${
+                      isSelected
+                        ? "bg-aurora-violet/20 border-aurora-violet/50 text-white font-semibold shadow-[0_0_10px_rgba(162,128,255,0.15)]"
+                        : "bg-black/20 border-white/5 text-slate-400 hover:text-white hover:bg-white/5"
+                    }`}
+                  >
+                    <span className="text-[11px] font-sans truncate">{lvl.name}</span>
+                    <span
+                      className={`text-xs font-mono font-bold whitespace-nowrap ${
+                        isSelected ? "text-aurora-cyan" : "text-slate-300"
+                      }`}
+                    >
+                      {lvl.price}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="flex flex-col justify-center gap-1.5 w-full h-[124px] bg-white/[0.03] p-4 rounded-xl border border-white/10">
+              <span className="text-[9px] text-slate-500 font-bold uppercase tracking-wider block">
+                Plano recorrente:
+              </span>
+              <div className="text-2xl sm:text-3xl font-display font-bold text-white leading-tight">
+                {item.price}
+              </div>
+              <span className="text-[10px] font-mono text-emerald-400 font-medium flex items-center gap-1 mt-0.5">
+                <FaCheck className="size-2.5" /> Suporte emergencial incluso
+              </span>
+            </div>
+          )}
+        </div>
+
+        {/* Botão CTA */}
+        <div className="mb-8 h-[48px] flex-shrink-0">
+          <Link
+            to="/contato"
+            search={{
+              plano: item.ctaSearch.plano,
+              nivel: selectedLvl ? selectedLvl.name : undefined,
+            } as any}
+            hash="personalize"
+            className="group/btn flex items-center justify-center gap-2.5 text-center w-full h-[48px] rounded-2xl text-xs font-bold uppercase tracking-[0.15em] transition-all duration-300 bg-white/5 text-white hover:bg-white hover:text-black border border-white/10 hover:shadow-[0_0_20px_rgba(255,255,255,0.25)]"
+          >
+            <span>{item.cta}</span>
+            <span className="inline-block transition-transform duration-300 group-hover/btn:translate-x-1">
+              →
+            </span>
+          </Link>
+        </div>
+
+        {/* Inclusões */}
+        <div className="border-t border-white/5 pt-6 flex-grow flex flex-col justify-between">
+          <div>
+            <p className="text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-4 h-[32px] flex items-center">
+              O que está incluso
+            </p>
+            <ul className="space-y-3.5">
+              {item.features.map((feat) => (
+                <li
+                  key={feat}
+                  className="flex items-start gap-3 text-xs sm:text-sm text-slate-300 font-light"
+                >
+                  <div
+                    className={`w-4 h-4 rounded-full ${item.theme.bgSolid} flex items-center justify-center shrink-0 mt-0.5`}
+                  >
+                    <FaCheck className="size-2.5 text-black" />
+                  </div>
+                  <span className="leading-relaxed">{feat}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {item.note && (
+            <div className="text-[10px] font-mono text-slate-500 pt-3 mt-5 border-t border-white/5">
+              * {item.note}
+            </div>
+          )}
+        </div>
+      </div>
+    </ScrollReveal>
+  );
+}
 
 export function PrecosAdicionais() {
   return (
@@ -173,119 +323,10 @@ export function PrecosAdicionais() {
           </ScrollReveal>
         </div>
 
-        {/* Grid de Cards Padronizado com MODALIDADES & INVESTIMENTO */}
+        {/* Grid de Cards Padronizado com Níveis Interativos */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 items-stretch mb-20">
           {ADICIONAIS.map((item, index) => (
-            <ScrollReveal key={item.name} delay={100 * (index + 1)} className="flex">
-              <div className="group relative w-full h-full flex flex-col rounded-lg bg-[#121218] border border-white/10 p-6 sm:p-7 transition-all duration-500 overflow-hidden hover:border-white/15 hover:shadow-[0_10px_35px_rgba(0,0,0,0.5)]">
-                {/* Glow de fundo */}
-                <div className={`absolute -top-20 -right-20 w-48 h-48 rounded-full blur-[60px] pointer-events-none transition-opacity duration-500 opacity-0 group-hover:opacity-100 ${item.theme.glow}`} />
-
-                {/* Ícone e Badge */}
-                <div className="flex items-center justify-between mb-6 flex-shrink-0">
-                  <div
-                    className={`w-12 h-12 rounded-lg ${item.theme.bgSolid} flex items-center justify-center ${item.theme.iconShadow} flex-shrink-0`}
-                  >
-                    <item.icon className="size-6 text-black transition-transform duration-500 group-hover:scale-110" />
-                  </div>
-                  <span className="text-[9px] uppercase font-mono tracking-wider font-bold bg-white/5 border border-white/10 px-2.5 py-0.5 rounded-sm text-slate-400">
-                    {item.badge}
-                  </span>
-                </div>
-
-                {/* Título */}
-                <h3 className="font-display text-2xl font-bold text-white mb-4 h-[56px] flex items-center flex-shrink-0">
-                  {item.name}
-                </h3>
-
-                {/* Rótulo 'IDEAL PARA' */}
-                <span className="font-mono text-[9px] font-bold uppercase tracking-wider block mb-1.5 flex-shrink-0">
-                  <span className="text-slate-500">Ideal para:</span>{" "}
-                  <span className="text-[#b3a1ff]">{item.idealParaShort}</span>
-                </span>
-
-                {/* Descrição */}
-                <p className="text-sm text-slate-400 font-light leading-relaxed mb-6 h-auto md:h-[120px] lg:h-[110px] xl:h-[96px] flex items-start flex-shrink-0">
-                  {item.desc}
-                </p>
-
-                {/* Preço */}
-                <div className="mb-6 h-[72px] flex items-center flex-shrink-0">
-                  {item.price === "Sob consulta" ? (
-                    <div className="text-xl sm:text-2xl font-display font-bold text-white leading-tight">
-                      Sob consulta
-                    </div>
-                  ) : (
-                    (() => {
-                      const match = item.price.match(/A partir de R\$\s*([\d\.]+)\/mês/);
-                      if (match) {
-                        return (
-                          <div className="flex items-baseline gap-1.5">
-                            <span className="text-sm text-slate-400 font-medium">
-                              A partir de R$
-                            </span>
-                            <span className="text-3xl sm:text-4xl font-display font-bold text-white">
-                              {match[1]}
-                            </span>
-                            <span className="text-xs text-slate-400 font-medium">/mês</span>
-                          </div>
-                        );
-                      }
-                      return (
-                        <div className="text-xl sm:text-2xl font-display font-bold text-white leading-tight">
-                          {item.price}
-                        </div>
-                      );
-                    })()
-                  )}
-                </div>
-
-                {/* Botão CTA */}
-                <div className="mb-8 h-[48px] flex-shrink-0">
-                  <Link
-                    to="/contato"
-                    search={item.ctaSearch as any}
-                    hash="personalize"
-                    className="group/btn flex items-center justify-center gap-2.5 text-center w-full h-[48px] rounded-2xl text-xs font-bold uppercase tracking-[0.15em] transition-all duration-300 bg-white/5 text-white hover:bg-white hover:text-black border border-white/10 hover:shadow-[0_0_20px_rgba(255,255,255,0.25)]"
-                  >
-                    <span>{item.cta}</span>
-                    <span className="inline-block transition-transform duration-300 group-hover/btn:translate-x-1">
-                      →
-                    </span>
-                  </Link>
-                </div>
-
-                {/* Inclusões */}
-                <div className="border-t border-white/5 pt-6 flex-grow flex flex-col justify-between">
-                  <div>
-                    <p className="text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-4 h-[32px] flex items-center">
-                      O que está incluso
-                    </p>
-                    <ul className="space-y-3.5">
-                      {item.features.map((feat) => (
-                        <li
-                          key={feat}
-                          className="flex items-start gap-3 text-xs sm:text-sm text-slate-300 font-light"
-                        >
-                          <div
-                            className="w-4 h-4 rounded-full bg-[#b3a1ff] flex items-center justify-center shrink-0 mt-0.5"
-                          >
-                            <FaCheck className="size-2.5 text-black" />
-                          </div>
-                          <span className="leading-relaxed">{feat}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {item.note && (
-                    <div className="text-[10px] font-mono text-slate-500 pt-3 mt-5 border-t border-white/5">
-                      * {item.note}
-                    </div>
-                  )}
-                </div>
-              </div>
-            </ScrollReveal>
+            <AdicionalCard key={item.name} item={item} index={index} />
           ))}
         </div>
 
@@ -314,7 +355,9 @@ export function PrecosAdicionais() {
               >
                 <FaWhatsapp className="size-4" />
                 Falar com especialista
-                <span className="inline-block transition-transform duration-300 group-hover/btn:translate-x-1">→</span>
+                <span className="inline-block transition-transform duration-300 group-hover/btn:translate-x-1">
+                  →
+                </span>
               </a>
             </div>
           </div>

@@ -29,7 +29,6 @@ import {
   SOLUTION_OPTIONS,
   FEATURE_CATEGORIES,
   INVESTMENT_OPTIONS,
-  EVOLUTION_OPTIONS,
   COMO_CONHECEU_OPTIONS,
   getAvailableLevels,
   isFeatureIncludedInPlan,
@@ -37,7 +36,7 @@ import {
   ADDITIONAL_PRICES,
 } from "@/data/pricing";
 
-export function ContatoSimulador({ defaultPlano }: { defaultPlano?: string }) {
+export function ContatoSimulador({ defaultPlano, defaultNivel }: { defaultPlano?: string; defaultNivel?: string }) {
   const {
     currentStep,
     setCurrentStep,
@@ -67,6 +66,7 @@ export function ContatoSimulador({ defaultPlano }: { defaultPlano?: string }) {
     toggleFeature,
     handlePagesChange,
     handleIntegrationsChange,
+    handleSupportMonthsChange,
     toggleCategory,
     handleChange,
     classification,
@@ -78,7 +78,29 @@ export function ContatoSimulador({ defaultPlano }: { defaultPlano?: string }) {
     removedFeatures,
     changeFeatureLevel,
     resetSimulador,
-  } = useContatoSimulador(defaultPlano);
+  } = useContatoSimulador(defaultPlano, defaultNivel);
+
+  /* ================================================================
+     FUNÇÃO AUXILIAR DE PREÇO DINÂMICO
+     ================================================================ */
+
+  const getDynamicPriceText = (item: string, level: string) => {
+    if (item === "Tráfego pago e campanhas") {
+      return level === "Gestão de tráfego + Escala" ? "+ R$ 700/mês" : "+ R$ 350/mês";
+    }
+    if (item === "Automação com IA (Chatbots/N8N)") {
+      return level === "Automação avançada com IA" ? "+ R$ 600/mês" : "+ R$ 300/mês";
+    }
+    if (item === "Dashboard e Métricas Inteligentes") {
+      return level === "Dashboard avançado" ? "+ R$ 400/mês" : "+ R$ 200/mês";
+    }
+    if (item === "Plano mensal de evolução/suporte") {
+      const match = level ? level.match(/\d+/) : null;
+      const months = match ? parseInt(match[0], 10) : 1;
+      return `+ R$ ${150 * months}/mês`;
+    }
+    return ADDITIONAL_PRICES[item];
+  };
 
   /* ================================================================
      FUNÇÃO AUXILIAR DE RENDERIZAÇÃO DO RESUMO
@@ -89,14 +111,52 @@ export function ContatoSimulador({ defaultPlano }: { defaultPlano?: string }) {
     const hasSolutions = selectedSolutions.length > 0;
     const hasFeatures = selectedFeatures.length > 0;
 
-    const removedFeatures = (isPlanLocked && basePlano)
-      ? getIncludedFeatures(basePlano).filter((f: string) => !selectedFeatures.includes(f))
-      : [];
+    const removedFeatures =
+      isPlanLocked && basePlano
+        ? getIncludedFeatures(basePlano).filter((f: string) => !selectedFeatures.includes(f))
+        : [];
 
     const pricingEstimate = getEstimatedPrice();
 
     return (
       <div className="space-y-5 text-left text-xs">
+        {/* Banner de Ajuda / Simplificação Geral no Topo do Resumo */}
+        <div className="p-4 rounded-xl border border-aurora-violet/20 bg-aurora-violet/[0.04] text-left space-y-2">
+          <div className="flex items-center gap-2 text-aurora-violet font-semibold text-xs uppercase tracking-wider font-mono">
+            <FaCircleInfo className="size-3.5 shrink-0" />
+            Achou o simulador muito técnico ou complexo?
+          </div>
+          <p className="text-[11px] sm:text-xs text-slate-300 leading-relaxed font-light">
+            Não se preocupe! A Opnora constrói soluções 100% sob medida. Se você não
+            souber quais opções escolher, pode simplesmente clicar em{" "}
+            <strong>Continuar</strong> para avançar sem marcar nada, ou se preferir,{" "}
+            <button
+              type="button"
+              onClick={() => {
+                const el = document.getElementById("formulario-contato");
+                if (el) {
+                  el.scrollIntoView({ behavior: "smooth", block: "start" });
+                } else {
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }
+              }}
+              className="text-aurora-violet hover:underline font-semibold inline-flex items-center gap-0.5 cursor-pointer"
+            >
+              clique aqui para ir ao formulário de contato simplificado
+            </button>{" "}
+            no topo desta página ou fale diretamente conosco pelo{" "}
+            <a
+              href="https://wa.me/5585999973965"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-emerald-400 hover:underline font-semibold inline-flex items-center gap-0.5"
+            >
+              WhatsApp
+            </a>
+            .
+          </p>
+        </div>
+
         {/* Classificação Não Financeira */}
         <div className="space-y-2">
           <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wider flex items-center gap-1.5 font-bold">
@@ -172,140 +232,149 @@ export function ContatoSimulador({ defaultPlano }: { defaultPlano?: string }) {
           )}
         </div>
 
-      {/* Funcionalidades */}
-      <div className="space-y-2">
-        <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wider flex items-center gap-1.5 font-bold">
-          <FaSliders className="size-3 text-slate-500" />
-          Recursos selecionados
-        </span>
-        {hasFeatures ? (
-          <div className="flex flex-wrap gap-1.5">
-            {selectedFeatures.map((feat) => {
-              const currentLevel = featureLevels[feat];
-              const isInc = isFeatureIncludedInPlan(basePlano, feat, currentLevel || "");
-              const levelLabel = currentLevel && !currentLevel.startsWith("Adicional") ? currentLevel : "Adicional";
+        {/* Funcionalidades */}
+        <div className="space-y-2">
+          <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wider flex items-center gap-1.5 font-bold">
+            <FaSliders className="size-3 text-slate-500" />
+            Recursos selecionados
+          </span>
+          {hasFeatures ? (
+            <div className="max-h-[200px] overflow-y-auto pr-1.5 flex flex-wrap gap-1.5 custom-scrollbar">
+              {selectedFeatures.map((feat) => {
+                const currentLevel = featureLevels[feat];
+                const isInc = isFeatureIncludedInPlan(basePlano, feat, currentLevel || "");
+                const levelLabel =
+                  currentLevel && !currentLevel.startsWith("Adicional")
+                    ? currentLevel
+                    : "Adicional";
 
-              return (
+                return (
+                  <button
+                    key={feat}
+                    type="button"
+                    onClick={() => toggleFeature(feat)}
+                    title={`Remover ${feat} (${levelLabel})`}
+                    className={`cursor-pointer px-2.5 py-1 rounded border transition-all duration-300 flex items-center gap-1.5 text-[11px] leading-snug ${
+                      isInc
+                        ? "bg-aurora-violet/[0.04] border-aurora-violet/20 text-purple-300/90 hover:bg-red-950/30 hover:border-red-500/40 hover:text-red-400 hover:shadow-none"
+                        : "bg-amber-500/[0.04] border-amber-500/20 text-amber-300/90 hover:bg-red-950/30 hover:border-red-500/40 hover:text-red-400 hover:shadow-none"
+                    }`}
+                  >
+                    <span>
+                      {feat} <span className="opacity-65 text-[9px] font-mono">({levelLabel})</span>
+                    </span>
+                    <span className="opacity-50 hover:opacity-100 text-xs">×</span>
+                  </button>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="px-3 py-2 rounded-lg border border-dashed border-white/5 bg-white/[0.01] text-slate-500 italic text-[11px] font-light text-center">
+              Nenhum recurso selecionado
+            </div>
+          )}
+        </div>
+
+        {/* Recursos Removidos do Plano Base */}
+        {removedFeatures.length > 0 && (
+          <div className="space-y-2 border-t border-white/5 pt-3">
+            <span className="text-[10px] font-mono text-red-400/80 uppercase tracking-wider flex items-center gap-1.5 font-bold">
+              <FaXmark className="size-3 text-red-400/80" />
+              Removidos do plano base
+            </span>
+            <div className="flex flex-wrap gap-1.5">
+              {removedFeatures.map((feat: string) => (
                 <button
                   key={feat}
                   type="button"
                   onClick={() => toggleFeature(feat)}
-                  title={`Remover ${feat} (${levelLabel})`}
-                  className={`cursor-pointer px-2.5 py-1 rounded border transition-all duration-300 flex items-center gap-1.5 text-[11px] leading-snug ${
-                    isInc
-                      ? "bg-aurora-violet/[0.04] border-aurora-violet/20 text-purple-300/90 hover:bg-red-950/30 hover:border-red-500/40 hover:text-red-400 hover:shadow-none"
-                      : "bg-amber-500/[0.04] border-amber-500/20 text-amber-300/90 hover:bg-red-950/30 hover:border-red-500/40 hover:text-red-400 hover:shadow-none"
-                  }`}
+                  title={`Readicionar ${feat} ao plano`}
+                  className="cursor-pointer px-2 py-0.5 rounded border border-red-500/20 bg-red-500/[0.03] text-slate-400 hover:bg-emerald-950/20 hover:border-emerald-500/30 hover:text-emerald-400 transition-all flex items-center gap-1 text-[11px] line-through decoration-red-500/40"
                 >
-                  <span>
-                    {feat}{" "}
-                    <span className="opacity-65 text-[9px] font-mono">
-                      ({levelLabel})
-                    </span>
+                  <span>{feat}</span>
+                  <span className="text-red-400/60 font-bold text-xs hover:text-emerald-400">
+                    ＋
                   </span>
-                  <span className="opacity-50 hover:opacity-100 text-xs">×</span>
                 </button>
-              );
-            })}
-          </div>
-        ) : (
-          <div className="px-3 py-2 rounded-lg border border-dashed border-white/5 bg-white/[0.01] text-slate-500 italic text-[11px] font-light text-center">
-            Nenhum recurso selecionado
-          </div>
-        )}
-      </div>
-
-      {/* Recursos Removidos do Plano Base */}
-      {removedFeatures.length > 0 && (
-        <div className="space-y-2 border-t border-white/5 pt-3">
-          <span className="text-[10px] font-mono text-red-400/80 uppercase tracking-wider flex items-center gap-1.5 font-bold">
-            <FaXmark className="size-3 text-red-400/80" />
-            Removidos do plano base
-          </span>
-          <div className="flex flex-wrap gap-1.5">
-            {removedFeatures.map((feat: string) => (
-              <button
-                key={feat}
-                type="button"
-                onClick={() => toggleFeature(feat)}
-                title={`Readicionar ${feat} ao plano`}
-                className="cursor-pointer px-2 py-0.5 rounded border border-red-500/20 bg-red-500/[0.03] text-slate-400 hover:bg-emerald-950/20 hover:border-emerald-500/30 hover:text-emerald-400 transition-all flex items-center gap-1 text-[11px] line-through decoration-red-500/40"
-              >
-                <span>{feat}</span>
-                <span className="text-red-400/60 font-bold text-xs hover:text-emerald-400">＋</span>
-              </button>
-            ))}
-          </div>
-          <p className="text-[9px] text-slate-450 font-light leading-relaxed">
-            * A exclusão de recursos padrão do plano será analisada para aplicação de um desconto personalizado na sua proposta comercial.
-          </p>
-        </div>
-      )}
-
-      {/* Prazo e Orçamento */}
-      <div className="grid grid-cols-2 gap-4 border-t border-white/5 pt-4">
-        <div className="space-y-1">
-          <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wider flex items-center gap-1 font-bold">
-            <FaCalendarDays className="size-3 text-slate-500" />
-            Prazo
-          </span>
-          <span className="text-slate-200 font-medium text-xs block truncate">
-            {formData.prazo || "A definir"}
-          </span>
-        </div>
-        <div className="space-y-1">
-          <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wider flex items-center gap-1 font-bold">
-            <FaCreditCard className="size-3 text-slate-500" />
-            Investimento
-          </span>
-          <span className="text-slate-200 font-medium text-xs block truncate">
-            {formData.investimento}
-          </span>
-        </div>
-      </div>
-
-      {/* Rodapé de Investimento Comercial */}
-      <div className="border-t border-white/5 pt-4 space-y-2">
-        <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wider flex items-center gap-1.5 font-bold">
-          <FaFileLines className="size-3 text-slate-500" />
-          Estimativa de Investimento
-        </span>
-        {pricingEstimate.basePrice > 0 || pricingEstimate.extraMonthly > 0 ? (
-          <div className="space-y-2">
-            <div className="bg-aurora-violet/[0.07] border border-aurora-violet/20 rounded-xl p-3 shadow-[0_0_12px_rgba(162,128,255,0.06)]">
-              <div className="flex justify-between items-center text-xs text-slate-300">
-                <span>Plano Base ({pricingEstimate.baseName}):</span>
-                <span className="font-mono text-white font-bold">R$ {pricingEstimate.basePrice}</span>
-              </div>
-              {pricingEstimate.extraMonthly > 0 && (
-                <div className="flex justify-between items-center text-xs text-slate-300 mt-2 pt-2 border-t border-white/5">
-                  <span>Serviços adicionais:</span>
-                  <span className="font-mono text-[#40c4ff] font-bold">+ R$ {pricingEstimate.extraMonthly}/mês</span>
-                </div>
-              )}
+              ))}
             </div>
-            
-            {removedFeatures.length > 0 && (
-              <div className="text-[10px] text-amber-400/80 bg-amber-400/[0.02] border border-amber-400/10 rounded-lg p-2 leading-normal">
-                * Você excluiu recursos do plano base. Avaliaremos um desconto proporcional na proposta.
-              </div>
-            )}
-            
-            <p className="text-[9px] text-slate-500 leading-normal">
-              * O valor final do desenvolvimento e setup será validado pela nossa equipe na proposta comercial.
+            <p className="text-[9px] text-slate-450 font-light leading-relaxed">
+              * A exclusão de recursos padrão do plano será analisada para aplicação de um desconto
+              personalizado na sua proposta comercial.
             </p>
           </div>
-        ) : (
-          <div className="text-xs font-semibold text-white bg-aurora-violet/[0.07] border border-aurora-violet/20 rounded-xl px-3 py-3 text-center shadow-[0_0_12px_rgba(162,128,255,0.06)] leading-relaxed">
-            {removedFeatures.length > 0
-              ? "Redução de escopo padrão: avaliaremos um desconto proporcional na sua proposta final."
-              : "O valor final será definido após a análise do escopo."}
-          </div>
         )}
+
+        {/* Prazo e Orçamento */}
+        <div className="grid grid-cols-2 gap-4 border-t border-white/5 pt-4">
+          <div className="space-y-1">
+            <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wider flex items-center gap-1 font-bold">
+              <FaCalendarDays className="size-3 text-slate-500" />
+              Prazo
+            </span>
+            <span className="text-slate-200 font-medium text-xs block truncate">
+              {formData.prazo || "A definir"}
+            </span>
+          </div>
+          <div className="space-y-1">
+            <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wider flex items-center gap-1 font-bold">
+              <FaCreditCard className="size-3 text-slate-500" />
+              Investimento
+            </span>
+            <span className="text-slate-200 font-medium text-xs block truncate">
+              {formData.investimento}
+            </span>
+          </div>
+        </div>
+
+        {/* Rodapé de Investimento Comercial */}
+        <div className="border-t border-white/5 pt-4 space-y-2">
+          <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wider flex items-center gap-1.5 font-bold">
+            <FaFileLines className="size-3 text-slate-500" />
+            Estimativa de Investimento
+          </span>
+          {pricingEstimate.basePrice > 0 || pricingEstimate.extraMonthly > 0 ? (
+            <div className="space-y-2">
+              <div className="bg-aurora-violet/[0.07] border border-aurora-violet/20 rounded-xl p-3 shadow-[0_0_12px_rgba(162,128,255,0.06)]">
+                <div className="flex justify-between items-center text-xs text-slate-300">
+                  <span>Plano Base ({pricingEstimate.baseName}):</span>
+                  <span className="font-mono text-white font-bold">
+                    R$ {pricingEstimate.basePrice}
+                  </span>
+                </div>
+                {pricingEstimate.extraMonthly > 0 && (
+                  <div className="flex justify-between items-center text-xs text-slate-300 mt-2 pt-2 border-t border-white/5">
+                    <span>Serviços adicionais:</span>
+                    <span className="font-mono text-[#40c4ff] font-bold">
+                      + R$ {pricingEstimate.extraMonthly}/mês
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              {removedFeatures.length > 0 && (
+                <div className="text-[10px] text-amber-400/80 bg-amber-400/[0.02] border border-amber-400/10 rounded-lg p-2 leading-normal">
+                  * Você excluiu recursos do plano base. Avaliaremos um desconto proporcional na
+                  proposta.
+                </div>
+              )}
+
+              <p className="text-[9px] text-slate-500 leading-normal">
+                * O valor final do desenvolvimento e setup será validado pela nossa equipe na
+                proposta comercial.
+              </p>
+            </div>
+          ) : (
+            <div className="text-xs font-semibold text-white bg-aurora-violet/[0.07] border border-aurora-violet/20 rounded-xl px-3 py-3 text-center shadow-[0_0_12px_rgba(162,128,255,0.06)] leading-relaxed">
+              {removedFeatures.length > 0
+                ? "Redução de escopo padrão: avaliaremos um desconto proporcional na sua proposta final."
+                : "O valor final será definido após a análise do escopo."}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  };
 
   return (
     <section
@@ -342,7 +411,11 @@ export function ContatoSimulador({ defaultPlano }: { defaultPlano?: string }) {
         {/* Layout Dividido Desktop */}
         <div
           id="personalize-form-box"
-          className="grid grid-cols-1 lg:grid-cols-[1.7fr_1.1fr] gap-8 items-start"
+          className={
+            submitted || currentStep === 4
+              ? "w-full animate-fade-in"
+              : "grid grid-cols-1 lg:grid-cols-[1.7fr_1.1fr] gap-8 items-start"
+          }
         >
           {/* Lado Esquerdo: Formulário em Etapas */}
           <ScrollReveal delay={300} className="w-full">
@@ -350,32 +423,226 @@ export function ContatoSimulador({ defaultPlano }: { defaultPlano?: string }) {
               <div className="absolute -top-32 -right-32 w-80 h-80 bg-aurora-violet/5 blur-[100px] rounded-full pointer-events-none" />
 
               {submitted ? (
-                /* Sucesso Real do Envio */
-                <div className="py-12 px-4 text-center max-w-2xl mx-auto space-y-6">
-                  <div className="w-16 h-16 rounded-full bg-emerald-400/20 border border-emerald-400/40 flex items-center justify-center mx-auto text-emerald-400">
-                    <FaCheck className="size-6" />
+                /* Sucesso Real do Envio (LARGURA TOTAL E DETALHADO) */
+                <div className="space-y-8 relative z-10">
+                  {/* Cabeçalho de Sucesso */}
+                  <div className="text-center max-w-2xl mx-auto space-y-4">
+                    <div className="w-14 h-14 rounded-full bg-emerald-400/10 border border-emerald-400/20 flex items-center justify-center mx-auto text-emerald-400 shadow-[0_0_20px_rgba(52,211,153,0.1)]">
+                      <FaCheck className="size-5" />
+                    </div>
+                    <h3 className="font-display text-2xl sm:text-3xl font-bold text-white">
+                      Solicitação Recebida com Sucesso!
+                    </h3>
+                    <p className="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-md mx-auto">
+                      Nossa equipe já está analisando as informações técnicas e preparará uma
+                      proposta sob medida para sua empresa.
+                    </p>
                   </div>
-                  <h3 className="font-display text-2xl sm:text-3xl font-bold text-white">
-                    Solicitação recebida com sucesso!
-                  </h3>
-                  <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-                    A Opnora analisará as informações e entrará em contato para entender melhor o
-                    projeto e preparar uma proposta personalizada.
-                  </p>
-                  <div className="pt-6 flex flex-col sm:flex-row gap-4 justify-center">
+
+                  {/* Grid Unificado de Resumo Completo */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-6 border-t border-white/5 text-left">
+                    {/* Coluna 1: Dados do Projeto */}
+                    <div className="space-y-6 bg-white/[0.01] border border-white/5 rounded-xl p-6">
+                      <div>
+                        <span className="text-[10px] font-mono text-aurora-violet font-bold uppercase tracking-widest block mb-1">
+                          PROJETO SOLICITADO
+                        </span>
+                        <h4 className="text-base font-display font-bold text-white uppercase tracking-wider">
+                          Plano Base:{" "}
+                          {basePlano === "landing"
+                            ? "Landing Page de Alta Conversão"
+                            : basePlano === "essencial"
+                              ? "Site Institucional Essencial"
+                              : basePlano === "profissional"
+                                ? "Site Profissional + Estrutura de Vendas"
+                                : "Escopo Sob Medida"}
+                        </h4>
+                      </div>
+
+                      {/* Objetivos */}
+                      {selectedObjectives.length > 0 && (
+                        <div className="space-y-2">
+                          <span className="text-[10px] font-mono text-slate-500 font-bold uppercase tracking-widest block">
+                            OBJETIVOS DA EMPRESA
+                          </span>
+                          <div className="flex flex-wrap gap-2">
+                            {selectedObjectives.map((id) => {
+                              const opt = OBJECTIVE_OPTIONS.find((o) => o.id === id);
+                              return (
+                                <span
+                                  key={id}
+                                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-slate-300"
+                                >
+                                  <FaCheck className="size-2 text-aurora-violet" />
+                                  {opt?.label}
+                                </span>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Recursos Selecionados */}
+                      {selectedFeatures.length > 0 && (
+                        <div className="space-y-2">
+                          <span className="text-[10px] font-mono text-slate-500 font-bold uppercase tracking-widest block">
+                            RECURSOS E ESPECIFICAÇÕES
+                          </span>
+                          <div className="max-h-[140px] overflow-y-auto pr-2 space-y-1.5 scrollbar-thin custom-scrollbar">
+                            <style
+                              dangerouslySetInnerHTML={{
+                                __html: `
+                              .custom-scrollbar::-webkit-scrollbar {
+                                width: 4px;
+                              }
+                              .custom-scrollbar::-webkit-scrollbar-track {
+                                background: rgba(255, 255, 255, 0.01);
+                                border-radius: 99px;
+                              }
+                              .custom-scrollbar::-webkit-scrollbar-thumb {
+                                background: rgba(162, 128, 255, 0.35);
+                                border-radius: 99px;
+                              }
+                              .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+                                background: rgba(162, 128, 255, 0.55);
+                              }
+                            `,
+                              }}
+                            />
+                            {selectedFeatures.map((feat) => (
+                              <div
+                                key={feat}
+                                className="flex justify-between items-center text-xs border-b border-white/5 py-1"
+                              >
+                                <span className="text-slate-300">{feat}</span>
+                                <span className="text-slate-500 font-mono text-[10px] uppercase">
+                                  {featureLevels[feat] || "Padrão"}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Estimativa de Investimento */}
+                      {(() => {
+                        const pricingEstimate = getEstimatedPrice();
+                        return (
+                          <div className="pt-4 border-t border-white/5">
+                            <span className="text-[10px] font-mono text-slate-500 font-bold uppercase tracking-widest block">
+                              INVESTIMENTO ESTIMADO
+                            </span>
+                            <span className="text-xl font-display font-black text-emerald-400 block mt-1">
+                              {pricingEstimate.basePrice > 0 || pricingEstimate.extraMonthly > 0 ? (
+                                <>
+                                  R$ {pricingEstimate.basePrice}
+                                  {pricingEstimate.extraMonthly > 0 && (
+                                    <span className="text-slate-400 text-xs font-light">
+                                      {" "}
+                                      + R$ {pricingEstimate.extraMonthly}/mês
+                                    </span>
+                                  )}
+                                </>
+                              ) : (
+                                "Sob consulta técnica"
+                              )}
+                            </span>
+                            <p className="text-[10px] text-slate-500 mt-1.5 leading-relaxed">
+                              Esta é uma estimativa preliminar baseada no escopo fornecido. O valor
+                              final será confirmado após validação técnica da equipe da Opnora.
+                            </p>
+                          </div>
+                        );
+                      })()}
+                    </div>
+
+                    {/* Coluna 2: Dados de Contato e Contexto */}
+                    <div className="space-y-6 bg-white/[0.01] border border-white/5 rounded-xl p-6">
+                      <div>
+                        <span className="text-[10px] font-mono text-aurora-violet font-bold uppercase tracking-widest block mb-3">
+                          DADOS DE CONTATO
+                        </span>
+                        <table className="w-full text-xs text-slate-300 space-y-3">
+                          <tbody>
+                            <tr className="border-b border-white/5">
+                              <td className="py-2.5 font-semibold text-slate-500 w-32">
+                                Nome completo:
+                              </td>
+                              <td className="py-2.5 text-white">{formData.nome}</td>
+                            </tr>
+                            {formData.empresa && (
+                              <tr className="border-b border-white/5">
+                                <td className="py-2.5 font-semibold text-slate-500">
+                                  Empresa / Projeto:
+                                </td>
+                                <td className="py-2.5 text-white">{formData.empresa}</td>
+                              </tr>
+                            )}
+                            <tr className="border-b border-white/5">
+                              <td className="py-2.5 font-semibold text-slate-500">E-mail:</td>
+                              <td className="py-2.5 text-aurora-violet hover:underline">
+                                <a href={`mailto:${formData.email}`}>{formData.email}</a>
+                              </td>
+                            </tr>
+                            {formData.whatsapp && (
+                              <tr className="border-b border-white/5">
+                                <td className="py-2.5 font-semibold text-slate-500">WhatsApp:</td>
+                                <td className="py-2.5 text-emerald-400 hover:underline">
+                                  <a href={`https://wa.me/${formData.whatsapp.replace(/\D/g, "")}`}>
+                                    {formData.whatsapp}
+                                  </a>
+                                </td>
+                              </tr>
+                            )}
+                            {formData.cidade && (
+                              <tr className="border-b border-white/5">
+                                <td className="py-2.5 font-semibold text-slate-500">
+                                  Cidade / Região:
+                                </td>
+                                <td className="py-2.5 text-white">{formData.cidade}</td>
+                              </tr>
+                            )}
+                            {formData.prazo && (
+                              <tr className="border-b border-white/5">
+                                <td className="py-2.5 font-semibold text-slate-500">
+                                  Prazo comercial:
+                                </td>
+                                <td className="py-2.5 text-white">{formData.prazo}</td>
+                              </tr>
+                            )}
+                          </tbody>
+                        </table>
+                      </div>
+
+                      {/* Descrição do problema */}
+                      {formData.descricao && (
+                        <div className="space-y-2">
+                          <span className="text-[10px] font-mono text-slate-500 font-bold uppercase tracking-widest block">
+                            DESCRIÇÃO DO PROJETO / DESAFIOS
+                          </span>
+                          <p className="text-xs text-slate-300 leading-relaxed bg-black/35 rounded-lg p-3.5 border border-white/5 max-h-[120px] overflow-y-auto whitespace-pre-wrap">
+                            {formData.descricao}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Botões de Conversão Centralizados */}
+                  <div className="pt-8 flex flex-col sm:flex-row gap-4 justify-center items-center border-t border-white/5">
                     <a
                       href={generateWhatsappUrl()}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="cursor-pointer inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-sm bg-[#25D366] text-black font-display font-bold text-xs uppercase tracking-wider hover:brightness-110 transition-all animate-pulse"
+                      className="w-full sm:w-auto cursor-pointer inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-2xl bg-[#25D366] hover:bg-[#20ba5a] text-black font-display font-bold text-xs uppercase tracking-wider hover:shadow-[0_0_20px_rgba(37,211,102,0.3)] transition-all duration-300"
                     >
-                      <FaWhatsapp className="size-4" />
+                      <FaWhatsapp className="size-5 shrink-0" />
                       Enviar dados estruturados via WhatsApp
                     </a>
                     <button
                       type="button"
                       onClick={() => resetSimulador()}
-                      className="cursor-pointer px-6 py-4 rounded-sm border border-white/10 text-slate-300 hover:text-white text-xs font-bold uppercase tracking-wider hover:bg-white/5 transition-all"
+                      className="w-full sm:w-auto cursor-pointer px-6 py-4 rounded-2xl border border-white/10 text-slate-300 hover:text-white text-xs font-bold uppercase tracking-wider hover:bg-white/5 transition-all duration-300"
                     >
                       Criar novo escopo
                     </button>
@@ -453,9 +720,9 @@ export function ContatoSimulador({ defaultPlano }: { defaultPlano?: string }) {
                         </label>
                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                           {[
-                            { id: "landing", label: "Landing Page", price: "R$ 687" },
-                            { id: "essencial", label: "Essencial", price: "R$ 906" },
-                            { id: "profissional", label: "Profissional", price: "R$ 1.678" },
+                            { id: "landing", label: "Landing Page", price: "R$ 700" },
+                            { id: "essencial", label: "Essencial", price: "R$ 1.200" },
+                            { id: "profissional", label: "Profissional", price: "R$ 2.000" },
                             { id: "sobmedida", label: "Sob medida", price: "Personalizado" },
                           ].map((p) => {
                             const active = basePlano === p.id;
@@ -471,7 +738,9 @@ export function ContatoSimulador({ defaultPlano }: { defaultPlano?: string }) {
                                 }`}
                               >
                                 <span className="text-xs font-bold font-display">{p.label}</span>
-                                <span className="text-[10px] opacity-70 mt-1 font-mono">{p.price}</span>
+                                <span className="text-[10px] opacity-70 mt-1 font-mono">
+                                  {p.price}
+                                </span>
                               </button>
                             );
                           })}
@@ -601,23 +870,41 @@ export function ContatoSimulador({ defaultPlano }: { defaultPlano?: string }) {
                                     const currentLevel = featureLevels[item];
                                     const isPages = item === "Quantidade de páginas";
                                     const isIntegrations = item === "Integração externa";
+                                    const isSupport = item === "Plano mensal de evolução/suporte";
 
-                                    const isIncluded = isFeatureIncludedInPlan(basePlano, item, currentLevel || "");
+                                    const isIncluded = isFeatureIncludedInPlan(
+                                      basePlano,
+                                      item,
+                                      currentLevel || "",
+                                    );
                                     const isAdicional = !isIncluded;
                                     const isHelp = item === "Outro recurso (Descrever no final)";
                                     const availLevels = getAvailableLevels(item);
                                     const canCycle = availLevels.length > 1;
-                                    const isRemovedFromBase = !active && isPlanLocked && !!basePlano && getIncludedFeatures(basePlano).includes(item);
+                                    const isRemovedFromBase =
+                                      !active &&
+                                      isPlanLocked &&
+                                      !!basePlano &&
+                                      getIncludedFeatures(basePlano).includes(item);
 
-                                    if ((isPages || isIntegrations) && active) {
-                                      const defaultValue = isPages ? "1 página" : "1 integração";
-                                      const isIncludedCount = isFeatureIncludedInPlan(basePlano, item, currentLevel || defaultValue);
-                                      
-                                      const handleChangeVal = (amount: number, e: React.MouseEvent) => {
+                                    if ((isPages || isIntegrations || isSupport) && active) {
+                                      const defaultValue = isPages ? "1 página" : isIntegrations ? "1 integração" : "1 mês";
+                                      const isIncludedCount = isFeatureIncludedInPlan(
+                                        basePlano,
+                                        item,
+                                        currentLevel || defaultValue,
+                                      );
+
+                                      const handleChangeVal = (
+                                        amount: number,
+                                        e: React.MouseEvent,
+                                      ) => {
                                         if (isPages) {
                                           handlePagesChange(amount, e);
-                                        } else {
+                                        } else if (isIntegrations) {
                                           handleIntegrationsChange(amount, e);
+                                        } else {
+                                          handleSupportMonthsChange(amount, e);
                                         }
                                       };
 
@@ -630,7 +917,17 @@ export function ContatoSimulador({ defaultPlano }: { defaultPlano?: string }) {
                                               : "bg-amber-500/[0.07] border-amber-400/60 shadow-[0_0_12px_rgba(245,158,11,0.1)] text-white"
                                           }`}
                                         >
-                                          <span className="leading-snug cursor-pointer hover:underline" onClick={() => toggleFeature(item)}>{item}</span>
+                                          <span
+                                            className="leading-snug cursor-pointer hover:underline"
+                                            onClick={() => toggleFeature(item)}
+                                          >
+                                            {item}
+                                          </span>
+                                          {getDynamicPriceText(item, currentLevel || "") && (
+                                            <span className="text-[10px] text-amber-400/90 font-mono font-medium">
+                                              {getDynamicPriceText(item, currentLevel || "")}
+                                            </span>
+                                          )}
                                           <div className="flex items-center gap-3">
                                             <button
                                               type="button"
@@ -639,9 +936,13 @@ export function ContatoSimulador({ defaultPlano }: { defaultPlano?: string }) {
                                             >
                                               -
                                             </button>
-                                            <span className={`text-[10px] font-mono font-bold uppercase tracking-wider ${
-                                              isIncludedCount ? "text-emerald-400" : "text-amber-400"
-                                            }`}>
+                                            <span
+                                              className={`text-[10px] font-mono font-bold uppercase tracking-wider ${
+                                                isIncludedCount
+                                                  ? "text-emerald-400"
+                                                  : "text-amber-400"
+                                              }`}
+                                            >
                                               {currentLevel || defaultValue}
                                             </span>
                                             <button
@@ -673,16 +974,19 @@ export function ContatoSimulador({ defaultPlano }: { defaultPlano?: string }) {
                                           >
                                             {item}
                                           </span>
-                                          {ADDITIONAL_PRICES[item] && (
+                                          {getDynamicPriceText(item, currentLevel || "") && (
                                             <span className="text-[10px] text-amber-400/90 font-mono font-medium">
-                                              {ADDITIONAL_PRICES[item]}
+                                              {getDynamicPriceText(item, currentLevel || "")}
                                             </span>
                                           )}
-                                          <span className="hidden">
-                                          </span>
+                                          <span className="hidden"></span>
                                           <div className="flex flex-wrap justify-center gap-1 bg-black/45 p-0.5 rounded-md border border-white/5 w-full">
                                             {availLevels.map((lvl) => {
-                                              const isLvlIncluded = isFeatureIncludedInPlan(basePlano, item, lvl);
+                                              const isLvlIncluded = isFeatureIncludedInPlan(
+                                                basePlano,
+                                                item,
+                                                lvl,
+                                              );
                                               const isLvlActive = currentLevel === lvl;
                                               return (
                                                 <button
@@ -725,7 +1029,11 @@ export function ContatoSimulador({ defaultPlano }: { defaultPlano?: string }) {
                                                 : "bg-white/[0.02] border-white/10 hover:border-white/20 hover:bg-white/[0.04] text-slate-400 hover:text-white"
                                         }`}
                                       >
-                                        <span className={`leading-snug ${isRemovedFromBase ? "line-through opacity-70" : ""}`}>{item}</span>
+                                        <span
+                                          className={`leading-snug ${isRemovedFromBase ? "line-through opacity-70" : ""}`}
+                                        >
+                                          {item}
+                                        </span>
                                         {ADDITIONAL_PRICES[item] && (
                                           <span className="text-[10px] text-slate-500 font-mono">
                                             {ADDITIONAL_PRICES[item]}
@@ -741,7 +1049,11 @@ export function ContatoSimulador({ defaultPlano }: { defaultPlano?: string }) {
                                                   : "text-amber-400/70"
                                             }`}
                                           >
-                                            {isRemovedFromBase ? "Excluído do plano" : isAdicional ? "＋ Adicional" : currentLevel}
+                                            {isRemovedFromBase
+                                              ? "Excluído do plano"
+                                              : isAdicional
+                                                ? "＋ Adicional"
+                                                : currentLevel}
                                           </span>
                                         )}
                                       </button>
@@ -759,41 +1071,82 @@ export function ContatoSimulador({ defaultPlano }: { defaultPlano?: string }) {
                   {/* ETAPA 4: CONTEXTO E CONTATO */}
                   {currentStep === 4 && (
                     <div className="space-y-6">
-                      {isPlanLocked && (
-                        <div className="rounded-xl border border-aurora-violet/20 bg-aurora-violet/5 p-5 text-center shadow-[0_0_20px_rgba(162,128,255,0.1)] mb-4">
-                          <p className="text-[10px] font-bold uppercase tracking-widest text-aurora-violet mb-1.5">
-                            Plano Pré-Selecionado
-                          </p>
-                          <h3 className="text-lg font-display font-bold text-white mb-1.5">
-                            {basePlano === "landing"
-                              ? "Landing Page de Alta Conversão"
-                              : basePlano === "essencial"
-                                ? "Site Institucional Essencial"
-                                : "Site Profissional + Estrutura de Vendas"}
-                          </h3>
-                          <p className="text-xs text-slate-400 font-light max-w-lg mx-auto mb-4">
-                            A base do seu projeto já está registrada! Você pode continuar o preenchimento ou ajustar as configurações do seu projeto.
-                          </p>
-                          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-                            <button
-                              type="button"
-                              onClick={() => {
-                                setCurrentStep(3);
-                              }}
-                              className="px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-xs font-semibold text-white hover:bg-white/10 transition-colors"
-                            >
-                              Adicionar mais recursos
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => resetSimulador()}
-                              className="px-4 py-2 rounded-lg bg-red-500/10 border border-red-500/20 text-xs font-semibold text-red-400 hover:bg-red-500/20 transition-colors"
-                            >
-                              Cancelar / Montar do Zero
-                            </button>
+                      {/* Resumo compacto do projeto no topo da etapa de contato */}
+                      {(() => {
+                        const pricingEstimate = getEstimatedPrice();
+                        const isLanding = basePlano === "landing";
+                        const isEssencial = basePlano === "essencial";
+                        const isProfissional = basePlano === "profissional";
+                        const planLabel = isLanding
+                          ? "Landing Page de Alta Conversão"
+                          : isEssencial
+                            ? "Site Institucional Essencial"
+                            : isProfissional
+                              ? "Site Profissional + Estrutura de Vendas"
+                              : "Escopo Sob Medida";
+                        return (
+                          <div className="bg-aurora-violet/[0.04] border border-aurora-violet/15 rounded-xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 animate-fade-in mb-4">
+                            <div className="space-y-1">
+                              <span className="text-[10px] font-mono text-aurora-violet font-bold uppercase tracking-widest block">
+                                Resumo do Escopo Selecionado
+                              </span>
+                              <h4 className="text-sm font-display font-bold text-white uppercase tracking-wider">
+                                Plano Base: {planLabel}
+                              </h4>
+                              {(selectedObjectives.length > 0 || selectedFeatures.length > 0) && (
+                                <p className="text-xs text-slate-400 font-light truncate max-w-xl mt-0.5">
+                                  {selectedFeatures.length > 0
+                                    ? `Incluso: ${selectedFeatures.slice(0, 3).join(" • ")}${selectedFeatures.length > 3 ? ` e +${selectedFeatures.length - 3} recursos` : ""}`
+                                    : "Pacote pré-configurado com recursos de mercado."}
+                                </p>
+                              )}
+                              {isPlanLocked && (
+                                <div className="flex flex-wrap items-center gap-2 pt-2.5 text-[9px] sm:text-[10px] font-mono uppercase tracking-wider">
+                                  <span className="text-aurora-violet/90 font-bold bg-aurora-violet/10 border border-aurora-violet/20 px-2 py-0.5 rounded-md">
+                                    Plano pré-selecionado
+                                  </span>
+                                  <button
+                                    type="button"
+                                    onClick={() => setCurrentStep(3)}
+                                    className="cursor-pointer bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-slate-300 hover:text-white px-2.5 py-1 rounded-md transition-all duration-300 flex items-center gap-1 active:scale-95"
+                                  >
+                                    Adicionar mais recursos
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={() => resetSimulador()}
+                                    className="cursor-pointer bg-red-500/5 hover:bg-red-500/10 border border-red-500/10 hover:border-red-500/20 text-red-400/80 hover:text-red-400 px-2.5 py-1 rounded-md transition-all duration-300 flex items-center gap-1 active:scale-95"
+                                  >
+                                    Montar do zero
+                                  </button>
+                                </div>
+                              )}
+                            </div>
+                            <div className="shrink-0 text-left md:text-right border-t md:border-t-0 md:border-l border-white/5 pt-3 md:pt-0 md:pl-6 flex flex-col justify-center">
+                              <span className="text-[10px] font-mono text-slate-500 font-bold uppercase tracking-widest block">
+                                Investimento Estimado
+                              </span>
+                              <span className="text-base font-display font-black text-emerald-400 block mt-0.5">
+                                {pricingEstimate.basePrice > 0 ||
+                                pricingEstimate.extraMonthly > 0 ? (
+                                  <>
+                                    R$ {pricingEstimate.basePrice}
+                                    {pricingEstimate.extraMonthly > 0 && (
+                                      <span className="text-slate-400 text-xs font-light">
+                                        {" "}
+                                        + R$ {pricingEstimate.extraMonthly}/mês
+                                      </span>
+                                    )}
+                                  </>
+                                ) : (
+                                  "Sob consulta técnica"
+                                )}
+                              </span>
+                            </div>
                           </div>
-                        </div>
-                      )}
+                        );
+                      })()}
+
                       <div>
                         <h3 className="text-lg sm:text-xl font-display font-bold text-white">
                           Fale um pouco sobre o projeto
@@ -808,7 +1161,7 @@ export function ContatoSimulador({ defaultPlano }: { defaultPlano?: string }) {
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                           <label
-                            htmlFor="nome"
+                            htmlFor="simulador-nome"
                             className="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider"
                           >
                             Seu Nome *
@@ -819,7 +1172,7 @@ export function ContatoSimulador({ defaultPlano }: { defaultPlano?: string }) {
                             </span>
                             <input
                               required
-                              id="nome"
+                              id="simulador-nome"
                               type="text"
                               name="nome"
                               value={formData.nome}
@@ -841,7 +1194,7 @@ export function ContatoSimulador({ defaultPlano }: { defaultPlano?: string }) {
 
                         <div>
                           <label
-                            htmlFor="empresa"
+                            htmlFor="simulador-empresa"
                             className="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider"
                           >
                             Empresa ou Projeto
@@ -851,7 +1204,7 @@ export function ContatoSimulador({ defaultPlano }: { defaultPlano?: string }) {
                               <FaBuilding className="size-3.5" />
                             </span>
                             <input
-                              id="empresa"
+                              id="simulador-empresa"
                               type="text"
                               name="empresa"
                               value={formData.empresa}
@@ -864,7 +1217,7 @@ export function ContatoSimulador({ defaultPlano }: { defaultPlano?: string }) {
 
                         <div>
                           <label
-                            htmlFor="email"
+                            htmlFor="simulador-email"
                             className="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider"
                           >
                             E-mail Corporativo *
@@ -875,7 +1228,7 @@ export function ContatoSimulador({ defaultPlano }: { defaultPlano?: string }) {
                             </span>
                             <input
                               required
-                              id="email"
+                              id="simulador-email"
                               type="email"
                               name="email"
                               value={formData.email}
@@ -897,24 +1250,23 @@ export function ContatoSimulador({ defaultPlano }: { defaultPlano?: string }) {
 
                         <div>
                           <label
-                            htmlFor="whatsapp"
+                            htmlFor="simulador-whatsapp"
                             className="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider"
                           >
-                            WhatsApp comercial *
+                            WhatsApp
                           </label>
                           <div className="relative">
                             <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-500 pointer-events-none">
                               <FaPhone className="size-3.5" />
                             </span>
                             <input
-                              required
-                              id="whatsapp"
+                              id="simulador-whatsapp"
                               type="text"
                               name="whatsapp"
                               value={formData.whatsapp}
                               onChange={handleChange}
                               placeholder="(00) 90000-0000"
-                              className={`w-full bg-[#0c0c10] border rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none transition-all duration-300 ${
+                              className={`w-full bg-[#0c0c10] border border-white/10 rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none transition-all duration-300 ${
                                 validationErrors.whatsapp
                                   ? "border-red-500/50 focus:border-red-500 focus:shadow-[0_0_15px_rgba(239,68,68,0.15)]"
                                   : "border-white/10 focus:border-aurora-violet focus:shadow-[0_0_15px_rgba(162,128,255,0.1)]"
@@ -930,7 +1282,7 @@ export function ContatoSimulador({ defaultPlano }: { defaultPlano?: string }) {
 
                         <div>
                           <label
-                            htmlFor="cidade"
+                            htmlFor="simulador-cidade"
                             className="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider"
                           >
                             Cidade / Região
@@ -940,7 +1292,7 @@ export function ContatoSimulador({ defaultPlano }: { defaultPlano?: string }) {
                               <FaLocationDot className="size-3.5" />
                             </span>
                             <input
-                              id="cidade"
+                              id="simulador-cidade"
                               type="text"
                               name="cidade"
                               value={formData.cidade}
@@ -953,14 +1305,14 @@ export function ContatoSimulador({ defaultPlano }: { defaultPlano?: string }) {
 
                         <div>
                           <label
-                            htmlFor="comoConheceu"
+                            htmlFor="simulador-comoConheceu"
                             className="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider"
                           >
-                            Como conheceu a Opnora?
+                            Como conheceu a Opnora? *
                           </label>
                           <div className="relative">
                             <button
-                              id="comoConheceu"
+                              id="simulador-comoConheceu"
                               type="button"
                               aria-haspopup="listbox"
                               aria-expanded={isComoConheceuOpen}
@@ -970,9 +1322,15 @@ export function ContatoSimulador({ defaultPlano }: { defaultPlano?: string }) {
                                   setIsComoConheceuOpen(false);
                                 }
                               }}
-                              className="cursor-pointer w-full bg-[#0c0c10] border border-white/10 rounded-xl pl-4 pr-10 py-3 text-sm text-white text-left focus:outline-none focus:border-aurora-violet focus:shadow-[0_0_15px_rgba(162,128,255,0.1)] transition-all duration-300 flex items-center justify-between"
+                              className={`cursor-pointer w-full bg-[#0c0c10] border rounded-xl pl-4 pr-10 py-3 text-sm text-white text-left focus:outline-none transition-all duration-300 flex items-center justify-between ${
+                                validationErrors.comoConheceu
+                                  ? "border-red-500/50 focus:border-red-500 focus:shadow-[0_0_15px_rgba(239,68,68,0.15)]"
+                                  : "border-white/10 focus:border-aurora-violet focus:shadow-[0_0_15px_rgba(162,128,255,0.1)]"
+                              }`}
                             >
-                              <span className={formData.comoConheceu ? "text-white" : "text-slate-500"}>
+                              <span
+                                className={formData.comoConheceu ? "text-white" : "text-slate-500"}
+                              >
                                 {formData.comoConheceu || "Selecione uma opção"}
                               </span>
                               <FaChevronDown
@@ -1011,17 +1369,22 @@ export function ContatoSimulador({ defaultPlano }: { defaultPlano?: string }) {
                               </>
                             )}
                           </div>
+                          {validationErrors.comoConheceu && (
+                            <span className="text-[10px] text-red-400 mt-1 block">
+                              {validationErrors.comoConheceu}
+                            </span>
+                          )}
                         </div>
 
                         <div>
                           <label
-                            htmlFor="prazo"
+                            htmlFor="simulador-prazo"
                             className="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider"
                           >
                             Prazo Desejado
                           </label>
                           <input
-                            id="prazo"
+                            id="simulador-prazo"
                             type="text"
                             name="prazo"
                             value={formData.prazo}
@@ -1033,14 +1396,14 @@ export function ContatoSimulador({ defaultPlano }: { defaultPlano?: string }) {
 
                         <div>
                           <label
-                            htmlFor="investimento"
+                            htmlFor="simulador-investimento"
                             className="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider"
                           >
                             Faixa aproximada de investimento
                           </label>
                           <div className="relative">
                             <button
-                              id="investimento"
+                              id="simulador-investimento"
                               type="button"
                               aria-haspopup="listbox"
                               aria-expanded={isInvestimentoOpen}
@@ -1092,45 +1455,16 @@ export function ContatoSimulador({ defaultPlano }: { defaultPlano?: string }) {
                         </div>
                       </div>
 
-                      {/* Pergunta de evolução inicial */}
-                      <div className="bg-[#121218] border border-white/5 rounded-xl p-5">
-                        <label className="block text-xs font-semibold text-slate-300 mb-3.5 uppercase tracking-wider">
-                          Você prefere começar com uma versão inicial e evoluir depois?
-                        </label>
-                        <div className="flex flex-col sm:flex-row gap-3">
-                          {EVOLUTION_OPTIONS.map((opt) => {
-                            const active = formData.evolucao === opt.value;
-                            return (
-                              <button
-                                key={opt.value}
-                                type="button"
-                                aria-pressed={active}
-                                onClick={() =>
-                                  setFormData((prev) => ({ ...prev, evolucao: opt.value }))
-                                }
-                                className={`cursor-pointer flex items-center justify-center text-center px-4 py-2 w-full h-14 sm:h-16 rounded-xl border text-xs font-medium transition-all duration-300 ${
-                                  active
-                                    ? "bg-aurora-violet/[0.07] border-aurora-violet shadow-[0_0_12px_rgba(162,128,255,0.1)] text-white font-medium"
-                                    : "bg-white/[0.02] border-white/10 hover:border-white/20 hover:bg-white/[0.04] text-slate-400 hover:text-white"
-                                }`}
-                              >
-                                <span className="leading-snug">{opt.label}</span>
-                              </button>
-                            );
-                          })}
-                        </div>
-                      </div>
-
                       {/* Campo Descrição livre */}
                       <div>
                         <label
-                          htmlFor="descricao"
+                          htmlFor="simulador-descricao"
                           className="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider"
                         >
                           DESCRIÇÃO DO PROBLEMA OU IDEIA
                         </label>
                         <textarea
-                          id="descricao"
+                          id="simulador-descricao"
                           rows={4}
                           name="descricao"
                           value={formData.descricao}
@@ -1142,13 +1476,15 @@ export function ContatoSimulador({ defaultPlano }: { defaultPlano?: string }) {
                     </div>
                   )}
 
-                  {/* Resumo compacto mobile (sempre visível abaixo das etapas) */}
-                  <div className="lg:hidden rounded-lg bg-[#0c0c10] border border-white/10 p-5 shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
-                    <h3 className="text-xs font-mono tracking-widest text-slate-400 font-bold uppercase pb-3 border-b border-white/5 mb-4">
-                      RESUMO DO SEU PROJETO
-                    </h3>
-                    {renderResumoContent()}
-                  </div>
+                  {/* Resumo compacto mobile (sempre visível abaixo das etapas, exceto na etapa 4 ou sucesso) */}
+                  {currentStep < 4 && (
+                    <div className="lg:hidden rounded-lg bg-[#0c0c10] border border-white/10 p-5 shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+                      <h3 className="text-xs font-mono tracking-widest text-slate-400 font-bold uppercase pb-3 border-b border-white/5 mb-4">
+                        RESUMO DO SEU PROJETO
+                      </h3>
+                      {renderResumoContent()}
+                    </div>
+                  )}
 
                   {/* Estilo local para corrigir o preenchimento automático (Autofill) do Google Chrome */}
                   <style>{`
@@ -1165,39 +1501,7 @@ export function ContatoSimulador({ defaultPlano }: { defaultPlano?: string }) {
                     }
                   `}</style>
 
-                  {/* Banner de Ajuda / Simplificação Geral (Sempre Visível no Rodapé de Todas as Etapas) */}
-                  <div className="mb-6 p-4 rounded-xl border border-aurora-violet/20 bg-aurora-violet/[0.03] text-left space-y-2">
-                    <div className="flex items-center gap-2 text-aurora-violet font-semibold text-xs uppercase tracking-wider font-mono">
-                      <FaCircleInfo className="size-3.5" />
-                      Achou o simulador muito técnico ou complexo?
-                    </div>
-                    <p className="text-[11px] sm:text-xs text-slate-300 leading-relaxed font-light">
-                      Não se preocupe! A Opnora constrói soluções 100% sob medida. Se você não souber quais opções escolher, pode simplesmente clicar em <strong>Continuar</strong> para avançar sem marcar nada, ou se preferir,{" "}
-                      <button
-                        type="button"
-                        onClick={() => {
-                          const el = document.getElementById("formulario-contato");
-                          if (el) {
-                            el.scrollIntoView({ behavior: "smooth", block: "start" });
-                          } else {
-                            window.scrollTo({ top: 0, behavior: "smooth" });
-                          }
-                        }}
-                        className="text-aurora-violet hover:underline font-semibold inline-flex items-center gap-0.5 cursor-pointer"
-                      >
-                        clique aqui para ir ao formulário de contato simplificado
-                      </button>{" "}
-                      no topo desta página ou fale diretamente conosco pelo{" "}
-                      <a
-                        href="https://wa.me/5585999973965"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-emerald-450 hover:underline font-semibold inline-flex items-center gap-0.5"
-                      >
-                        WhatsApp
-                      </a>.
-                    </p>
-                  </div>
+
 
                   {/* Botões de Ação da Jornada */}
                   <div className="pt-6 flex items-center justify-between gap-4 border-t border-white/5">
@@ -1221,7 +1525,9 @@ export function ContatoSimulador({ defaultPlano }: { defaultPlano?: string }) {
                         className="group/btn cursor-pointer inline-flex items-center gap-2.5 px-6 py-3.5 rounded-sm bg-white hover:bg-slate-200 text-black font-mono font-bold text-xs uppercase tracking-wider transition-all shadow-[0_0_15px_rgba(255,255,255,0.1)]"
                       >
                         Continuar
-                        <span className="inline-block transition-transform duration-300 group-hover/btn:translate-x-1">→</span>
+                        <span className="inline-block transition-transform duration-300 group-hover/btn:translate-x-1">
+                          →
+                        </span>
                       </button>
                     ) : (
                       <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
@@ -1231,7 +1537,9 @@ export function ContatoSimulador({ defaultPlano }: { defaultPlano?: string }) {
                           className="group/btn cursor-pointer w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-sm bg-white hover:bg-slate-200 text-black font-display font-bold text-xs uppercase tracking-[0.15em] transition-all shadow-[0_0_20px_rgba(255,255,255,0.15)]"
                         >
                           SOLICITAR AVALIAÇÃO DE ESCOPO
-                          <span className="inline-block transition-transform duration-300 group-hover/btn:translate-x-1">→</span>
+                          <span className="inline-block transition-transform duration-300 group-hover/btn:translate-x-1">
+                            →
+                          </span>
                         </button>
                       </div>
                     )}
@@ -1241,16 +1549,18 @@ export function ContatoSimulador({ defaultPlano }: { defaultPlano?: string }) {
             </div>
           </ScrollReveal>
 
-          {/* Lado Direito: Resumo Dinâmico Estático (Desktop) */}
-          <ScrollReveal delay={400} className="hidden lg:block w-full">
-            <div className="rounded-lg bg-[#121218] border border-white/10 p-7 shadow-[0_15px_50px_rgba(0,0,0,0.6)] space-y-6">
-              <h3 className="text-xs font-mono tracking-widest text-slate-400 font-bold uppercase pb-4 border-b border-white/5">
-                RESUMO DO SEU PROJETO
-              </h3>
+          {/* Lado Direito: Resumo Dinâmico Estático (Desktop - Oculto na Etapa 4 ou se enviado) */}
+          {!submitted && currentStep < 4 && (
+            <ScrollReveal delay={400} className="hidden lg:block w-full">
+              <div className="rounded-lg bg-[#121218] border border-white/10 p-7 shadow-[0_15px_50px_rgba(0,0,0,0.6)] space-y-6">
+                <h3 className="text-xs font-mono tracking-widest text-slate-400 font-bold uppercase pb-4 border-b border-white/5">
+                  RESUMO DO SEU PROJETO
+                </h3>
 
-              {renderResumoContent()}
-            </div>
-          </ScrollReveal>
+                {renderResumoContent()}
+              </div>
+            </ScrollReveal>
+          )}
         </div>
 
         {/* Faixa Comercial de Confiança e Liberdade */}
@@ -1291,9 +1601,7 @@ export function ContatoSimulador({ defaultPlano }: { defaultPlano?: string }) {
                   <h4 className="text-sm font-display font-semibold text-white group-hover:text-aurora-violet transition-colors duration-300">
                     {item.title}
                   </h4>
-                  <p className="text-xs text-slate-400 leading-relaxed font-light">
-                    {item.desc}
-                  </p>
+                  <p className="text-xs text-slate-400 leading-relaxed font-light">{item.desc}</p>
                 </div>
               </div>
             </ScrollReveal>

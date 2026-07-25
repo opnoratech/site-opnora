@@ -19,14 +19,20 @@ import {
   FaCircleQuestion,
   FaChevronDown,
   FaCheck,
+  FaUser,
+  FaPhone,
+  FaBuilding,
+  FaCircleInfo,
 } from "react-icons/fa6";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { CONTACT } from "@/config/site";
 
 export const Route = createFileRoute("/contato")({
-  validateSearch: (search: Record<string, unknown>): { plano?: string } => {
+  validateSearch: (search: Record<string, unknown>): { plano?: string; expansao?: string; nivel?: string } => {
     return {
       plano: search.plano as string | undefined,
+      expansao: search.expansao as string | undefined,
+      nivel: search.nivel as string | undefined,
     };
   },
 
@@ -49,10 +55,10 @@ export const Route = createFileRoute("/contato")({
 
 const schema = z.object({
   nome: z.string().trim().min(2, "Informe seu nome").max(100),
-  empresa: z.string().trim().max(120).optional().or(z.literal("")),
   email: z.string().trim().email("E-mail inválido").max(255),
   whatsapp: z.string().trim().max(40).optional().or(z.literal("")),
-  tipo: z.string().min(1, "Selecione um tipo de projeto"),
+  empresa: z.string().trim().max(120).optional().or(z.literal("")),
+  tipo: z.string().min(1, "Selecione um tipo de contato"),
   mensagem: z.string().trim().min(10, "Conte um pouco mais (mín. 10 caracteres)").max(2000),
 });
 
@@ -65,6 +71,7 @@ const TIPOS = [
   "Dashboard / dados",
   "Automação / integração",
   "Evolução de projeto existente",
+  "Dúvida ou suporte",
   "Outro assunto",
 ];
 
@@ -121,10 +128,14 @@ function CustomSelect({
         onKeyDown={(e) => {
           if (e.key === "Escape") setOpen(false);
         }}
-        className={`w-full text-left bg-[#0c0c10] border ${error ? "border-red-500/50 focus:border-red-500" : "border-white/10 focus:border-aurora-violet focus:shadow-[0_0_15px_rgba(162,128,255,0.1)]"} rounded-xl px-4 py-3 text-sm text-white focus:outline-none transition-all duration-300 flex items-center justify-between`}
+        className={`w-full text-left bg-[#0c0c10] border ${
+          error
+            ? "border-red-500/50"
+            : "border-white/10 focus:border-aurora-violet focus:shadow-[0_0_15px_rgba(162,128,255,0.1)]"
+        } rounded-xl pl-10 pr-4 py-3 text-sm text-white focus:outline-none transition-all duration-300 flex items-center justify-between`}
       >
         <span className={value ? "text-white" : "text-slate-500"}>
-          {value || "Selecione um tópico"}
+          {value || "Selecione uma opção"}
         </span>
         <FaChevronDown
           className={`size-3.5 text-slate-500 transition-transform duration-300 ${open ? "rotate-180" : ""}`}
@@ -163,15 +174,16 @@ function CustomSelect({
 function ContatoPage() {
   const search = Route.useSearch();
   const planoKey = search.plano;
+  const expansaoKey = search.expansao;
+  const nivelKey = search.nivel;
   const defaultMensagem = "";
-  const defaultTipo = "";
 
   const [values, setValues] = useState<FormState>({
     nome: "",
-    empresa: "",
     email: "",
     whatsapp: "",
-    tipo: defaultTipo,
+    empresa: "",
+    tipo: "",
     mensagem: defaultMensagem,
   });
   const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>({});
@@ -197,10 +209,33 @@ function ContatoPage() {
     }
 
     setSubmitting(true);
-    await new Promise((r) => setTimeout(r, 800));
-    setSubmitting(false);
-    toast.success("Mensagem enviada com sucesso! Entraremos em contato.");
-    setValues({ nome: "", empresa: "", email: "", whatsapp: "", tipo: "", mensagem: "" });
+    try {
+      const res = await fetch("/api/contato", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          type: "contato",
+          nome: values.nome,
+          email: values.email,
+          whatsapp: values.whatsapp,
+          empresa: values.empresa,
+          tipoContato: values.tipo,
+          mensagem: values.mensagem,
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Erro no envio da API");
+      }
+
+      toast.success("Mensagem enviada com sucesso! Entraremos em contato.");
+      setValues({ nome: "", email: "", whatsapp: "", empresa: "", tipo: "", mensagem: "" });
+    } catch (err) {
+      console.error(err);
+      toast.error("Erro ao enviar mensagem. Tente novamente ou fale no WhatsApp.");
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -348,6 +383,26 @@ function ContatoPage() {
                       </p>
                     </div>
                   </a>
+
+                  {/* Item Instagram */}
+                  <a
+                    href="https://instagram.com/opnora"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3.5 group py-2.5 px-3.5 rounded-lg bg-[#121218]/50 border border-white/5 hover:border-white/15 hover:bg-[#121218] transition-all duration-300"
+                  >
+                    <div className="w-10 h-10 rounded-lg bg-aurora-violet/10 flex items-center justify-center text-aurora-violet shrink-0 border border-aurora-violet/20 group-hover:scale-105 transition-transform">
+                      <FaInstagram className="size-4" />
+                    </div>
+                    <div>
+                      <p className="text-[9px] sm:text-[10px] font-mono uppercase tracking-widest text-slate-500 font-bold">
+                        INSTAGRAM
+                      </p>
+                      <p className="text-xs sm:text-sm font-medium text-white group-hover:text-aurora-violet transition-colors">
+                        @opnora
+                      </p>
+                    </div>
+                  </a>
                 </div>
               </ScrollReveal>
             </div>
@@ -368,14 +423,19 @@ function ContatoPage() {
                     >
                       Nome *
                     </label>
-                    <input
-                      id="nome"
-                      type="text"
-                      value={values.nome}
-                      onChange={(e) => update("nome", e.target.value)}
-                      className={`w-full bg-[#0c0c10] border ${errors.nome ? "border-red-500/50 focus:border-red-500" : "border-white/10 focus:border-aurora-violet focus:shadow-[0_0_15px_rgba(162,128,255,0.1)]"} rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none transition-all duration-300`}
-                      placeholder="Seu nome"
-                    />
+                    <div className="relative">
+                      <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-500 pointer-events-none">
+                        <FaUser className="size-3.5" />
+                      </span>
+                      <input
+                        id="nome"
+                        type="text"
+                        value={values.nome}
+                        onChange={(e) => update("nome", e.target.value)}
+                        className={`w-full bg-[#0c0c10] border ${errors.nome ? "border-red-500/50 focus:border-red-500" : "border-white/10 focus:border-aurora-violet focus:shadow-[0_0_15px_rgba(162,128,255,0.1)]"} rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none transition-all duration-300`}
+                        placeholder="Seu nome"
+                      />
+                    </div>
                     {errors.nome && (
                       <p className="text-[11px] text-red-400 mt-1 font-light">{errors.nome}</p>
                     )}
@@ -389,53 +449,68 @@ function ContatoPage() {
                     >
                       E-mail *
                     </label>
-                    <input
-                      id="email"
-                      type="email"
-                      value={values.email}
-                      onChange={(e) => update("email", e.target.value)}
-                      className={`w-full bg-[#0c0c10] border ${errors.email ? "border-red-500/50 focus:border-red-500" : "border-white/10 focus:border-aurora-violet focus:shadow-[0_0_15px_rgba(162,128,255,0.1)]"} rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none transition-all duration-300`}
-                      placeholder="you@example.com"
-                    />
+                    <div className="relative">
+                      <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-500 pointer-events-none">
+                        <FaEnvelope className="size-3.5" />
+                      </span>
+                      <input
+                        id="email"
+                        type="email"
+                        value={values.email}
+                        onChange={(e) => update("email", e.target.value)}
+                        className={`w-full bg-[#0c0c10] border ${errors.email ? "border-red-500/50 focus:border-red-500" : "border-white/10 focus:border-aurora-violet focus:shadow-[0_0_15px_rgba(162,128,255,0.1)]"} rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none transition-all duration-300`}
+                        placeholder="exemplo@empresa.com"
+                      />
+                    </div>
                     {errors.email && (
                       <p className="text-[11px] text-red-400 mt-1 font-light">{errors.email}</p>
                     )}
                   </div>
                 </div>
 
-                {/* Campo Tópico */}
+                {/* Campo Tipo de contato */}
                 <div>
                   <label className="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider">
-                    Sobre o que você está perguntando? *
+                    Assunto *
                   </label>
-                  <CustomSelect
-                    value={values.tipo}
-                    onChange={(val) => update("tipo", val)}
-                    options={TIPOS}
-                    error={!!errors.tipo}
-                  />
+                  <div className="relative">
+                    <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-500 pointer-events-none z-10">
+                      <FaCircleInfo className="size-3.5" />
+                    </span>
+                    <CustomSelect
+                      value={values.tipo}
+                      onChange={(val) => update("tipo", val)}
+                      options={TIPOS}
+                      error={!!errors.tipo}
+                    />
+                  </div>
                   {errors.tipo && (
                     <p className="text-[11px] text-red-400 mt-1 font-light">{errors.tipo}</p>
                   )}
                 </div>
 
-                {/* WhatsApp e Empresa */}
+                {/* WhatsApp + Empresa / Projeto */}
                 <div className="grid gap-6 sm:grid-cols-2">
                   <div>
                     <label
                       htmlFor="whatsapp"
                       className="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider"
                     >
-                      WhatsApp <span className="text-slate-500 font-normal">(opcional)</span>
+                      WhatsApp
                     </label>
-                    <input
-                      id="whatsapp"
-                      type="tel"
-                      value={values.whatsapp}
-                      onChange={(e) => update("whatsapp", e.target.value)}
-                      className="w-full bg-[#0c0c10] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-aurora-violet focus:shadow-[0_0_15px_rgba(162,128,255,0.1)] transition-all duration-300"
-                      placeholder="(00) 00000-0000"
-                    />
+                    <div className="relative">
+                      <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-500 pointer-events-none">
+                        <FaPhone className="size-3.5" />
+                      </span>
+                      <input
+                        id="whatsapp"
+                        type="tel"
+                        value={values.whatsapp}
+                        onChange={(e) => update("whatsapp", e.target.value)}
+                        className="w-full bg-[#0c0c10] border border-white/10 rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-aurora-violet focus:shadow-[0_0_15px_rgba(162,128,255,0.1)] transition-all duration-300"
+                        placeholder="(00) 00000-0000"
+                      />
+                    </div>
                   </div>
 
                   <div>
@@ -443,17 +518,21 @@ function ContatoPage() {
                       htmlFor="empresa"
                       className="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider"
                     >
-                      Assunto / Empresa{" "}
-                      <span className="text-slate-500 font-normal">(opcional)</span>
+                      Empresa / Projeto
                     </label>
-                    <input
-                      id="empresa"
-                      type="text"
-                      value={values.empresa}
-                      onChange={(e) => update("empresa", e.target.value)}
-                      className="w-full bg-[#0c0c10] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-aurora-violet focus:shadow-[0_0_15px_rgba(162,128,255,0.1)] transition-all duration-300"
-                      placeholder="Descreva brevemente sua consulta ou empresa"
-                    />
+                    <div className="relative">
+                      <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-500 pointer-events-none">
+                        <FaBuilding className="size-3.5" />
+                      </span>
+                      <input
+                        id="empresa"
+                        type="text"
+                        value={values.empresa}
+                        onChange={(e) => update("empresa", e.target.value)}
+                        className="w-full bg-[#0c0c10] border border-white/10 rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-aurora-violet focus:shadow-[0_0_15px_rgba(162,128,255,0.1)] transition-all duration-300"
+                        placeholder="Nome da empresa ou projeto"
+                      />
+                    </div>
                   </div>
                 </div>
 
@@ -465,14 +544,16 @@ function ContatoPage() {
                   >
                     Mensagem *
                   </label>
-                  <textarea
-                    id="mensagem"
-                    rows={5}
-                    value={values.mensagem}
-                    onChange={(e) => update("mensagem", e.target.value)}
-                    className={`w-full bg-[#0c0c10] border ${errors.mensagem ? "border-red-500/50 focus:border-red-500" : "border-white/10 focus:border-aurora-violet focus:shadow-[0_0_15px_rgba(162,128,255,0.1)]"} rounded-xl p-4 text-sm text-white placeholder-slate-500 focus:outline-none transition-all duration-300 resize-y min-h-[120px]`}
-                    placeholder="Conte-nos sobre seu projeto, pergunta, ideia ou como podemos ajudar."
-                  />
+                  <div className="relative">
+                    <textarea
+                      id="mensagem"
+                      rows={5}
+                      value={values.mensagem}
+                      onChange={(e) => update("mensagem", e.target.value)}
+                      className={`w-full bg-[#0c0c10] border ${errors.mensagem ? "border-red-500/50 focus:border-red-500" : "border-white/10 focus:border-aurora-violet focus:shadow-[0_0_15px_rgba(162,128,255,0.1)]"} rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none transition-all duration-300 resize-y min-h-[120px]`}
+                      placeholder="Conte-nos sobre seu projeto, pergunta ou ideia."
+                    />
+                  </div>
                   {errors.mensagem && (
                     <p className="text-[11px] text-red-400 mt-1 font-light">{errors.mensagem}</p>
                   )}
@@ -493,20 +574,22 @@ function ContatoPage() {
       </section>
 
       {/* ===== SEÇÃO 3: SOB MEDIDA & CONSULTORIA (SIMULADOR) ===== */}
-      <Suspense fallback={
-        <div className="mx-auto max-w-[85rem] px-4 sm:px-6 lg:px-12 py-24">
-          <div className="max-w-3xl mb-16 animate-pulse">
-            <div className="h-4 w-48 bg-white/5 rounded mb-4"></div>
-            <div className="h-10 w-96 bg-white/5 rounded mb-6"></div>
-            <div className="h-6 w-[500px] bg-white/5 rounded"></div>
+      <Suspense
+        fallback={
+          <div className="mx-auto max-w-[85rem] px-4 sm:px-6 lg:px-12 py-24">
+            <div className="max-w-3xl mb-16 animate-pulse">
+              <div className="h-4 w-48 bg-white/5 rounded mb-4"></div>
+              <div className="h-10 w-96 bg-white/5 rounded mb-6"></div>
+              <div className="h-6 w-[500px] bg-white/5 rounded"></div>
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-[1.8fr_1fr] gap-8 items-start animate-pulse">
+              <div className="bg-[#121218] border border-white/5 rounded-2xl p-6 sm:p-8 space-y-8 h-[400px]"></div>
+              <div className="bg-[#121218] border border-white/5 rounded-2xl p-6 sm:p-8 h-[250px] sticky top-24"></div>
+            </div>
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-[1.8fr_1fr] gap-8 items-start animate-pulse">
-            <div className="bg-[#121218] border border-white/5 rounded-2xl p-6 sm:p-8 space-y-8 h-[400px]"></div>
-            <div className="bg-[#121218] border border-white/5 rounded-2xl p-6 sm:p-8 h-[250px] sticky top-24"></div>
-          </div>
-        </div>
-      }>
-        <ContatoSimulador defaultPlano={planoKey} />
+        }
+      >
+        <ContatoSimulador defaultPlano={planoKey || expansaoKey} defaultNivel={nivelKey} />
       </Suspense>
 
       {/* ===== SEÇÃO 4: CHOOSE THE BEST PLACE TO START ===== */}
@@ -526,8 +609,7 @@ function ContatoPage() {
                 <span
                   className="text-transparent bg-clip-text"
                   style={{
-                    backgroundImage:
-                      "linear-gradient(160deg, #a79df0, #82b8f7, #4ed4cf, #58e5a6)",
+                    backgroundImage: "linear-gradient(160deg, #a79df0, #82b8f7, #4ed4cf, #58e5a6)",
                   }}
                 >
                   começar.
@@ -554,7 +636,9 @@ function ContatoPage() {
                   <button
                     type="button"
                     onClick={() => {
-                      document.getElementById("personalize")?.scrollIntoView({ behavior: "smooth" });
+                      document
+                        .getElementById("personalize")
+                        ?.scrollIntoView({ behavior: "smooth" });
                     }}
                     className="text-xs font-semibold text-aurora-violet hover:text-white flex items-center gap-1.5 transition-colors group/link cursor-pointer"
                   >

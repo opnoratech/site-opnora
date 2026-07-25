@@ -254,7 +254,7 @@ const COMPARISON_CATEGORIES: ComparisonCategory[] = [
     icon: FaShieldHalved,
     rows: [
       {
-        feature: "Manutenção inclusa",
+        feature: "Garantia pós-entrega (Inclusa)",
         landing: "3 meses",
         essencial: "6 meses",
         profissional: "9 meses",
@@ -297,27 +297,27 @@ const COMPARISON_CATEGORIES: ComparisonCategory[] = [
     rows: [
       {
         feature: "Tráfego pago e campanhas",
-        landing: "Adicional (+ R$ 399/mês)",
-        essencial: "Adicional (+ R$ 399/mês)",
-        profissional: "Adicional (+ R$ 399/mês)",
+        landing: "Adicional (+ R$ 499/mês)",
+        essencial: "Adicional (+ R$ 499/mês)",
+        profissional: "Adicional (+ R$ 499/mês)",
       },
       {
-        feature: "Manutenção estendida",
-        landing: "Adicional (+ R$ 149/mês)",
-        essencial: "Adicional (+ R$ 149/mês)",
-        profissional: "Adicional (+ R$ 149/mês)",
+        feature: "Plano mensal de evolução/suporte",
+        landing: "Adicional (+ R$ 199/mês)",
+        essencial: "Adicional (+ R$ 199/mês)",
+        profissional: "Adicional (+ R$ 199/mês)",
       },
       {
         feature: "Automação com IA (Chatbots/N8N)",
-        landing: "Adicional (+ R$ 479/mês)",
-        essencial: "Adicional (+ R$ 479/mês)",
-        profissional: "Adicional (+ R$ 479/mês)",
+        landing: "Adicional (+ R$ 599/mês)",
+        essencial: "Adicional (+ R$ 599/mês)",
+        profissional: "Adicional (+ R$ 599/mês)",
       },
       {
         feature: "Dashboard e Métricas Inteligentes",
-        landing: "Adicional (+ R$ 299)",
-        essencial: "Adicional (+ R$ 299)",
-        profissional: "Adicional (+ R$ 299)",
+        landing: "Adicional (+ R$ 349/mês)",
+        essencial: "Adicional (+ R$ 349/mês)",
+        profissional: "Adicional (+ R$ 349/mês)",
       },
     ],
   },
@@ -589,7 +589,7 @@ export function PrecosPlanos() {
                   ) : (
                     <Link
                       to={plano.ctaLink}
-                      search={plano.ctaSearch as any}
+                      search={plano.ctaSearch as { plano: string }}
                       hash="personalize"
                       className="group/btn flex items-center justify-center gap-2.5 text-center w-full h-[48px] rounded-2xl text-xs font-bold uppercase tracking-[0.15em] transition-all duration-300 bg-white/5 text-white hover:bg-white hover:text-black border border-white/10 hover:shadow-[0_0_20px_rgba(255,255,255,0.25)]"
                     >
@@ -630,10 +630,8 @@ export function PrecosPlanos() {
                         onClick={() => {
                           setActiveAccordion("tabela");
                           setCompMode("rapido");
-                          const currentKey =
-                            idx === 0 ? "landing" : "essencial";
-                          const nextKey =
-                            idx === 0 ? "essencial" : "profissional";
+                          const currentKey = idx === 0 ? "landing" : "essencial";
+                          const nextKey = idx === 0 ? "essencial" : "profissional";
                           setCompPlanA(currentKey);
                           setCompPlanB(nextKey);
                           setActiveAccordion("tabela");

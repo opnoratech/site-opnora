@@ -20,10 +20,9 @@ export interface ContactFormData {
   prazo: string;
   investimento: string;
   comoConheceu: string;
-  evolucao: string;
 }
 
-export function useContatoSimulador(defaultPlano?: string) {
+export function useContatoSimulador(defaultPlano?: string, defaultNivel?: string) {
   // Controle de Etapas: 1, 2, 3 ou 4
   const [currentStep, setCurrentStep] = useState<number>(1);
 
@@ -57,7 +56,6 @@ export function useContatoSimulador(defaultPlano?: string) {
     prazo: "",
     investimento: "A definir",
     comoConheceu: "",
-    evolucao: "essencial",
   });
 
   // Controle de Erros de Validação da Etapa 4
@@ -66,7 +64,7 @@ export function useContatoSimulador(defaultPlano?: string) {
   // Rastreamento do passo máximo alcançado
   const [maxStepReached, setMaxStepReached] = useState<number>(1);
   const [isPlanLocked, setIsPlanLocked] = useState(
-    !!defaultPlano && ["landing", "essencial", "profissional"].includes(defaultPlano)
+    !!defaultPlano && ["landing", "essencial", "profissional"].includes(defaultPlano),
   );
 
   // Accordion Mobile do Resumo
@@ -83,7 +81,7 @@ export function useContatoSimulador(defaultPlano?: string) {
   // Controle de Envio
   const [submitted, setSubmitted] = useState(false);
 
-  // Efeito para preencher via plano padrão e pular para a etapa 4
+  // Efeito para preencher via plano padrão e navegar para a etapa adequada
   useEffect(() => {
     if (defaultPlano) {
       if (defaultPlano === "sobmedida") {
@@ -94,7 +92,6 @@ export function useContatoSimulador(defaultPlano?: string) {
 
       let newObjectives: string[] = [];
       let newSolutions: string[] = [];
-      let newEvolucao = "essencial";
       let newInvestimento = "A definir";
       let newFeatures: string[] = [];
       let planLevels: Record<string, string> = {};
@@ -113,38 +110,61 @@ export function useContatoSimulador(defaultPlano?: string) {
         } else if (defaultPlano === "profissional") {
           newObjectives = ["apresentar", "captar"];
           newSolutions = ["Site institucional", "Dashboard"];
-          newEvolucao = "completa";
           newInvestimento = "De R$ 2.000 a R$ 5.000";
         }
         newFeatures = getIncludedFeatures(defaultPlano);
         planLevels = PLAN_FEATURE_LEVELS[defaultPlano] || {};
       } else {
         setBasePlano("sobmedida");
-        targetStep = 1;
+        targetStep = 3; // Redireciona diretamente para Etapa 3 (RECURSOS & NÍVEIS)
+        setOpenCategories(new Set(["Serviços Adicionais"]));
 
         if (defaultPlano === "trafego") {
           newObjectives = ["captar"];
           newSolutions = ["Tráfego pago e estrutura de campanha"];
           newFeatures = ["Tráfego pago e campanhas"];
-          planLevels = { "Tráfego pago e campanhas": "Adicional (+ R$ 399/mês)" };
-          newInvestimento = "Até R$ 500";
+          const isEscala =
+            defaultNivel?.toLowerCase().includes("escala") ||
+            defaultNivel?.toLowerCase().includes("gestão") ||
+            defaultNivel?.toLowerCase().includes("700");
+          planLevels = {
+            "Tráfego pago e campanhas": isEscala
+              ? "Gestão de tráfego + Escala"
+              : "Setup de campanha inicial",
+          };
+          newInvestimento = isEscala ? "De R$ 500 a R$ 1.000" : "Até R$ 500";
         } else if (defaultPlano === "manutencao") {
           newObjectives = ["digitalizar"];
           newSolutions = ["Manutenção e evolução"];
-          newFeatures = ["Manutenção estendida"];
-          planLevels = { "Manutenção estendida": "Adicional (+ R$ 149/mês)" };
+          newFeatures = ["Plano mensal de evolução/suporte"];
+          planLevels = { "Plano mensal de evolução/suporte": "1 mês" };
           newInvestimento = "Até R$ 500";
         } else if (defaultPlano === "automacao") {
           newObjectives = ["automatizar"];
           newSolutions = ["Automação"];
           newFeatures = ["Automação com IA (Chatbots/N8N)"];
-          planLevels = { "Automação com IA (Chatbots/N8N)": "Adicional (+ R$ 479/mês)" };
-          newInvestimento = "Até R$ 500";
+          const isAvancada =
+            defaultNivel?.toLowerCase().includes("avançad") ||
+            defaultNivel?.toLowerCase().includes("ia") ||
+            defaultNivel?.toLowerCase().includes("600");
+          planLevels = {
+            "Automação com IA (Chatbots/N8N)": isAvancada
+              ? "Automação avançada com IA"
+              : "Fluxo básico de leads",
+          };
+          newInvestimento = isAvancada ? "De R$ 500 a R$ 1.000" : "Até R$ 500";
         } else if (defaultPlano === "dashboard") {
           newObjectives = ["dashboard"];
           newSolutions = ["Dashboard"];
           newFeatures = ["Dashboard e Métricas Inteligentes"];
-          planLevels = { "Dashboard e Métricas Inteligentes": "Adicional (+ R$ 299)" };
+          const isAvancado =
+            defaultNivel?.toLowerCase().includes("avança") ||
+            defaultNivel?.toLowerCase().includes("400");
+          planLevels = {
+            "Dashboard e Métricas Inteligentes": isAvancado
+              ? "Dashboard avançado"
+              : "Dashboard simples",
+          };
           newInvestimento = "Até R$ 500";
         }
       }
@@ -156,7 +176,6 @@ export function useContatoSimulador(defaultPlano?: string) {
 
       setFormData((prev) => ({
         ...prev,
-        evolucao: newEvolucao,
         investimento: newInvestimento,
       }));
 
@@ -167,7 +186,7 @@ export function useContatoSimulador(defaultPlano?: string) {
       setTimeout(() => {
         const el = document.getElementById("personalize");
         if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 500);
+      }, 300);
     } else {
       setBasePlano("sobmedida");
       setIsPlanLocked(false);
@@ -179,11 +198,10 @@ export function useContatoSimulador(defaultPlano?: string) {
       setFeatureLevels({});
       setFormData((prev) => ({
         ...prev,
-        evolucao: "essencial",
         investimento: "A definir",
       }));
     }
-  }, [defaultPlano]);
+  }, [defaultPlano, defaultNivel]);
 
   /* ---------- Handlers de Seleção ---------- */
 
@@ -198,15 +216,16 @@ export function useContatoSimulador(defaultPlano?: string) {
       setFeatureLevels({});
       setFormData((prev) => ({
         ...prev,
-        evolucao: "essencial",
         investimento: "A definir",
       }));
+      if (typeof window !== "undefined" && window.location.search.includes("plano=")) {
+        window.history.replaceState({}, "", window.location.pathname);
+      }
       return;
     }
 
     let newObjectives: string[] = [];
     let newSolutions: string[] = [];
-    let newEvolucao = "essencial";
     let newInvestimento = "A definir";
 
     if (planoId === "landing") {
@@ -220,7 +239,6 @@ export function useContatoSimulador(defaultPlano?: string) {
     } else if (planoId === "profissional") {
       newObjectives = ["apresentar", "captar"];
       newSolutions = ["Site institucional", "Dashboard"];
-      newEvolucao = "completa";
       newInvestimento = "De R$ 2.000 a R$ 5.000";
     }
 
@@ -247,7 +265,6 @@ export function useContatoSimulador(defaultPlano?: string) {
 
     setFormData((prev) => ({
       ...prev,
-      evolucao: newEvolucao,
       investimento: newInvestimento,
     }));
 
@@ -256,20 +273,20 @@ export function useContatoSimulador(defaultPlano?: string) {
 
   const toggleObjective = (id: string) => {
     setSelectedObjectives((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
     );
   };
 
   const toggleSolution = (sol: string) => {
     setSelectedSolutions((prev) =>
-      prev.includes(sol) ? prev.filter((item) => item !== sol) : [...prev, sol]
+      prev.includes(sol) ? prev.filter((item) => item !== sol) : [...prev, sol],
     );
   };
 
   const toggleFeature = (feat: string) => {
     const isRemoving = selectedFeatures.includes(feat);
     setSelectedFeatures((prev) =>
-      isRemoving ? prev.filter((item) => item !== feat) : [...prev, feat]
+      isRemoving ? prev.filter((item) => item !== feat) : [...prev, feat],
     );
     if (!isRemoving) {
       const currentLevel = featureLevels[feat];
@@ -289,8 +306,8 @@ export function useContatoSimulador(defaultPlano?: string) {
     e.stopPropagation();
     const currentVal = featureLevels["Quantidade de páginas"] || "1 página";
     const match = currentVal.match(/\d+/);
-    let currentPages = match ? parseInt(match[0], 10) : 1;
-    let newPages = Math.max(1, currentPages + amount);
+    const currentPages = match ? parseInt(match[0], 10) : 1;
+    const newPages = Math.max(1, currentPages + amount);
     setFeatureLevels((prev) => ({
       ...prev,
       "Quantidade de páginas": `${newPages} ${newPages === 1 ? "página" : "páginas"}`,
@@ -304,14 +321,29 @@ export function useContatoSimulador(defaultPlano?: string) {
     e.stopPropagation();
     const currentVal = featureLevels["Integração externa"] || "1 integração";
     const match = currentVal.match(/\d+/);
-    let currentCount = match ? parseInt(match[0], 10) : 1;
-    let newCount = Math.max(1, currentCount + amount);
+    const currentCount = match ? parseInt(match[0], 10) : 1;
+    const newCount = Math.max(1, currentCount + amount);
     setFeatureLevels((prev) => ({
       ...prev,
       "Integração externa": `${newCount} ${newCount === 1 ? "integração" : "integrações"}`,
     }));
     if (!selectedFeatures.includes("Integração externa")) {
       setSelectedFeatures((prev) => [...prev, "Integração externa"]);
+    }
+  };
+
+  const handleSupportMonthsChange = (amount: number, e: React.MouseEvent) => {
+    e.stopPropagation();
+    const currentVal = featureLevels["Plano mensal de evolução/suporte"] || "1 mês";
+    const match = currentVal.match(/\d+/);
+    const currentCount = match ? parseInt(match[0], 10) : 1;
+    const newCount = Math.max(1, currentCount + amount);
+    setFeatureLevels((prev) => ({
+      ...prev,
+      "Plano mensal de evolução/suporte": `${newCount} ${newCount === 1 ? "mês" : "meses"}`,
+    }));
+    if (!selectedFeatures.includes("Plano mensal de evolução/suporte")) {
+      setSelectedFeatures((prev) => [...prev, "Plano mensal de evolução/suporte"]);
     }
   };
 
@@ -325,7 +357,7 @@ export function useContatoSimulador(defaultPlano?: string) {
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -353,8 +385,7 @@ export function useContatoSimulador(defaultPlano?: string) {
       selectedObjectives.includes("orientacao") ||
       selectedSolutions.includes("Outra solução") ||
       selectedFeatures.includes("Outro recurso (Descrever no final)") ||
-      formData.investimento === "A definir" ||
-      formData.evolucao === "orientacao";
+      formData.investimento === "A definir";
 
     if (hasHelpNeeded) {
       return {
@@ -372,7 +403,7 @@ export function useContatoSimulador(defaultPlano?: string) {
         "Plataforma digital",
         "CRM ou gestão comercial",
         "Aplicativo mobile (iOS / Android)",
-      ].includes(sol)
+      ].includes(sol),
     );
     const hasMediumSolutions = selectedSolutions.some((sol) =>
       [
@@ -382,7 +413,7 @@ export function useContatoSimulador(defaultPlano?: string) {
         "Automação",
         "Assistente ou chatbot com IA",
         "Integração entre sistemas",
-      ].includes(sol)
+      ].includes(sol),
     );
 
     let level = "inicial";
@@ -449,13 +480,6 @@ export function useContatoSimulador(defaultPlano?: string) {
       `• Objetivos: ${objectivesText || "Nenhum selecionado"}`,
       `• Solução imaginada: ${solutionsText || "Nenhuma selecionada"}`,
       `• Recursos selecionados: ${featuresText || "Nenhum selecionado"}`,
-      `• Prefere começar menor: ${
-        formData.evolucao === "essencial"
-          ? "Sim, começar com o essencial"
-          : formData.evolucao === "completa"
-            ? "Não, solução completa desde o início"
-            : "Precisa de orientação"
-      }`,
       `• Prazo desejado: ${formData.prazo || "A definir na análise"}`,
       `• Investimento aproximado: ${formData.investimento}`,
       ``,
@@ -487,7 +511,7 @@ export function useContatoSimulador(defaultPlano?: string) {
     }
   };
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const errors: Record<string, string> = {};
 
@@ -497,14 +521,73 @@ export function useContatoSimulador(defaultPlano?: string) {
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       errors.email = "E-mail inválido.";
     }
-    if (!formData.whatsapp.trim()) errors.whatsapp = "O WhatsApp é obrigatório.";
-
+    if (!formData.comoConheceu.trim()) {
+      errors.comoConheceu = "Selecione uma opção.";
+    }
     if (Object.keys(errors).length > 0) {
       setValidationErrors(errors);
       return;
     }
 
+    try {
+      const pricingEstimate = getEstimatedPrice();
+      const objectivesText = selectedObjectives
+        .map((id) => `• ${OBJECTIVE_OPTIONS.find((o) => o.id === id)?.label}`)
+        .filter(Boolean)
+        .join("<br />");
+      const solutionsText = selectedSolutions
+        .map((sol) => `• ${sol}`)
+        .join("<br />");
+      const featuresText = selectedFeatures
+        .map((feat) => `• ${feat} (${featureLevels[feat] || "Padrão"})`)
+        .join("<br />");
+
+      const basePlanoLabel =
+        basePlano === "landing"
+          ? "Landing Page"
+          : basePlano === "essencial"
+            ? "Essencial"
+            : basePlano === "profissional"
+              ? "Profissional"
+              : "Sob medida";
+
+      const estimativaPrecoText =
+        pricingEstimate.basePrice > 0 || pricingEstimate.extraMonthly > 0
+          ? `R$ ${pricingEstimate.basePrice} (Inicial) + R$ ${pricingEstimate.extraMonthly}/mês`
+          : "Sob consulta";
+
+      // Disparar envio de email via API serverless
+      await fetch("/api/contato", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          type: "simulador",
+          nome: formData.nome,
+          empresa: formData.empresa,
+          email: formData.email,
+          whatsapp: formData.whatsapp,
+          cidade: formData.cidade,
+          descricao: formData.descricao,
+          prazo: formData.prazo,
+          investimento: formData.investimento,
+          objectives: objectivesText,
+          solutions: solutionsText,
+          features: featuresText,
+          basePlanoLabel,
+          estimativaPreco: estimativaPrecoText,
+        }),
+      });
+    } catch (err) {
+      console.error("Erro ao registrar e-mail no simulador:", err);
+    }
+
     setSubmitted(true);
+    setTimeout(() => {
+      const el = document.getElementById("personalize");
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 100);
   };
 
   const getEstimatedPrice = () => {
@@ -512,13 +595,13 @@ export function useContatoSimulador(defaultPlano?: string) {
     let baseName = "";
 
     if (basePlano === "landing") {
-      basePrice = 687;
+      basePrice = 700;
       baseName = "Landing Page";
     } else if (basePlano === "essencial") {
-      basePrice = 906;
+      basePrice = 1200;
       baseName = "Essencial";
     } else if (basePlano === "profissional") {
-      basePrice = 1678;
+      basePrice = 2000;
       baseName = "Profissional";
     } else {
       basePrice = 0;
@@ -532,13 +615,15 @@ export function useContatoSimulador(defaultPlano?: string) {
       const isInc = isFeatureIncludedInPlan(basePlano, feat, currentLevel || "");
       if (!isInc) {
         if (feat === "Tráfego pago e campanhas") {
-          extraMonthly += 399;
-        } else if (feat === "Manutenção estendida") {
-          extraMonthly += 149;
+          extraMonthly += currentLevel === "Gestão de tráfego + Escala" ? 700 : 350;
+        } else if (feat === "Plano mensal de evolução/suporte") {
+          const match = currentLevel ? currentLevel.match(/\d+/) : null;
+          const months = match ? parseInt(match[0], 10) : 1;
+          extraMonthly += 150 * months;
         } else if (feat === "Automação com IA (Chatbots/N8N)") {
-          extraMonthly += 479;
+          extraMonthly += currentLevel === "Automação avançada com IA" ? 600 : 300;
         } else if (feat === "Dashboard e Métricas Inteligentes") {
-          extraMonthly += 299;
+          extraMonthly += currentLevel === "Dashboard avançado" ? 400 : 200;
         }
       }
     });
@@ -584,10 +669,19 @@ export function useContatoSimulador(defaultPlano?: string) {
       prazo: "",
       investimento: "A definir",
       comoConheceu: "",
-      evolucao: "essencial",
     });
     setValidationErrors({});
     setIsPlanLocked(false);
+    setBasePlano("sobmedida");
+    if (typeof window !== "undefined" && window.location.search.includes("plano=")) {
+      window.history.replaceState({}, "", window.location.pathname);
+    }
+    setTimeout(() => {
+      const el = document.getElementById("personalize");
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 100);
   };
 
   return {
@@ -629,6 +723,7 @@ export function useContatoSimulador(defaultPlano?: string) {
     toggleFeature,
     handlePagesChange,
     handleIntegrationsChange,
+    handleSupportMonthsChange,
     toggleCategory,
     handleChange,
     classification,

@@ -107,7 +107,7 @@ export const FEATURE_CATEGORIES: FeatureCategory[] = [
   {
     name: "Operação e evolução",
     items: [
-      "Manutenção inclusa",
+      "Garantia pós-entrega (Inclusa)",
       "Usuários e permissões",
       "Segurança e boas práticas",
       "Documentação",
@@ -120,7 +120,7 @@ export const FEATURE_CATEGORIES: FeatureCategory[] = [
     name: "Serviços Adicionais",
     items: [
       "Tráfego pago e campanhas",
-      "Manutenção estendida",
+      "Plano mensal de evolução/suporte",
       "Automação com IA (Chatbots/N8N)",
       "Dashboard e Métricas Inteligentes",
       "Outro recurso (Descrever no final)",
@@ -158,16 +158,16 @@ export const PLAN_FEATURE_LEVELS: PlanLevel = {
     "APIs e webhooks": "Adicional",
     "Automação de processos e mensagens": "Adicional",
     "Chatbot e Respostas com IA": "Adicional",
-    "Manutenção inclusa": "3 meses",
+    "Garantia pós-entrega (Inclusa)": "3 meses",
     "Usuários e permissões": "Adicional",
     "Segurança e boas práticas": "Básica",
     "Documentação": "Adicional",
     "Treinamento": "Adicional",
     "Evolução futura": "Adicional",
-    "Tráfego pago e campanhas": "Adicional (+ R$ 399/mês)",
-    "Manutenção estendida": "Adicional (+ R$ 149/mês)",
-    "Automação com IA (Chatbots/N8N)": "Adicional (+ R$ 479/mês)",
-    "Dashboard e Métricas Inteligentes": "Adicional (+ R$ 299/mês)",
+    "Tráfego pago e campanhas": "Adicional (+ R$ 250/mês)",
+    "Plano mensal de evolução/suporte": "Adicional (+ R$ 100/mês)",
+    "Automação com IA (Chatbots/N8N)": "Adicional (+ R$ 200/mês)",
+    "Dashboard e Métricas Inteligentes": "Adicional (+ R$ 150/mês)",
   },
   essencial: {
     "Quantidade de páginas": "Até 5 páginas",
@@ -196,16 +196,16 @@ export const PLAN_FEATURE_LEVELS: PlanLevel = {
     "APIs e webhooks": "Básicos",
     "Automação de processos e mensagens": "E-mail básico",
     "Chatbot e Respostas com IA": "Adicional",
-    "Manutenção inclusa": "6 meses",
+    "Garantia pós-entrega (Inclusa)": "6 meses",
     "Usuários e permissões": "Adicional",
     "Segurança e boas práticas": "Padrão",
     "Documentação": "Adicional",
     "Treinamento": "Guia Rápido",
     "Evolução futura": "Limitada",
-    "Tráfego pago e campanhas": "Adicional (+ R$ 399/mês)",
-    "Manutenção estendida": "Adicional (+ R$ 149/mês)",
-    "Automação com IA (Chatbots/N8N)": "Adicional (+ R$ 479/mês)",
-    "Dashboard e Métricas Inteligentes": "Adicional (+ R$ 299/mês)",
+    "Tráfego pago e campanhas": "Adicional (+ R$ 250/mês)",
+    "Plano mensal de evolução/suporte": "Adicional (+ R$ 100/mês)",
+    "Automação com IA (Chatbots/N8N)": "Adicional (+ R$ 200/mês)",
+    "Dashboard e Métricas Inteligentes": "Adicional (+ R$ 150/mês)",
   },
   profissional: {
     "Quantidade de páginas": "Até 10 páginas",
@@ -234,24 +234,24 @@ export const PLAN_FEATURE_LEVELS: PlanLevel = {
     "APIs e webhooks": "Avançados",
     "Automação de processos e mensagens": "Fluxo avançado",
     "Chatbot e Respostas com IA": "Adicional",
-    "Manutenção inclusa": "9 meses",
+    "Garantia pós-entrega (Inclusa)": "9 meses",
     "Usuários e permissões": "Múltiplos",
     "Segurança e boas práticas": "Avançada",
     "Documentação": "Básica",
     "Treinamento": "Vídeo-tutorial",
     "Evolução futura": "Completa",
-    "Tráfego pago e campanhas": "Adicional (+ R$ 399/mês)",
-    "Manutenção estendida": "Adicional (+ R$ 149/mês)",
-    "Automação com IA (Chatbots/N8N)": "Adicional (+ R$ 479/mês)",
-    "Dashboard e Métricas Inteligentes": "Adicional (+ R$ 299/mês)",
+    "Tráfego pago e campanhas": "Adicional (+ R$ 250/mês)",
+    "Plano mensal de evolução/suporte": "Adicional (+ R$ 100/mês)",
+    "Automação com IA (Chatbots/N8N)": "Adicional (+ R$ 200/mês)",
+    "Dashboard e Métricas Inteligentes": "Adicional (+ R$ 150/mês)",
   },
 };
 
 export const ADDITIONAL_PRICES: Record<string, string> = {
-  "Tráfego pago e campanhas": "+ R$ 399/mês",
-  "Manutenção estendida": "+ R$ 149/mês",
-  "Automação com IA (Chatbots/N8N)": "+ R$ 479/mês",
-  "Dashboard e Métricas Inteligentes": "+ R$ 299/mês",
+  "Tráfego pago e campanhas": "+ R$ 350/mês",
+  "Plano mensal de evolução/suporte": "+ R$ 150/mês",
+  "Automação com IA (Chatbots/N8N)": "+ R$ 300/mês",
+  "Dashboard e Métricas Inteligentes": "+ R$ 200/mês",
 };
 
 export const INVESTMENT_OPTIONS = [
@@ -309,7 +309,7 @@ export const PLANOS: PlanData[] = [
     name: "Landing Page",
     idealPara: "Validar ideias e serviços",
     desc: "Ideal para experimentar, ter sua primeira página no ar e validar seu serviço com o básico necessário.",
-    price: "687",
+    price: "700",
     icon: FaFileCode,
     theme: {
       bg: "bg-[#b3a1ff]",
@@ -324,7 +324,7 @@ export const PLANOS: PlanData[] = [
       "Página única de alta conversão",
       "Formulário de captação simples",
       "Design moderno 100% responsivo",
-      "3 meses de manutenção inclusa",
+      "3 meses de garantia inclusa",
     ],
     highlight: false,
     badge: null,
@@ -336,7 +336,7 @@ export const PLANOS: PlanData[] = [
     name: "Essencial",
     idealPara: "Empresas e profissionais",
     desc: "O padrão ideal para estruturar a presença da sua empresa. Resolve suas demandas de apresentação com design profissional.",
-    price: "906",
+    price: "1.200",
     icon: FaRocket,
     theme: {
       bg: "bg-[#8b5cf6]",
@@ -351,7 +351,7 @@ export const PLANOS: PlanData[] = [
       "Até 5 páginas estruturadas",
       "Menu de navegação e páginas institucionais",
       "SEO básico configurado por página",
-      "6 meses de manutenção inclusa",
+      "6 meses de garantia inclusa",
     ],
     highlight: false,
     badge: null,
@@ -363,7 +363,7 @@ export const PLANOS: PlanData[] = [
     name: "Profissional",
     idealPara: "Negócios em crescimento",
     desc: "A solução completa para trabalhar com tranquilidade. Tudo que seu negócio precisa para crescer sem limitações técnicas.",
-    price: "1.678",
+    price: "2.000",
     icon: FaBolt,
     theme: {
       bg: "bg-[#40c4ff]",
@@ -378,7 +378,7 @@ export const PLANOS: PlanData[] = [
       "Até 10 páginas estruturadas",
       "Formulários e interações avançadas",
       "Métricas prontas (Pixel/Analytics)",
-      "9 meses de manutenção inclusa",
+      "9 meses de garantia inclusa",
     ],
     highlight: false,
     badge: null,
@@ -455,7 +455,8 @@ export function getAvailableLevels(feature: string): string[] {
     "Automação com IA (Chatbots/N8N)": ["Fluxo básico de leads", "Automação avançada com IA"],
     "Chatbot e Respostas com IA": ["Fluxo básico de leads", "Automação avançada com IA"],
     "Tráfego pago e campanhas": ["Setup de campanha inicial", "Gestão de tráfego + Escala"],
-    "Manutenção estendida": ["Suporte comercial padrão", "Manutenção estendida", "Suporte prioritário 24/7"],
+    "Garantia pós-entrega (Inclusa)": ["3 meses", "6 meses", "9 meses"],
+    "Plano mensal de evolução/suporte": ["1 mês", "3 meses", "6 meses", "12 meses"],
     "Dashboard e Métricas Inteligentes": ["Dashboard simples", "Dashboard avançado"],
   };
 
@@ -516,7 +517,7 @@ export function isFeatureIncludedInPlan(
   }
 
   const getWeight = (lvl: string): number => {
-    if (lvl.startsWith("Adicional")) return 0;
+    if (lvl.startsWith("Adicional") || lvl.startsWith("Sem plano mensal")) return 0;
     if (
       lvl.startsWith("Simples") ||
       lvl === "Pixel Básico" ||
