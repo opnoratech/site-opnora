@@ -2,7 +2,11 @@ import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { AnimatedNumber } from "@/components/ui/animated-number";
 import { TerminalPanel } from "@/components/site/home/TerminalPanel";
 
-export function HomeAbout() {
+type HomeAboutProps = {
+  eyebrow?: string;
+};
+
+export function HomeAbout({ eyebrow = "01 / OS PROBLEMAS QUE RESOLVEMOS" }: HomeAboutProps = {}) {
   return (
     <section className="relative bg-[#0e0e12] min-h-dvh flex flex-col items-center justify-center overflow-hidden border-t border-white/5 py-24">
       <div className="relative z-10 mx-auto max-w-[90rem] px-4 sm:px-6 lg:px-12">
@@ -11,8 +15,8 @@ export function HomeAbout() {
           <div className="flex flex-col items-start text-left">
             <ScrollReveal delay={0} className="flex items-center gap-4 mb-6">
               <div className="h-[2px] w-8 bg-gradient-to-r from-aurora-violet to-aurora-cyan"></div>
-              <span className="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">
-                01 / SOBRE
+              <span className="font-mono text-[11px] sm:text-xs font-bold uppercase tracking-[0.2em] text-slate-400">
+                {eyebrow}
               </span>
             </ScrollReveal>
 
@@ -58,11 +62,9 @@ export function HomeAbout() {
                 className="flex flex-col pl-4 border-l-2 border-[#a280ff]/40"
               >
                 <div className="text-3xl font-bold text-[#b3a1ff] font-display mb-1 tracking-tight">
-                  <AnimatedNumber end={3} suffix={"\u200A+"} duration={2000} />
+                  <AnimatedNumber end={3} duration={1500} />
                 </div>
-                <div className="font-mono text-[11px] md:text-xs text-slate-400">
-                  Divisões Ativas
-                </div>
+                <div className="font-mono text-xs text-slate-400">Frentes Digitais</div>
               </ScrollReveal>
               <ScrollReveal
                 delay={400}

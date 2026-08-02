@@ -5,7 +5,7 @@ export function SobreHeroSection() {
     <section
       className="relative overflow-hidden bg-[#050507] min-h-dvh flex flex-col items-center justify-center border-b border-[#1c1c21]"
       style={{
-        backgroundImage: "url('/aurora-hero.png')",
+        backgroundImage: "url('/images/aurora-hero.webp')",
         backgroundSize: "cover",
         backgroundPosition: "right center",
         backgroundRepeat: "no-repeat",
@@ -18,10 +18,10 @@ export function SobreHeroSection() {
 
       <div className="relative mx-auto w-full px-4 md:px-8 lg:pl-[6.5rem] lg:pr-12 z-10">
         <ScrollReveal delay={0}>
-          <div className="flex items-center gap-4 mb-6">
+          <div className="flex items-center gap-4 mb-1.5">
             <div className="h-[2px] w-8 bg-gradient-to-r from-aurora-violet to-aurora-cyan" />
-            <span className="font-mono text-xs text-[#b3a1ff] uppercase tracking-[0.25em]">
-              Sobre Nós
+            <span className="font-mono text-[11px] text-[#b3a1ff] uppercase tracking-[0.25em]">
+              Sobre a Opnora
             </span>
           </div>
         </ScrollReveal>
@@ -34,19 +34,17 @@ export function SobreHeroSection() {
               Sistemas Que
             </span>
             <span
-              className="inline-block text-transparent bg-clip-text w-fit"
+              className="inline-block text-transparent bg-clip-text w-fit py-4 -my-4"
               style={{
                 backgroundImage: "linear-gradient(160deg, #a79df0, #82b8f7, #4ed4cf, #58e5a6)",
               }}
             >
-              <span className="block pb-1" style={{ lineHeight: "1.1" }}>
-                Ainda NÃO
+              <span className="block">
+                HISTÓRIA.
               </span>
-              <span className="block">Existem.</span>
             </span>
           </h1>
         </ScrollReveal>
-
       </div>
     </section>
   );

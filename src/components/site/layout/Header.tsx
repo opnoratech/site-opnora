@@ -16,10 +16,21 @@ export function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (!open) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [open]);
+
   return (
     <header className="fixed top-0 left-0 w-full z-50 pointer-events-none">
       {/* Subtle Aurora Detail top-left */}
-      <div className={`pointer-events-none absolute left-0 top-0 h-full w-[200px] bg-gradient-to-r from-[#a280ff]/20 to-transparent opacity-30 blur-[40px] transition-opacity duration-500 ${isScrolled ? 'opacity-0' : 'opacity-30'}`} />
+      <div
+        className={`pointer-events-none absolute left-0 top-0 h-full w-[200px] bg-gradient-to-r from-[#a280ff]/20 to-transparent opacity-30 blur-[40px] transition-opacity duration-500 ${isScrolled ? "opacity-0" : "opacity-30"}`}
+      />
 
       <div
         className={
@@ -53,11 +64,11 @@ export function Header() {
               key={item.to}
               to={item.to}
               activeOptions={{ exact: item.to === "/" }}
-              className="group relative py-1 text-[14.5px] font-medium tracking-wide text-slate-400 transition-colors hover:text-[#a280ff] hover:drop-shadow-[0_0_4px_rgba(162,128,255,0.2)] data-[status=active]:text-[#a280ff]"
+              className="group relative py-1 text-[14.5px] font-medium tracking-wide text-slate-400 transition-colors hover:text-aurora-violet data-[status=active]:text-aurora-violet"
             >
               <span>{item.label}</span>
               {/* Active Underline Indicator */}
-              <span className="absolute bottom-0 left-0 h-[1.5px] w-full origin-left scale-x-0 bg-[#a280ff] transition-transform duration-300 ease-out group-data-[status=active]:scale-x-100 group-hover:scale-x-100" />
+              <span className="absolute bottom-0 left-0 h-[1.5px] w-full origin-left scale-x-0 bg-aurora-violet shadow-[0_0_6px_1px_rgba(162,128,255,0.35)] transition-transform duration-300 ease-out group-data-[status=active]:scale-x-100 group-hover:scale-x-100" />
             </Link>
           ))}
         </nav>
@@ -67,6 +78,7 @@ export function Header() {
           {/* Desktop CTA Button */}
           <Link
             to="/contato"
+            hash="formulario-contato"
             className="hidden md:inline-flex items-center justify-center px-6 py-2.5 text-[13px] font-bold uppercase tracking-wider text-[#050507] bg-white hover:bg-slate-200 rounded-full transition-colors duration-300"
           >
             Iniciar Projeto
@@ -95,7 +107,7 @@ export function Header() {
                 to={item.to}
                 activeOptions={{ exact: item.to === "/" }}
                 onClick={() => setOpen(false)}
-                className="block rounded-md px-4 py-3 text-lg font-medium text-slate-400 transition-colors hover:bg-white/5 hover:text-white data-[status=active]:bg-white/5 data-[status=active]:text-[#a280ff]"
+                className="block rounded-md px-4 py-3 text-lg font-medium text-slate-400 transition-colors hover:bg-white/5 hover:text-white data-[status=active]:bg-white/5 data-[status=active]:text-aurora-violet"
               >
                 {item.label}
               </Link>

@@ -14,7 +14,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Header } from "@/components/site/layout/Header";
 import { Footer } from "@/components/site/layout/Footer";
 import { Toaster } from "@/components/ui/sonner";
-import { SITE } from "@/config/site";
+import { SITE, CONTACT } from "@/config/site";
 
 function NotFoundComponent() {
   return (
@@ -22,7 +22,7 @@ function NotFoundComponent() {
       <style>{`
         footer { display: none !important; }
       `}</style>
-      
+
       {/* Background elements */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-30"></div>
@@ -30,19 +30,19 @@ function NotFoundComponent() {
 
       {/* Main Wide Card */}
       <div className="relative z-10 w-full max-w-4xl rounded-3xl border border-white/5 bg-[#0c0c0f]/80 backdrop-blur-xl p-8 sm:p-10 md:p-12 text-center shadow-2xl mt-8 flex flex-col items-center">
-        
         <h1 className="font-display text-6xl sm:text-8xl md:text-[100px] font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-aurora-violet to-aurora-cyan leading-none mb-4">
           404
         </h1>
-        
+
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-white tracking-tight">
           Esta Rota Está Ausente
         </h2>
-        
+
         <p className="mt-4 text-sm text-slate-400 font-light max-w-2xl mx-auto leading-relaxed">
-          O endereço que você digitou não está ativo no momento. Ele pode ter sido renomeado, removido ou digitado incorretamente.
+          O endereço que você digitou não está ativo no momento. Ele pode ter sido renomeado,
+          removido ou digitado incorretamente.
         </p>
-        
+
         <div className="mt-6 mb-8">
           <p className="font-mono text-[10px] sm:text-xs text-aurora-cyan uppercase tracking-[0.2em]">
             Status: Recurso solicitado não encontrado.
@@ -87,7 +87,6 @@ function NotFoundComponent() {
             ))}
           </div>
         </div>
-
       </div>
     </div>
   );
@@ -116,9 +115,10 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
           Esta página não carregou
         </h2>
         <p className="mt-6 text-sm sm:text-base text-slate-400 font-light max-w-lg mx-auto leading-relaxed">
-          Algo deu errado durante a execução. Nossa equipe técnica foi notificada do erro de forma automática.
+          Algo deu errado durante a execução. Nossa equipe técnica foi notificada do erro de forma
+          automática.
         </p>
-        
+
         <div className="mt-8 mb-10">
           <p className="font-mono text-[10px] sm:text-xs text-aurora-cyan uppercase tracking-[0.2em]">
             Status: Erro interno de execução.
@@ -211,7 +211,7 @@ function RootComponent() {
     if (savedScroll) {
       const targetY = parseInt(savedScroll, 10);
       if (targetY > 100) {
-        // Force the browser to start at the top immediately 
+        // Force the browser to start at the top immediately
         window.scrollTo(0, 0);
 
         // Animate scroll frame-by-frame so IntersectionObserver fires
@@ -220,8 +220,7 @@ function RootComponent() {
         const startTime = performance.now();
         const startY = 0;
 
-        const easeInOutQuad = (t: number) =>
-          t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+        const easeInOutQuad = (t: number) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t);
 
         const step = (now: number) => {
           const elapsed = now - startTime;

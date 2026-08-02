@@ -2,7 +2,15 @@ import React from "react";
 import { FaPenNib, FaGear, FaFlaskVial, FaRocket } from "react-icons/fa6";
 import { FadeIn } from "@/components/ui/FadeIn";
 
-export function SolucoesSection() {
+type SolucoesSectionProps = {
+  bgClass?: string;
+  eyebrow?: string;
+};
+
+export function SolucoesSection({
+  bgClass = "bg-[#0e0e12]",
+  eyebrow = "02 / SOLUÇÕES — COMO CONSTRUÍMOS",
+}: SolucoesSectionProps = {}) {
   const steps = [
     {
       num: "01",
@@ -39,15 +47,17 @@ export function SolucoesSection() {
       title: "Lançamento",
       desc: "Colocamos a solução em uso, acompanhamos sua evolução e planejamos os próximos passos com mais clareza.",
       icon: FaRocket,
-      color: "#69f0ae", // Verde Vivo
-      glow: "rgba(105, 240, 174, 0.40)",
+      color: "#58e5a6", // Verde Vivo
+      glow: "rgba(88, 229, 166, 0.40)",
       duration: "5s",
       delay: "2.4s",
     },
   ];
 
   return (
-    <section className="relative min-h-dvh flex flex-col items-center justify-center overflow-hidden bg-[#0c0c0f] border-t border-white/5 py-24">
+    <section
+      className={`relative min-h-dvh flex flex-col items-center justify-center overflow-hidden border-t border-white/5 py-24 ${bgClass}`}
+    >
       <div className="relative z-10 mx-auto max-w-[90rem] px-4 sm:px-6 lg:px-12 flex flex-col items-center">
         {/* Header content wrapped in FadeIn */}
         <FadeIn delay={0} className="flex flex-col items-center">
@@ -55,7 +65,7 @@ export function SolucoesSection() {
           <div className="flex items-center gap-4 mb-6">
             <div className="h-[2px] w-8 bg-gradient-to-r from-aurora-violet to-aurora-cyan"></div>
             <span className="font-mono text-[10px] sm:text-[11px] text-slate-400 font-bold uppercase tracking-[0.2em]">
-              02 / SOLUÇÕES
+              {eyebrow}
             </span>
           </div>
 

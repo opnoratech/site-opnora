@@ -3,11 +3,11 @@ import { ScrollReveal } from "@/components/ui/ScrollReveal";
 
 export function SobreHistoria() {
   return (
-    <section className="relative py-24 lg:py-32 border-b border-white/5 bg-[#0c0c0f]">
+    <section className="relative py-24 lg:py-32 border-b border-white/5 bg-[#0e0e12]">
       <div className="relative z-10 mx-auto max-w-[90rem] px-4 sm:px-6 lg:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-20 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center">
           {/* Left Column */}
-          <div className="flex flex-col items-start text-left lg:col-span-5">
+          <div className="flex flex-col items-start text-left lg:col-span-6">
             <ScrollReveal delay={0} className="flex items-center gap-4 mb-8">
               <div className="h-[2px] w-8 bg-gradient-to-r from-aurora-violet to-aurora-cyan" />
               <span className="font-display text-[10px] md:text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em]">
@@ -25,7 +25,7 @@ export function SobreHistoria() {
 
             <ScrollReveal
               delay={200}
-              className="text-sm sm:text-base text-slate-400 font-light leading-relaxed mb-12 lg:pr-8"
+              className="text-sm sm:text-base text-slate-400 font-light leading-relaxed mb-12 max-w-[38rem]"
             >
               <p>
                 A Opnora está começando agora, unindo aprendizado, experimentação e construção de
@@ -44,7 +44,7 @@ export function SobreHistoria() {
           </div>
 
           {/* Right Column (Timeline) */}
-          <div className="lg:col-span-6 lg:col-start-7 mt-8 lg:mt-0">
+          <div className="lg:col-span-6 mt-8 lg:mt-0 lg:pl-4">
             <div className="relative border-l border-transparent ml-2 md:ml-4 space-y-12 pb-4">
               <ScrollReveal
                 delay={100}
@@ -55,22 +55,22 @@ export function SobreHistoria() {
               </ScrollReveal>
               {[
                 {
-                  year: "PRIMEIRO MARCO",
-                  title: "2026 — A iniciativa começa",
+                  year: "2026",
+                  title: "A Opnora começa",
                   desc: "A Opnora surge como uma proposta de desenvolvimento de software orientada por problemas reais, aprendizado prático e vontade de construir soluções melhores.",
                 },
                 {
-                  year: "SEGUNDO MARCO",
+                  year: "2026",
                   title: "Estruturação da identidade",
                   desc: "Definição da marca, das frentes de atuação e de uma linguagem visual que represente tecnologia, abertura de caminhos e evolução.",
                 },
                 {
-                  year: "TERCEIRO MARCO",
+                  year: "2026",
                   title: "Projetos, protótipos e validação",
                   desc: "Desenvolvimento do portfólio inicial, protótipos próprios e conversas com possíveis parceiros, professores, empresas e iniciativas.",
                 },
                 {
-                  year: "QUARTO MARCO",
+                  year: "PRESENTE",
                   title: "Construção em público",
                   desc: "Acompanhamento da evolução da Opnora por meio de projetos, estudos, experimentos e soluções em desenvolvimento.",
                 },

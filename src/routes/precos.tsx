@@ -1,9 +1,9 @@
+import { useEffect } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { PrecosHero } from "@/components/site/precos/PrecosHero";
-import { PrecosServicos } from "@/components/site/precos/PrecosServicos";
 import { PrecosPlanos } from "@/components/site/precos/PrecosPlanos";
-import { PrecosFAQ } from "@/components/site/precos/PrecosFAQ";
-import { CTASection } from "@/components/site/shared/CTASection";
+
+import { PrecosAdicionais } from "@/components/site/precos/PrecosAdicionais";
 
 export const Route = createFileRoute("/precos")({
   head: () => ({
@@ -13,13 +13,24 @@ export const Route = createFileRoute("/precos")({
 });
 
 function PrecosPage() {
+  useEffect(() => {
+    if (window.location.hash) {
+      const id = window.location.hash.replace("#", "");
+      setTimeout(() => {
+        const elem = document.getElementById(id);
+        if (elem) {
+          elem.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 150);
+    }
+  }, []);
+
   return (
-    <main className="flex-1 bg-[#050507]">
+    <main className="flex-1 bg-[#0c0c0f]">
       <PrecosHero />
-      <PrecosServicos />
       <PrecosPlanos />
-      <PrecosFAQ />
-      <CTASection />
+
+      <PrecosAdicionais />
     </main>
   );
 }

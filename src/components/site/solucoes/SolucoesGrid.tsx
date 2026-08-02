@@ -6,6 +6,7 @@ const CORE_SECTIONS = [
     num: "01",
     title: "Sistemas & Plataformas",
     label: "OPNORA BUILD",
+    badge: "DIVISÃO DE SOFTWARE",
     desc: "Desenvolvimento de sistemas, plataformas, sites, painéis administrativos e ferramentas digitais sob medida para sua operação.",
     checks: [
       "Software sob medida que resolve problemas reais",
@@ -15,13 +16,14 @@ const CORE_SECTIONS = [
     ],
     icon: FaCode,
     reverse: false,
-    color: "#a280ff",
-    rgb: "162, 128, 255",
+    color: "#b873ff",
+    rgb: "184, 115, 255",
   },
   {
     num: "02",
     title: "Automação & Dados",
     label: "OPNORA INTELLIGENCE",
+    badge: "DIVISÃO DE AUTOMAÇÃO & IA",
     desc: "Uso de inteligência artificial, automação, dados, bots e integrações para tornar processos mais eficientes e inteligentes.",
     checks: [
       "Automação de processos e tarefas repetitivas",
@@ -31,13 +33,14 @@ const CORE_SECTIONS = [
     ],
     icon: FaMicrochip,
     reverse: true,
-    color: "#40c4ff",
-    rgb: "64, 196, 255",
+    color: "#00d8ff",
+    rgb: "0, 216, 255",
   },
   {
     num: "03",
     title: "Experimentação Contínua",
     label: "OPNORA LABS",
+    badge: "DIVISÃO DE PESQUISA",
     desc: "Pesquisa, prototipação e experimentação de novas ideias, conectando aprendizado, inovação e soluções digitais futuras.",
     checks: [
       "Pesquisa aplicada a problemas reais",
@@ -47,46 +50,25 @@ const CORE_SECTIONS = [
     ],
     icon: FaFlaskVial,
     reverse: false,
-    color: "#69f0ae",
-    rgb: "105, 240, 174",
+    color: "#00ff88",
+    rgb: "0, 255, 136",
   },
 ];
-
 
 export function SolucoesGrid() {
   return (
     <>
       {/* 3. PENSAMOS NO SEU NEGÓCIO (Zig-Zag) */}
       <div className="relative w-full flex flex-col">
-        {/* Header Block */}
-        <section className="relative w-full overflow-hidden bg-[#0e0e12] pt-24 lg:pt-32 pb-4 lg:pb-4">
-          <div className="max-w-[85rem] mx-auto px-6 lg:px-12 flex flex-col items-center">
-            <ScrollReveal className="text-center">
-              <div className="flex items-center justify-center gap-4 mb-6">
-                <div className="h-[2px] w-8 bg-gradient-to-r from-aurora-violet to-aurora-cyan" />
-                <span className="font-display text-[10px] md:text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em]">
-                  NOSSOS SERVIÇOS
-                </span>
-              </div>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight text-white leading-[1.1] mb-6">
-                Soluções que acompanham seu negócio
-              </h2>
-              <p className="text-sm sm:text-base text-slate-400 font-light max-w-2xl mx-auto leading-relaxed">
-                Desenhamos ecossistemas digitais sob medida para escalar a sua operação e acelerar
-                seus resultados.
-              </p>
-            </ScrollReveal>
-          </div>
-        </section>
-
         {/* Alternate Items */}
         {CORE_SECTIONS.map((section, idx) => {
           const isReverse = section.reverse;
           const sectionBg = idx % 2 === 1 ? "bg-[#0c0c0f]" : "bg-[#0e0e12]";
+          const pyClass = idx === 0 ? "pt-8 lg:pt-12 pb-12 lg:pb-16" : "py-12 lg:py-16";
           return (
             <section
               key={section.num}
-              className={`relative w-full overflow-hidden py-12 lg:py-16 border-b border-white/5 ${sectionBg}`}
+              className={`relative w-full overflow-hidden ${pyClass} border-b border-white/5 ${sectionBg}`}
             >
               <div className="max-w-[85rem] mx-auto px-6 lg:px-12">
                 <div
@@ -100,7 +82,14 @@ export function SolucoesGrid() {
                     >
                       {/* Big Number Background */}
                       <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0 overflow-visible">
-                        <span className="font-display text-[14rem] sm:text-[18rem] lg:text-[24rem] font-bold text-white/[0.03] leading-none select-none">
+                        <span
+                          className="font-display text-[13rem] sm:text-[16rem] lg:text-[20.5rem] font-bold leading-none select-none transition-all duration-500 group-hover:scale-105"
+                          style={{
+                            color: section.color,
+                            opacity: 0.08,
+                            filter: `drop-shadow(0 0 25px rgba(${section.rgb}, 0.35))`,
+                          }}
+                        >
                           {section.num}
                         </span>
                       </div>
@@ -150,19 +139,31 @@ export function SolucoesGrid() {
                   {/* Content Side */}
                   <div className="w-full lg:w-1/2">
                     <ScrollReveal>
-                      <div className="flex items-center gap-3 mb-6">
-                        <div
-                          className="w-2 h-2 rounded-full"
-                          style={{
-                            backgroundColor: section.color,
-                            boxShadow: `0 0 8px ${section.color}`,
-                          }}
-                        />
+                      <div className="flex flex-wrap items-center gap-3 sm:gap-4 mb-6">
+                        <div className="flex items-center gap-2.5">
+                          <div
+                            className="w-2 h-2 rounded-full"
+                            style={{
+                              backgroundColor: section.color,
+                              boxShadow: `0 0 8px ${section.color}`,
+                            }}
+                          />
+                          <span
+                            className="font-mono text-[11px] font-bold uppercase tracking-[0.2em]"
+                            style={{ color: section.color }}
+                          >
+                            {section.label}
+                          </span>
+                        </div>
                         <span
-                          className="font-mono text-[11px] font-bold uppercase tracking-[0.2em]"
-                          style={{ color: section.color }}
+                          className="font-mono text-[10px] font-semibold uppercase tracking-[0.15em] px-3 py-1 rounded-sm border"
+                          style={{
+                            color: section.color,
+                            borderColor: `rgba(${section.rgb}, 0.35)`,
+                            backgroundColor: `rgba(${section.rgb}, 0.05)`,
+                          }}
                         >
-                          {section.label}
+                          {section.badge}
                         </span>
                       </div>
                       <h3 className="font-display text-2xl sm:text-3xl font-bold text-white mb-6">
@@ -192,8 +193,6 @@ export function SolucoesGrid() {
           );
         })}
       </div>
-
-
     </>
   );
 }

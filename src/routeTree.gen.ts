@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermosRouteImport } from './routes/termos'
 import { Route as SolucoesRouteImport } from './routes/solucoes'
 import { Route as SobreRouteImport } from './routes/sobre'
+import { Route as ProjetosRouteImport } from './routes/projetos'
 import { Route as PrivacidadeRouteImport } from './routes/privacidade'
 import { Route as PrecosRouteImport } from './routes/precos'
 import { Route as CookiesRouteImport } from './routes/cookies'
@@ -31,6 +32,11 @@ const SolucoesRoute = SolucoesRouteImport.update({
 const SobreRoute = SobreRouteImport.update({
   id: '/sobre',
   path: '/sobre',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjetosRoute = ProjetosRouteImport.update({
+  id: '/projetos',
+  path: '/projetos',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacidadeRoute = PrivacidadeRouteImport.update({
@@ -65,6 +71,7 @@ export interface FileRoutesByFullPath {
   '/cookies': typeof CookiesRoute
   '/precos': typeof PrecosRoute
   '/privacidade': typeof PrivacidadeRoute
+  '/projetos': typeof ProjetosRoute
   '/sobre': typeof SobreRoute
   '/solucoes': typeof SolucoesRoute
   '/termos': typeof TermosRoute
@@ -75,6 +82,7 @@ export interface FileRoutesByTo {
   '/cookies': typeof CookiesRoute
   '/precos': typeof PrecosRoute
   '/privacidade': typeof PrivacidadeRoute
+  '/projetos': typeof ProjetosRoute
   '/sobre': typeof SobreRoute
   '/solucoes': typeof SolucoesRoute
   '/termos': typeof TermosRoute
@@ -86,6 +94,7 @@ export interface FileRoutesById {
   '/cookies': typeof CookiesRoute
   '/precos': typeof PrecosRoute
   '/privacidade': typeof PrivacidadeRoute
+  '/projetos': typeof ProjetosRoute
   '/sobre': typeof SobreRoute
   '/solucoes': typeof SolucoesRoute
   '/termos': typeof TermosRoute
@@ -98,6 +107,7 @@ export interface FileRouteTypes {
     | '/cookies'
     | '/precos'
     | '/privacidade'
+    | '/projetos'
     | '/sobre'
     | '/solucoes'
     | '/termos'
@@ -108,6 +118,7 @@ export interface FileRouteTypes {
     | '/cookies'
     | '/precos'
     | '/privacidade'
+    | '/projetos'
     | '/sobre'
     | '/solucoes'
     | '/termos'
@@ -118,6 +129,7 @@ export interface FileRouteTypes {
     | '/cookies'
     | '/precos'
     | '/privacidade'
+    | '/projetos'
     | '/sobre'
     | '/solucoes'
     | '/termos'
@@ -129,6 +141,7 @@ export interface RootRouteChildren {
   CookiesRoute: typeof CookiesRoute
   PrecosRoute: typeof PrecosRoute
   PrivacidadeRoute: typeof PrivacidadeRoute
+  ProjetosRoute: typeof ProjetosRoute
   SobreRoute: typeof SobreRoute
   SolucoesRoute: typeof SolucoesRoute
   TermosRoute: typeof TermosRoute
@@ -155,6 +168,13 @@ declare module '@tanstack/react-router' {
       path: '/sobre'
       fullPath: '/sobre'
       preLoaderRoute: typeof SobreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/projetos': {
+      id: '/projetos'
+      path: '/projetos'
+      fullPath: '/projetos'
+      preLoaderRoute: typeof ProjetosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacidade': {
@@ -201,6 +221,7 @@ const rootRouteChildren: RootRouteChildren = {
   CookiesRoute: CookiesRoute,
   PrecosRoute: PrecosRoute,
   PrivacidadeRoute: PrivacidadeRoute,
+  ProjetosRoute: ProjetosRoute,
   SobreRoute: SobreRoute,
   SolucoesRoute: SolucoesRoute,
   TermosRoute: TermosRoute,

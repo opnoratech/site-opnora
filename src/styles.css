@@ -5,6 +5,35 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  a:not(:disabled),
+  select:not(:disabled),
+  label[for] {
+    cursor: pointer;
+  }
+  button:disabled,
+  [role="button"][aria-disabled="true"],
+  a[aria-disabled="true"] {
+    cursor: not-allowed;
+  }
+
+  /* Remove fundo azul do autocomplete do navegador */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover, 
+  input:-webkit-autofill:focus, 
+  input:-webkit-autofill:active,
+  textarea:-webkit-autofill,
+  textarea:-webkit-autofill:hover,
+  textarea:-webkit-autofill:focus,
+  textarea:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px #0c0c10 inset !important;
+    -webkit-text-fill-color: white !important;
+    transition: background-color 5000s ease-in-out 0s;
+  }
+}
+
 /*
  * Opnora design system — aurora boreal + portal luminoso.
  * Tokens semânticos em oklch. Não use cores arbitrárias nos componentes.
@@ -88,7 +117,7 @@
   --aurora-cyan: oklch(0.84 0.16 200);
   --aurora-teal: oklch(0.82 0.16 180);
   --aurora-blue: oklch(0.7 0.2 245);
-  --aurora-violet: oklch(0.68 0.22 295);
+  --aurora-violet: #a280ff;
   --aurora-magenta: oklch(0.7 0.25 330);
 
   --gradient-aurora: linear-gradient(
@@ -138,7 +167,7 @@
     content: "";
     position: fixed;
     inset: 0;
-    z-index: 9999;
+    z-index: 40;
     pointer-events: none;
     /* Scanlines globais fracas */
     background-image: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0.08) 0px, rgba(0, 0, 0, 0.08) 1px, transparent 1px, transparent 3px);
@@ -642,3 +671,32 @@
     
   }
 }
+
+/* Custom Scrollbar futurista e discreta com o tema Opnora */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(162, 128, 255, 0.35) rgba(255, 255, 255, 0.03);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 9999px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(162, 128, 255, 0.3);
+  border-radius: 9999px;
+  border: 1px solid rgba(162, 128, 255, 0.1);
+  transition: all 0.2s ease;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(162, 128, 255, 0.7);
+  box-shadow: 0 0 10px rgba(162, 128, 255, 0.5);
+}
+

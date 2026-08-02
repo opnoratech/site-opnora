@@ -13,7 +13,7 @@ interface ScrollRevealProps extends Omit<HTMLMotionProps<"div">, "as"> {
 
 const variants = {
   "sr-fade-up": {
-    hidden: { opacity: 0, y: 30 },
+    hidden: { opacity: 0, y: 16 },
     visible: { opacity: 1, y: 0 },
   },
   "sr-fade-in": {
@@ -33,7 +33,7 @@ const variants = {
 export function ScrollReveal({
   animation = "sr-fade-up",
   delay = 0,
-  duration = 900,
+  duration = 600,
   className,
   children,
   as: Component = "div",
@@ -54,12 +54,12 @@ export function ScrollReveal({
       className={cn("relative", className)}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once, amount: 0.1, margin: "100px 0px -50px 0px" }}
+      viewport={{ once, amount: 0.15 }}
       variants={selectedVariant}
       transition={{
         duration: durationSec,
         delay: delaySec,
-        ease: [0.2, 0.8, 0.2, 1], // ease out cubic, igual o CSS anterior
+        ease: [0, 0, 0.15, 1], // ease-out suave — sem hesitação no início
       }}
       {...props}
     >
