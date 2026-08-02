@@ -31,7 +31,7 @@ export function SobreHeroSection() {
               Construímos
             </span>
             <span className="block pb-1 text-white">
-              Coisas Que
+              Sistemas Que
             </span>
             <span
               className="inline-block text-transparent bg-clip-text w-fit"
@@ -46,11 +46,7 @@ export function SobreHeroSection() {
             </span>
           </h1>
         </ScrollReveal>
-        <ScrollReveal delay={200}>
-          <p className="mt-8 max-w-2xl text-sm sm:text-base text-muted-foreground leading-relaxed">
-            Desenvolvemos sistemas inteligentes para empresas que querem organizar processos, automatizar tarefas e crescer com tecnologia.
-          </p>
-        </ScrollReveal>
+
       </div>
     </section>
   );

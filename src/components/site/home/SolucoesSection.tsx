@@ -17,7 +17,7 @@ export function SolucoesSection() {
     {
       num: "02",
       title: "Construção",
-      desc: "Transformamos a estratégia em software funcional, interfaces claras e uma base técnica preparada para crescer.",
+      desc: "Transformamos a sua estratégia em um software funcional, com interfaces claras e uma base técnica preparada para crescer junto com o seu negócio.",
       icon: FaGear,
       color: "#40c4ff", // Azul Vivo
       glow: "rgba(64, 196, 255, 0.40)",
@@ -27,7 +27,7 @@ export function SolucoesSection() {
     {
       num: "03",
       title: "Testes",
-      desc: "Testamos fluxos, validamos hipóteses e ajustamos o que precisa evoluir antes e depois da entrega.",
+      desc: "Testamos, validamos e refinamos cada funcionalidade para entregar uma solução pronta para o seu negócio, visando garantir uma entrega confiável e eficiente.",
       icon: FaFlaskVial,
       color: "#18ffff", // Ciano Vivo
       glow: "rgba(24, 255, 255, 0.40)",
@@ -107,7 +107,10 @@ export function SolucoesSection() {
                     animationDelay: step.delay,
                   }}
                 >
-                  <step.icon size={28} className="text-white drop-shadow-[0_0_2px_rgba(255,255,255,0.1)] transition-all duration-500" />
+                  <step.icon
+                    size={28}
+                    className="text-white drop-shadow-[0_0_2px_rgba(255,255,255,0.1)] transition-all duration-500"
+                  />
                 </div>
 
                 {/* Step Title */}

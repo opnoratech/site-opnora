@@ -67,7 +67,7 @@ export function HomeHero() {
           delay={150}
           className="mx-auto mt-8 text-base sm:text-lg md:text-xl font-display font-medium text-white tracking-wide"
         >
-          Engenharia do Futuro da Tecnologia
+          Tecnologia do Futuro
         </ScrollReveal>
 
         {/* Subtitle */}
@@ -76,7 +76,8 @@ export function HomeHero() {
           delay={250}
           className="mx-auto mt-4 max-w-[680px] text-sm font-light leading-relaxed text-slate-400 sm:text-base"
         >
-          A Opnora cria software, automação e inteligência artificial para transformar desafios reais em soluções digitais inteligentes.
+          A Opnora transforma desafios do dia a dia em soluções digitais inteligentes, combinando
+          software, automação e inteligência artificial.
         </ScrollReveal>
 
         {/* Buttons */}

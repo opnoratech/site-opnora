@@ -22,9 +22,7 @@ export function HomeAbout() {
               className="font-bold leading-[1.1] mb-6 tracking-tight font-display uppercase"
               style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.75rem)" }}
             >
-              <span className="text-white">
-                Construímos sistemas{" "}
-              </span>
+              <span className="text-white">Construímos sistemas </span>
               <span
                 className="text-transparent bg-clip-text"
                 style={{
@@ -41,14 +39,16 @@ export function HomeAbout() {
               className="space-y-4 text-sm sm:text-base text-slate-400 font-light leading-relaxed mb-10 max-w-xl"
             >
               <p>
-                A Opnora é uma iniciativa de desenvolvimento de software em construção. Criamos
-                soluções sob medida para empresas, projetos e instituições que precisam organizar
-                processos, melhorar experiências e transformar ideias em sistemas funcionais.
+                A Opnora desenvolve soluções digitais sob medida para empresas, projetos e
+                instituições que buscam mais eficiência, organização e inovação. Acreditamos que a
+                tecnologia deve simplificar o dia a dia, resolver problemas reais e acompanhar o
+                crescimento de cada negócio.
               </p>
               <p>
-                Do mapeamento do problema à entrega final, focamos em uma arquitetura limpa e
-                escalável. Nosso objetivo não é apenas escrever código, mas construir fundações
-                digitais sólidas que impulsionem operações e acelerem resultados no longo prazo.
+                Mais do que criar sistemas, entendemos as necessidades de cada cliente para
+                desenvolver soluções que façam sentido na prática. Da ideia à entrega, trabalhamos
+                lado a lado para transformar desafios em resultados, com tecnologia confiável,
+                intuitiva e preparada para evoluir junto com o seu projeto.
               </p>
             </ScrollReveal>
 
@@ -90,10 +90,7 @@ export function HomeAbout() {
           </div>
 
           {/* Right Column: Terminal */}
-          <ScrollReveal
-            delay={400}
-            className="w-full relative"
-          >
+          <ScrollReveal delay={400} className="w-full relative">
             {/* Optional glow behind terminal */}
             <div className="absolute -inset-4 bg-gradient-to-tr from-[#a280ff]/10 to-[#60a5fa]/10 blur-3xl z-0 rounded-full opacity-50"></div>
             <div className="relative z-10">

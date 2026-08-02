@@ -182,16 +182,7 @@ export function TechnologySection() {
             delay={50}
             className="text-3xl sm:text-4xl md:text-5xl font-display font-bold leading-[1.1] mb-6 tracking-tight text-white max-w-4xl"
           >
-            Tecnologias que estamos construindo
-          </ScrollReveal>
-
-          <ScrollReveal
-            as="p"
-            delay={100}
-            className="text-sm sm:text-base text-slate-400 font-light leading-relaxed max-w-2xl"
-          >
-            Uma visão ao vivo dos experimentos, produtos e projetos atualmente em andamento em
-            Opnora.
+            Tecnologias que construímos
           </ScrollReveal>
         </div>
 
