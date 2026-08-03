@@ -309,7 +309,7 @@ export const PLANOS: PlanData[] = [
     name: "Landing Page",
     idealPara: "Validar ideias e serviços",
     desc: "Ideal para experimentar, ter sua primeira página no ar e validar seu serviço com o básico necessário.",
-    price: "700",
+    price: "550",
     icon: FaFileCode,
     theme: {
       bg: "bg-[#b3a1ff]",
@@ -336,7 +336,7 @@ export const PLANOS: PlanData[] = [
     name: "Essencial",
     idealPara: "Empresas e profissionais",
     desc: "O padrão ideal para estruturar a presença da sua empresa. Resolve suas demandas de apresentação com design profissional.",
-    price: "1.200",
+    price: "1.100",
     icon: FaRocket,
     theme: {
       bg: "bg-[#8b5cf6]",

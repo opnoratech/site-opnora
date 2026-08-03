@@ -67,7 +67,7 @@ export function SobreOperacao() {
             delay={200}
             className="mt-8 text-sm sm:text-base text-slate-400 font-light leading-relaxed max-w-2xl"
           >
-            Cada projeto começa com uma necessidade concreta e evolui por etapas claras, da
+            Cada projeto começa com uma necessidade e evolui por etapas claras, da
             compreensão do problema à melhoria contínua da solução.
           </ScrollReveal>
         </div>

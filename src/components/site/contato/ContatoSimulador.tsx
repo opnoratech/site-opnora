@@ -720,8 +720,8 @@ export function ContatoSimulador({ defaultPlano, defaultNivel }: { defaultPlano?
                         </label>
                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                           {[
-                            { id: "landing", label: "Landing Page", price: "R$ 700" },
-                            { id: "essencial", label: "Essencial", price: "R$ 1.200" },
+                            { id: "landing", label: "Landing Page", price: "R$ 550" },
+                            { id: "essencial", label: "Essencial", price: "R$ 1.100" },
                             { id: "profissional", label: "Profissional", price: "R$ 2.000" },
                             { id: "sobmedida", label: "Sob medida", price: "Personalizado" },
                           ].map((p) => {

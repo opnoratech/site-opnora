@@ -270,8 +270,8 @@ export function SolucoesHero() {
           <DesktopShaderBackground isHovered={isHeroHovered} />
         )}
 
-        <div className="relative z-10 w-full max-w-[90rem] mx-auto px-6 pt-32 pb-24 lg:py-0 lg:px-12 flex flex-col items-start justify-center min-h-dvh">
-          <div className="flex flex-col items-start lg:py-0 w-full max-w-4xl">
+        <div className="relative z-10 w-full max-w-[90rem] mx-auto px-6 pt-36 pb-24 lg:py-0 lg:px-12 flex flex-col items-start justify-center min-h-dvh">
+          <div className="flex flex-col items-start pt-10 md:pt-16 lg:pt-20 w-full max-w-4xl">
             <ScrollReveal delay={0}>
               <div className="flex items-center gap-4 mb-1.5">
                 <div className="h-[2px] w-8 bg-gradient-to-r from-aurora-violet to-aurora-cyan" />
@@ -293,16 +293,6 @@ export function SolucoesHero() {
                   SOLUÇÕES.
                 </span>
               </h1>
-            </ScrollReveal>
-
-            <ScrollReveal
-              delay={200}
-              as="p"
-              className="mt-3 max-w-4xl text-sm sm:text-lg text-slate-400 font-light leading-relaxed mb-12"
-            >
-              Software sob medida, inteligência artificial e visão de negócio. Nossas três frentes
-              (Build, Intelligence e Labs) trabalham juntas para criar soluções que ajudam empresas
-              a evoluir.
             </ScrollReveal>
           </div>
         </div>

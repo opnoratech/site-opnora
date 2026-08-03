@@ -44,10 +44,9 @@ export function PrecosHero() {
 
             <ScrollReveal delay={200}>
               <p className="mt-3 max-w-4xl text-sm sm:text-lg text-slate-400 font-light leading-relaxed">
-                Desenvolvemos sites institucionais, landing pages, sistemas sob medida, automações,
-                IA aplicada, WhatsApp/bots, dashboards e integrações. Uma presença digital
-                estruturada, clara e comercial para o seu negócio crescer, com preços acessíveis
-                para começar e abertura para soluções totalmente personalizadas.
+                Sistemas e automações com investimentos sob medida para a sua operação. Afinal, ter
+                tecnologia de ponta cabe no seu bolso, porque caro de verdade é travar o crescimento
+                e ficar para trás no mercado.
               </p>
             </ScrollReveal>
           </div>

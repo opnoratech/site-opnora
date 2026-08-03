@@ -28,8 +28,8 @@ export function SobreHistoria() {
               className="text-sm sm:text-base text-slate-400 font-light leading-relaxed mb-12 max-w-[38rem]"
             >
               <p>
-                A Opnora está começando agora, unindo aprendizado, experimentação e construção de
-                soluções digitais com visão de longo prazo.
+                A Opnora une aprendizado, experimentação e a construção de soluções
+                digitais com uma visão de longo prazo.
               </p>
             </ScrollReveal>
 
