@@ -53,6 +53,37 @@ export function PrecosHero() {
           </div>
         </div>
       </div>
+
+      {/* Scroll Down Indicator */}
+      <div className="absolute bottom-3 sm:bottom-5 md:bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 md:gap-2 z-10 pointer-events-none">
+        <span className="font-mono text-[9px] sm:text-[11px] font-medium uppercase tracking-[0.3em] text-slate-300/90 select-none">
+          SCROLL
+        </span>
+        <div className="w-[1.5px] h-8 md:h-12 relative overflow-hidden">
+          <style>{`
+            @keyframes scroll-line-flow {
+              0% {
+                transform: translateY(-100%);
+                opacity: 0;
+              }
+              25% {
+                opacity: 1;
+              }
+              75% {
+                opacity: 1;
+              }
+              100% {
+                transform: translateY(100%);
+                opacity: 0;
+              }
+            }
+            .animate-scroll-line {
+              animation: scroll-line-flow 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            }
+          `}</style>
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent via-[#a280ff] to-transparent animate-scroll-line" />
+        </div>
+      </div>
     </section>
   );
 }

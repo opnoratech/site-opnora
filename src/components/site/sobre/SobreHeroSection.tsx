@@ -26,12 +26,9 @@ export function SobreHeroSection() {
           </div>
         </ScrollReveal>
         <ScrollReveal delay={100}>
-          <h1 className="font-display text-[1.8rem] sm:text-[2.8rem] md:text-[3.8rem] lg:text-[4.7rem] font-black tracking-tighter leading-[0.9] uppercase">
-            <span className="block pt-0.5 text-white">
-              Construímos
-            </span>
-            <span className="block pb-1 text-white">
-              Sistemas Que
+          <h1 className="font-display text-[2.1rem] sm:text-[3.0rem] md:text-[4.5rem] lg:text-[6rem] font-black tracking-tight leading-[1.02] uppercase py-2">
+            <span className="block text-white">
+              NOSSA
             </span>
             <span
               className="inline-block text-transparent bg-clip-text w-fit py-4 -my-4"
@@ -45,6 +42,42 @@ export function SobreHeroSection() {
             </span>
           </h1>
         </ScrollReveal>
+        <ScrollReveal delay={200}>
+          <p className="mt-3 max-w-4xl text-sm sm:text-lg text-slate-400 font-light leading-relaxed">
+            A Opnora é uma Startup de tecnologia orientada para resultados focada em transformar visões ambiciosas em software sob medida, plataformas e sistemas inteligentes por meio de engenharia avançada, IA e inovação.
+          </p>
+        </ScrollReveal>
+      </div>
+
+      {/* Scroll Down Indicator */}
+      <div className="absolute bottom-3 sm:bottom-5 md:bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 md:gap-2 z-10 pointer-events-none">
+        <span className="font-mono text-[9px] sm:text-[11px] font-medium uppercase tracking-[0.3em] text-slate-300/90 select-none">
+          SCROLL
+        </span>
+        <div className="w-[1.5px] h-8 md:h-12 relative overflow-hidden">
+          <style>{`
+            @keyframes scroll-line-flow {
+              0% {
+                transform: translateY(-100%);
+                opacity: 0;
+              }
+              25% {
+                opacity: 1;
+              }
+              75% {
+                opacity: 1;
+              }
+              100% {
+                transform: translateY(100%);
+                opacity: 0;
+              }
+            }
+            .animate-scroll-line {
+              animation: scroll-line-flow 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            }
+          `}</style>
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent via-[#a280ff] to-transparent animate-scroll-line" />
+        </div>
       </div>
     </section>
   );
