@@ -5,14 +5,14 @@ export function SobreHeroSection() {
     <section
       className="relative overflow-hidden bg-[#050507] min-h-dvh flex flex-col items-center justify-center border-b border-[#1c1c21]"
       style={{
-        backgroundImage: "url('/images/aurora-hero.webp')",
+        backgroundImage: "url('/images/sobre_hero_real.webp')",
         backgroundSize: "cover",
-        backgroundPosition: "right center",
+        backgroundPosition: "center center",
         backgroundRepeat: "no-repeat",
       }}
     >
       {/* Gradiente escuro na esquerda para o texto ficar legível em cima da nebulosa */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#050507] via-[#050507]/90 to-transparent z-0"></div>
+      <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-[#050507]/85 via-[#050507]/65 md:via-[#050507]/75 to-transparent z-0 pointer-events-none"></div>
       {/* Gradiente na base para fundir suavemente com o final da seção */}
       <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#050507] to-transparent z-0 pointer-events-none"></div>
 

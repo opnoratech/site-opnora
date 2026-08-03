@@ -244,14 +244,14 @@ function ContatoPage() {
       <section
         className="relative overflow-hidden bg-[#050507] min-h-dvh flex flex-col items-center justify-center border-b border-[#1c1c21]"
         style={{
-          backgroundImage: "url('/images/aurora_contact.webp')",
+          backgroundImage: "url('/images/aurora_contact_real.webp')",
           backgroundSize: "cover",
-          backgroundPosition: "right center",
+          backgroundPosition: "center center",
           backgroundRepeat: "no-repeat",
         }}
       >
         {/* Gradiente escuro no mobile (vertical) e desktop (horizontal) para garantir contraste total sem apagar a aurora */}
-        <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-[#050507]/90 via-[#050507]/80 md:via-[#050507]/90 to-[#050507]/30 md:to-transparent z-0"></div>
+        <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-[#050507]/85 via-[#050507]/65 md:via-[#050507]/75 to-transparent z-0 pointer-events-none"></div>
         {/* Gradiente na base para fundir suavemente com o final da seção */}
         <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#050507] to-transparent z-0 pointer-events-none"></div>
 

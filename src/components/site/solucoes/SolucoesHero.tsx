@@ -2,63 +2,102 @@ import React, { useState, useEffect } from "react";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { Shader, Swirl, ChromaFlow, FlutedGlass, FilmGrain } from "shaders/react";
 import { AntigravityParticleField } from "@/components/site/backgrounds/AntigravityParticleField";
+import { FaAws } from "react-icons/fa6";
+import { TbBrandOpenai } from "react-icons/tb";
+import {
+  SiReact,
+  SiNextdotjs,
+  SiTypescript,
+  SiJavascript,
+  SiPython,
+  SiOpenjdk,
+  SiDotnet,
+  SiPhp,
+  SiNodedotjs,
+  SiTailwindcss,
+  SiVuedotjs,
+  SiAngular,
+  SiPostgresql,
+  SiMongodb,
+  SiDocker,
+  SiGooglecloud,
+  SiKubernetes,
+  SiGraphql,
+  SiFlutter,
+  SiSwift,
+  SiKotlin,
+  SiRedis,
+  SiVite,
+  SiGo,
+  SiRust,
+  SiPrisma,
+  SiSupabase,
+  SiFramer,
+  SiFigma,
+  SiGit,
+} from "react-icons/si";
 
-const MARQUEE_LOGOS = [
-  {
-    name: "React",
-    src: "https://cdn.simpleicons.org/react/61DAFB",
-    gradient: "from-[#61DAFB] to-[#00B4D8]",
-  },
-  {
-    name: "TypeScript",
-    src: "https://cdn.simpleicons.org/typescript/3178C6",
-    gradient: "from-[#3178C6] to-[#0052CC]",
-  },
-  {
-    name: "Tailwind",
-    src: "https://cdn.simpleicons.org/tailwindcss/06B6D4",
-    gradient: "from-[#38B2AC] to-[#0D9488]",
-  },
-  {
-    name: "Vite",
-    src: "https://cdn.simpleicons.org/vite/646CFF",
-    gradient: "from-[#646CFF] to-[#FFD816]",
-  },
-  {
-    name: "Node.js",
-    src: "https://cdn.simpleicons.org/nodedotjs/339933",
-    gradient: "from-[#339933] to-[#215732]",
-  },
-  {
-    name: "Framer",
-    src: "https://cdn.simpleicons.org/framer/0055FF",
-    gradient: "from-[#0055FF] to-[#FF77CC]",
-  },
-  {
-    name: "Prisma",
-    src: "https://cdn.simpleicons.org/prisma/white",
-    gradient: "from-[#2D3748] to-[#1A202C]",
-  },
-  {
-    name: "Figma",
-    src: "https://cdn.simpleicons.org/figma/F24E1E",
-    gradient: "from-[#F24E1E] to-[#A259FF]",
-  },
+type MarqueeLogo = {
+  name: string;
+  icon: React.ElementType;
+  color: string;
+  gradient: string;
+};
+
+const MARQUEE_LOGOS: MarqueeLogo[] = [
+  { name: "React", icon: SiReact, color: "#61DAFB", gradient: "from-[#61DAFB] to-[#00B4D8]" },
+  { name: "Next.js", icon: SiNextdotjs, color: "#ffffff", gradient: "from-[#ffffff] to-[#71717a]" },
+  { name: "TypeScript", icon: SiTypescript, color: "#3178C6", gradient: "from-[#3178C6] to-[#0052CC]" },
+  { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E", gradient: "from-[#F7DF1E] to-[#D6BA00]" },
+  { name: "Python", icon: SiPython, color: "#3776AB", gradient: "from-[#3776AB] to-[#FFD43B]" },
+  { name: "Java", icon: SiOpenjdk, color: "#E76F00", gradient: "from-[#5382A1] to-[#E76F00]" },
+  { name: "C#", icon: SiDotnet, color: "#512BD4", gradient: "from-[#512BD4] to-[#178600]" },
+  { name: "PHP", icon: SiPhp, color: "#777BB4", gradient: "from-[#777BB4] to-[#4F5B93]" },
+  { name: "Node.js", icon: SiNodedotjs, color: "#5FA04E", gradient: "from-[#339933] to-[#215732]" },
+  { name: "OpenAI", icon: TbBrandOpenai, color: "#10A37F", gradient: "from-[#10A37F] to-[#00A67E]" },
+  { name: "Tailwind", icon: SiTailwindcss, color: "#06B6D4", gradient: "from-[#38B2AC] to-[#0D9488]" },
+  { name: "Vue.js", icon: SiVuedotjs, color: "#4FC08D", gradient: "from-[#4FC08D] to-[#35495E]" },
+  { name: "Angular", icon: SiAngular, color: "#DD0031", gradient: "from-[#DD0031] to-[#C3002F]" },
+  { name: "PostgreSQL", icon: SiPostgresql, color: "#4169E1", gradient: "from-[#4169E1] to-[#2F4F4F]" },
+  { name: "MongoDB", icon: SiMongodb, color: "#47A248", gradient: "from-[#47A248] to-[#116149]" },
+  { name: "Docker", icon: SiDocker, color: "#2496ED", gradient: "from-[#2496ED] to-[#0DB7ED]" },
+  { name: "AWS", icon: FaAws, color: "#FF9900", gradient: "from-[#FF9900] to-[#E47911]" },
+  { name: "Google Cloud", icon: SiGooglecloud, color: "#4285F4", gradient: "from-[#4285F4] to-[#34A853]" },
+  { name: "Kubernetes", icon: SiKubernetes, color: "#326CE5", gradient: "from-[#326CE5] to-[#1D4ED8]" },
+  { name: "GraphQL", icon: SiGraphql, color: "#E10098", gradient: "from-[#E10098] to-[#C7007D]" },
+  { name: "Flutter", icon: SiFlutter, color: "#02569B", gradient: "from-[#02569B] to-[#0175C2]" },
+  { name: "Swift", icon: SiSwift, color: "#F05138", gradient: "from-[#F05138] to-[#D83B24]" },
+  { name: "Kotlin", icon: SiKotlin, color: "#7F52FF", gradient: "from-[#7F52FF] to-[#C711E1]" },
+  { name: "Redis", icon: SiRedis, color: "#DC382D", gradient: "from-[#DC382D] to-[#A32015]" },
+  { name: "Vite", icon: SiVite, color: "#646CFF", gradient: "from-[#646CFF] to-[#FFD816]" },
+  { name: "Go", icon: SiGo, color: "#00ADD8", gradient: "from-[#00ADD8] to-[#007D9C]" },
+  { name: "Rust", icon: SiRust, color: "#DEA584", gradient: "from-[#DEA584] to-[#000000]" },
+  { name: "Prisma", icon: SiPrisma, color: "#ffffff", gradient: "from-[#2D3748] to-[#1A202C]" },
+  { name: "Supabase", icon: SiSupabase, color: "#3FCF8E", gradient: "from-[#3FCF8E] to-[#1F7A52]" },
+  { name: "Framer", icon: SiFramer, color: "#0055FF", gradient: "from-[#0055FF] to-[#FF77CC]" },
+  { name: "Figma", icon: SiFigma, color: "#F24E1E", gradient: "from-[#F24E1E] to-[#A259FF]" },
+  { name: "Git", icon: SiGit, color: "#F05032", gradient: "from-[#F05032] to-[#C93C22]" },
 ];
 
 const MarqueeSection = () => {
+  const [activeLogoIndex, setActiveLogoIndex] = useState<number | null>(null);
+
+  const handlePillClick = (index: number) => {
+    setActiveLogoIndex((prev) => (prev === index ? null : index));
+  };
+
   return (
-    <section className="relative w-full py-4 md:py-6 overflow-hidden bg-[#0e0e12] border-b border-white/5 select-none">
+    <section className="relative w-full py-5 md:py-6 overflow-hidden bg-[#0e0e12] border-b border-white/5 select-none">
       {/* Inline styles for the infinite CSS animation */}
       <style
         dangerouslySetInnerHTML={{
           __html: `
         @keyframes marquee-scroll {
           0% { transform: translateX(0); }
-          100% { transform: translateX(calc(-50% - 1rem)); } 
+          100% { transform: translateX(-50%); } 
         }
         .animate-marquee-scroll {
-          animation: marquee-scroll 40s linear infinite;
+          animation: marquee-scroll 60s linear infinite;
         }
         @media (hover: hover) and (pointer: fine) {
           .animate-marquee-scroll:hover {
@@ -74,25 +113,46 @@ const MarqueeSection = () => {
       <div className="absolute inset-y-0 right-0 w-12 md:w-40 bg-gradient-to-l from-[#0e0e12] to-transparent z-10 pointer-events-none" />
 
       {/* Scroll Track */}
-      <div className="flex w-max gap-4 md:gap-8 animate-marquee-scroll items-center px-4">
-        {[...MARQUEE_LOGOS, ...MARQUEE_LOGOS].map((logo, index) => (
-          <div
-            key={`${logo.name}-${index}`}
-            className="group relative h-12 w-28 md:h-20 md:w-44 shrink-0 flex items-center justify-center rounded-full bg-[#131318] border border-white/5 shadow-sm md:hover:border-white/20 transition-all duration-500 overflow-hidden cursor-default md:cursor-pointer [-webkit-tap-highlight-color:transparent]"
-          >
-            {/* Absolute Gradient Element inside the card */}
-            <div
-              className={`absolute inset-0 bg-gradient-to-br ${logo.gradient} opacity-0 scale-150 md:group-hover:opacity-100 md:group-hover:scale-100 transition-all duration-700 ease-out pointer-events-none`}
-            />
+      <div
+        className="flex w-max gap-3.5 md:gap-7 animate-marquee-scroll items-center px-4 md:px-8"
+        style={{
+          animationPlayState: activeLogoIndex !== null ? "paused" : undefined,
+        }}
+      >
+        {[...MARQUEE_LOGOS, ...MARQUEE_LOGOS].map((logo, index) => {
+          const Icon = logo.icon;
+          const isActive = activeLogoIndex === index;
 
-            {/* Logo Image */}
-            <img
-              src={logo.src}
-              alt={logo.name}
-              className="relative z-10 w-5 h-5 md:w-8 md:h-8 object-contain transition-all duration-500 md:group-hover:brightness-0 md:group-hover:invert pointer-events-none"
-            />
-          </div>
-        ))}
+          return (
+            <button
+              type="button"
+              key={`${logo.name}-${index}`}
+              onClick={() => handlePillClick(index)}
+              className={`group relative h-11 w-28 md:h-15 md:w-36 shrink-0 flex items-center justify-center rounded-full bg-[#131318] border shadow-sm transition-all duration-500 overflow-hidden cursor-pointer [-webkit-tap-highlight-color:transparent] outline-none ${
+                isActive
+                  ? "border-white/40 shadow-[0_0_15px_rgba(255,255,255,0.15)]"
+                  : "border-white/5 md:hover:border-white/20"
+              }`}
+            >
+              {/* Absolute Gradient Element inside the card */}
+              <div
+                className={`absolute inset-0 bg-gradient-to-br ${logo.gradient} transition-all duration-500 ease-out pointer-events-none ${
+                  isActive
+                    ? "opacity-100 scale-100"
+                    : "opacity-0 scale-150 md:group-hover:opacity-100 md:group-hover:scale-100"
+                }`}
+              />
+
+              {/* Vector Icon */}
+              <Icon
+                style={{ color: isActive ? "#ffffff" : logo.color }}
+                className={`relative z-10 size-[22px] md:size-[30px] transition-all duration-500 pointer-events-none shrink-0 ${
+                  isActive ? "text-white scale-110" : "md:group-hover:text-white"
+                }`}
+              />
+            </button>
+          );
+        })}
       </div>
     </section>
   );
@@ -159,6 +219,7 @@ const MobileHeroBackground = () => {
 
 export function SolucoesHero() {
   const [isHeroHovered, setIsHeroHovered] = useState(true);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isMobile, setIsMobile] = useState(() => {
     if (typeof window !== "undefined") {
       return window.innerWidth < 768;
@@ -174,17 +235,37 @@ export function SolucoesHero() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setMousePos({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+  };
+
   return (
     <>
       <section
-        className="relative min-h-dvh flex items-center justify-center overflow-hidden border-b border-white/5"
+        className={`${
+          isMobile ? "hero-bg" : "bg-[#0e0e12]"
+        } group relative min-h-dvh flex items-center justify-center overflow-hidden border-b border-white/5`}
+        onMouseMove={handleMouseMove}
         onPointerEnter={() => setIsHeroHovered(true)}
         onPointerLeave={() => setIsHeroHovered(false)}
+        style={
+          {
+            "--mouse-x": `${mousePos.x}px`,
+            "--mouse-y": `${mousePos.y}px`,
+          } as React.CSSProperties
+        }
       >
-        <div className="absolute inset-0 bg-[#0e0e12]" />
-
         {isMobile ? (
-          <MobileHeroBackground />
+          <div
+            className="pointer-events-none absolute inset-0 z-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+            style={{
+              background: `radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.03), transparent 40%)`,
+            }}
+          />
         ) : (
           <DesktopShaderBackground isHovered={isHeroHovered} />
         )}
