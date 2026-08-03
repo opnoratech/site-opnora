@@ -7,7 +7,7 @@ type Line =
 
 const LINES: Line[] = [
   { type: "prompt", text: "~/opnora $", cmd: "init --system" },
-  { type: "out", text: "Opnora OS v0.1.1 — inicializando..." },
+  { type: "out", text: "Opnora OS v0.1.1: inicializando..." },
   { type: "out", text: "" },
   { type: "status", label: "Opnora Build", value: "ATIVO", color: "text-[#b873ff]" },
   { type: "status", label: "Opnora Intelligence", value: "ATIVO", color: "text-[#00d8ff]" },
@@ -84,7 +84,7 @@ export function TerminalPanel({ startDelay = 400 }: { startDelay?: number }) {
           </div>
         </div>
         {/* Content */}
-        <pre className="m-0 overflow-x-auto p-4 sm:p-5 font-mono text-xs sm:text-[13px] leading-relaxed text-foreground/90 min-h-[320px]">
+        <pre className="m-0 overflow-x-auto whitespace-pre-wrap break-words p-4 sm:p-5 font-mono text-xs sm:text-[13px] leading-relaxed text-foreground/90 min-h-[320px]">
           {LINES.slice(0, visibleLines).map((line, i) => {
             if (line.type === "prompt") {
               return (

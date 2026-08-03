@@ -402,8 +402,8 @@ export function ContatoSimulador({ defaultPlano, defaultNivel }: { defaultPlano?
           <ScrollReveal delay={200}>
             <p className="text-sm sm:text-base text-slate-400 font-light leading-relaxed">
               Selecione seus objetivos, funcionalidades e prioridades. A Opnora analisa as escolhas,
-              orienta o que realmente faz sentido e prepara uma proposta personalizada — sem obrigar
-              sua empresa a contratar recursos desnecessários.
+              orienta o que realmente faz sentido e prepara uma proposta personalizada, sem que
+              sua empresa precise contratar recursos desnecessários.
             </p>
           </ScrollReveal>
         </div>
@@ -864,7 +864,7 @@ export function ContatoSimulador({ defaultPlano, defaultNivel }: { defaultPlano?
                               </button>
 
                               {isOpen && (
-                                <div className="p-5 border-t border-white/5 bg-transparent grid grid-cols-2 sm:grid-cols-3 gap-3.5 animate-fade-in">
+                                <div className="p-4 sm:p-5 border-t border-white/5 bg-transparent grid grid-cols-1 min-[480px]:grid-cols-2 sm:grid-cols-3 gap-3.5 animate-fade-in">
                                   {cat.items.map((item) => {
                                     const active = selectedFeatures.includes(item);
                                     const currentLevel = featureLevels[item];

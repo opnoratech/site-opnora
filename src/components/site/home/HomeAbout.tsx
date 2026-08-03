@@ -54,35 +54,37 @@ export function HomeAbout({ eyebrow = "01 / OS PROBLEMAS QUE RESOLVEMOS" }: Home
               </p>
             </ScrollReveal>
 
-            <div className="flex flex-wrap gap-6 md:gap-10 mt-2 w-full max-w-xl">
+            <div className="grid grid-cols-3 gap-3 sm:gap-6 md:gap-10 mt-4 w-full max-w-xl">
               <ScrollReveal
                 delay={300}
-                className="flex flex-col pl-4 border-l-2 border-[#a280ff]/40"
+                className="flex flex-col pl-2.5 sm:pl-4 border-l-2 border-[#a280ff]/40"
               >
-                <div className="text-3xl font-bold text-[#b3a1ff] font-display mb-1 tracking-tight">
+                <div className="text-2xl sm:text-3xl font-bold text-[#b3a1ff] font-display mb-1 tracking-tight">
                   <AnimatedNumber end={3} duration={1500} />
                 </div>
-                <div className="font-mono text-xs text-slate-400">Frentes Digitais</div>
+                <div className="font-mono text-[10px] sm:text-xs text-slate-400 leading-tight">
+                  Frentes Digitais
+                </div>
               </ScrollReveal>
               <ScrollReveal
                 delay={400}
-                className="flex flex-col pl-4 border-l-2 border-[#a280ff]/40"
+                className="flex flex-col pl-2.5 sm:pl-4 border-l-2 border-[#a280ff]/40"
               >
-                <div className="text-3xl font-bold text-[#b3a1ff] font-display mb-1 tracking-tight">
+                <div className="text-2xl sm:text-3xl font-bold text-[#b3a1ff] font-display mb-1 tracking-tight">
                   <AnimatedNumber end={3} suffix={"\u200A+"} duration={2500} />
                 </div>
-                <div className="font-mono text-[11px] md:text-xs text-slate-400">
+                <div className="font-mono text-[10px] sm:text-xs text-slate-400 leading-tight">
                   Projetos Lançados
                 </div>
               </ScrollReveal>
               <ScrollReveal
                 delay={500}
-                className="flex flex-col pl-4 border-l-2 border-[#a280ff]/40"
+                className="flex flex-col pl-2.5 sm:pl-4 border-l-2 border-[#a280ff]/40"
               >
-                <div className="text-3xl font-bold text-[#b3a1ff] font-display mb-1 tracking-tight">
+                <div className="text-2xl sm:text-3xl font-bold text-[#b3a1ff] font-display mb-1 tracking-tight">
                   <AnimatedNumber end={100} suffix={"\u200A%"} duration={2000} />
                 </div>
-                <div className="font-mono text-[11px] md:text-xs text-slate-400">
+                <div className="font-mono text-[10px] sm:text-xs text-slate-400 leading-tight">
                   Comprometimento
                 </div>
               </ScrollReveal>

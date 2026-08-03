@@ -40,7 +40,7 @@ type HomePricingSummaryProps = {
 };
 
 export function HomePricingSummary({
-  eyebrow = "03 / PREÇOS — INVESTIMENTO & MODALIDADES",
+  eyebrow = "03 / PLANOS E MODALIDADES DE INVESTIMENTO",
   bgClass = "bg-[#0c0c0f]",
 }: HomePricingSummaryProps = {}) {
   return (
@@ -112,7 +112,7 @@ export function HomePricingSummary({
           <Link
             to="/precos"
             hash="planos"
-            className="group cursor-pointer inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full font-mono text-[11px] font-bold uppercase tracking-[0.15em] bg-white text-black hover:bg-slate-200 transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.05)] hover:shadow-[0_0_25px_rgba(255,255,255,0.15)] hover:-translate-y-0.5"
+            className="group cursor-pointer inline-flex h-11 md:h-12 w-full sm:w-auto items-center justify-center gap-2.5 rounded-sm bg-white px-8 text-[11px] sm:text-xs font-bold uppercase tracking-[0.15em] text-black transition-all duration-300 hover:-translate-y-1 hover:bg-slate-200 hover:shadow-[0_4px_14px_rgba(255,255,255,0.15)] whitespace-nowrap"
           >
             <span>CONHECER PLANOS E PREÇOS</span>
             <FaArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1" />

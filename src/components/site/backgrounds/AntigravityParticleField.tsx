@@ -252,8 +252,8 @@ export function AntigravityParticleField() {
 
     const isMobile = window.innerWidth < 768;
     // Quantidade bastante aumentada para um oceano de poeira cósmica
-    const min = isMobile ? 250 : 500;
-    const max = isMobile ? 350 : 800;
+    const min = isMobile ? 80 : 500;
+    const max = isMobile ? 120 : 800;
     const count = Math.floor(min + Math.random() * (max - min));
 
     particles.current = [];

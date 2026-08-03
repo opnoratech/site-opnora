@@ -7,7 +7,7 @@ import { PrecosAdicionais } from "@/components/site/precos/PrecosAdicionais";
 
 export const Route = createFileRoute("/precos")({
   head: () => ({
-    meta: [{ title: "Preços — Opnora" }],
+    meta: [{ title: "Preços | Opnora" }],
   }),
   component: PrecosPage,
 });

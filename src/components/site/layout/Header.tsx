@@ -25,17 +25,32 @@ export function Header() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [open]);
 
+  // Bloqueia rolagem do body no mobile quando o menu está aberto
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
+  // Evita a pílula flutuante e mantém largura total se o menu mobile estiver aberto
+  const showFloatingHeader = isScrolled && !open;
+
   return (
     <header className="fixed top-0 left-0 w-full z-50 pointer-events-none">
       {/* Subtle Aurora Detail top-left */}
       <div
-        className={`pointer-events-none absolute left-0 top-0 h-full w-[200px] bg-gradient-to-r from-[#a280ff]/20 to-transparent opacity-30 blur-[40px] transition-opacity duration-500 ${isScrolled ? "opacity-0" : "opacity-30"}`}
+        className={`pointer-events-none absolute left-0 top-0 h-full w-[200px] bg-gradient-to-r from-[#a280ff]/20 to-transparent opacity-30 blur-[40px] transition-opacity duration-500 ${showFloatingHeader ? "opacity-0" : "opacity-30"}`}
       />
 
       <div
         className={
-          `pointer-events-auto mx-auto grid w-full grid-cols-[1fr_auto_1fr] items-center transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ` +
-          (isScrolled
+          `pointer-events-auto mx-auto flex w-full items-center justify-between md:grid md:grid-cols-[1fr_auto_1fr] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ` +
+          (showFloatingHeader
             ? "max-w-[95%] lg:max-w-5xl h-[60px] lg:h-[64px] rounded-full border border-white/10 bg-[#131318]/80 backdrop-blur-xl shadow-2xl mt-4 px-6 lg:px-8"
             : "max-w-[90rem] h-[68px] lg:h-[84px] rounded-none border-transparent bg-transparent mt-0 px-6 lg:px-12")
         }
@@ -45,11 +60,11 @@ export function Header() {
           <Link
             to="/"
             onClick={() => setOpen(false)}
-            aria-label="Opnora — Início"
+            aria-label="Página inicial da Opnora"
             className="group shrink-0 transition-transform duration-300 hover:scale-[1.02] hover:brightness-110"
           >
             <Logo
-              className={`transition-all duration-300 ease-in-out ${isScrolled ? "h-7 md:h-[32px]" : "h-9 md:h-[42px]"}`}
+              className={`transition-all duration-300 ease-in-out ${showFloatingHeader ? "h-[20px] md:h-[28px]" : "h-[26px] md:h-[36px]"}`}
             />
           </Link>
         </div>
@@ -90,7 +105,7 @@ export function Header() {
             aria-label={open ? "Fechar menu" : "Abrir menu"}
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-md text-slate-400 transition-colors hover:text-white md:hidden"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-md text-slate-400 transition-colors hover:text-white md:hidden cursor-pointer"
           >
             {open ? <FaXmark className="size-5" /> : <FaBars className="size-5" />}
           </button>
@@ -98,23 +113,30 @@ export function Header() {
       </div>
 
       {/* Mobile Menu Panel */}
-      {open && (
-        <div className="absolute left-0 top-0 pt-[84px] pb-6 w-full border-b border-white/[0.07] bg-[#050507]/95 backdrop-blur-xl md:hidden pointer-events-auto -z-10">
-          <nav className="flex flex-col gap-2 px-6" aria-label="Navegação mobile">
-            {NAV.map((item) => (
-              <Link
-                key={item.to}
-                to={item.to}
-                activeOptions={{ exact: item.to === "/" }}
-                onClick={() => setOpen(false)}
-                className="block rounded-md px-4 py-3 text-lg font-medium text-slate-400 transition-colors hover:bg-white/5 hover:text-white data-[status=active]:bg-white/5 data-[status=active]:text-aurora-violet"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-        </div>
-      )}
+      <div
+        className={`absolute left-0 top-0 pt-[84px] pb-6 w-full border-b border-white/10 bg-[#050507]/92 backdrop-blur-2xl md:hidden pointer-events-auto -z-10 transition-all duration-300 ease-in-out shadow-[0_20px_50px_rgba(0,0,0,0.8)] ${
+          open
+            ? "translate-y-0 opacity-100 visible"
+            : "-translate-y-4 opacity-0 invisible"
+        }`}
+      >
+        {/* Top edge subtle glow line */}
+        <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-aurora-violet/30 to-transparent" />
+        
+        <nav className="flex flex-col gap-2 px-6 pt-4" aria-label="Navegação mobile">
+          {NAV.map((item) => (
+            <Link
+              key={item.to}
+              to={item.to}
+              activeOptions={{ exact: item.to === "/" }}
+              onClick={() => setOpen(false)}
+              className="block rounded-lg px-4 py-3 text-[15px] font-display font-medium tracking-wide text-slate-400 transition-all duration-300 hover:text-white hover:bg-white/[0.02] data-[status=active]:text-white data-[status=active]:bg-aurora-violet/[0.07] data-[status=active]:border-l-2 data-[status=active]:border-aurora-violet data-[status=active]:pl-5 data-[status=active]:rounded-l-none"
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+      </div>
     </header>
   );
 }

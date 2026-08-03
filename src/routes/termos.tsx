@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/termos")({
   head: () => ({
-    meta: [{ title: "Termos de Uso — Opnora" }],
+    meta: [{ title: "Termos de Uso | Opnora" }],
   }),
   component: TermosPage,
 });

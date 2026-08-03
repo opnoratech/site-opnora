@@ -8,13 +8,13 @@ import { SolucoesProcesso } from "@/components/site/solucoes/SolucoesProcesso";
 export const Route = createFileRoute("/solucoes")({
   head: () => ({
     meta: [
-      { title: "Soluções & Engenharia — Opnora" },
+      { title: "Soluções & Engenharia | Opnora" },
       {
         name: "description",
         content:
           "O coração da operation. Sistemas web, plataformas, stack tecnológica moderna e jornada transparente de entrega.",
       },
-      { property: "og:title", content: "Soluções & Engenharia — Opnora" },
+      { property: "og:title", content: "Soluções & Engenharia | Opnora" },
       {
         property: "og:description",
         content: "Software sob medida, arquitetura escalável e formas de entrega para a sua empresa.",

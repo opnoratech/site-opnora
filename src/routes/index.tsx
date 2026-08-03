@@ -9,12 +9,11 @@ import { SolucoesAutomacaoIA } from "@/components/site/solucoes/SolucoesAutomaca
 import { SolucoesProjetos } from "@/components/site/solucoes/SolucoesProjetos";
 import { HomePricingSummary } from "@/components/site/home/HomePricingSummary";
 import { AuroraSection } from "@/components/site/home/AuroraSection";
-import { CTASection } from "@/components/site/shared/CTASection";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Opnora — Software sob medida para empresas em construção digital" },
+      { title: "Opnora | Software sob medida para empresas em construção digital" },
       {
         name: "description",
         content:
@@ -44,7 +43,6 @@ function HomePage() {
       <HomePricingSummary bgClass="bg-[#0e0e12]" eyebrow="INVESTIMENTO" />
       {/* 9. CTA Final */}
       <AuroraSection />
-      <CTASection className="bg-[#0c0c0f]" />
     </>
   );
 }

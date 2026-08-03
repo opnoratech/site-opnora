@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/privacidade")({
   head: () => ({
-    meta: [{ title: "Política de Privacidade — Opnora" }],
+    meta: [{ title: "Política de Privacidade | Opnora" }],
   }),
   component: PrivacidadePage,
 });

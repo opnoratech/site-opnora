@@ -467,7 +467,7 @@ export function useContatoSimulador(defaultPlano?: string, defaultNivel?: string
     const featuresText = selectedFeatures.join(", ");
 
     const lines = [
-      `*SOLICITAÇÃO DE PROJETO PERSONALIZADO — OPNORA*`,
+      `*SOLICITAÇÃO DE PROJETO PERSONALIZADO - OPNORA*`,
       ``,
       `*DADOS DO CLIENTE:*`,
       `• Nome: ${formData.nome}`,

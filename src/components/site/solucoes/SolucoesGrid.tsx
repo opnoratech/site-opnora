@@ -63,31 +63,34 @@ export function SolucoesGrid() {
         {/* Alternate Items */}
         {CORE_SECTIONS.map((section, idx) => {
           const isReverse = section.reverse;
-          const sectionBg = idx % 2 === 1 ? "bg-[#0c0c0f]" : "bg-[#0e0e12]";
-          const pyClass = idx === 0 ? "pt-8 lg:pt-12 pb-12 lg:pb-16" : "py-12 lg:py-16";
+          const sectionBg = idx % 2 === 1 ? "bg-[#0c0c10]" : "bg-[#0e0e12]";
+          const pyClass =
+            idx === 0
+              ? "pt-12 md:pt-20 lg:pt-28 pb-16 md:pb-24 lg:pb-32"
+              : "py-16 md:py-24 lg:py-32";
           return (
             <section
               key={section.num}
               className={`relative w-full overflow-hidden ${pyClass} border-b border-white/5 ${sectionBg}`}
             >
-              <div className="max-w-[85rem] mx-auto px-6 lg:px-12">
+              <div className="max-w-[85rem] mx-auto px-6 lg:px-12 relative z-10">
                 <div
-                  className={`flex flex-col ${isReverse ? "lg:flex-row-reverse" : "lg:flex-row"} items-center gap-12 lg:gap-20`}
+                  className={`flex flex-col ${isReverse ? "lg:flex-row-reverse" : "lg:flex-row"} items-center gap-12 md:gap-16 lg:gap-24`}
                 >
                   {/* Image/Visual Side */}
-                  <div className="relative w-full lg:w-1/2 flex items-center justify-center min-h-[350px] lg:min-h-[450px]">
+                  <div className="relative w-full lg:w-1/2 flex items-center justify-center min-h-[280px] sm:min-h-[360px] md:min-h-[420px] lg:min-h-[480px] z-10">
                     <ScrollReveal
                       delay={100}
-                      className="relative w-full h-full flex items-center justify-center group"
+                      className="relative w-full h-full flex items-center justify-center group py-8"
                     >
                       {/* Big Number Background */}
                       <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0 overflow-visible">
                         <span
-                          className="font-display text-[13rem] sm:text-[16rem] lg:text-[20.5rem] font-bold leading-none select-none transition-all duration-500 group-hover:scale-105"
+                          className="font-display text-[10rem] sm:text-[14rem] md:text-[18rem] lg:text-[22rem] font-bold leading-none select-none transition-transform duration-700 ease-out group-hover:scale-105"
                           style={{
                             color: section.color,
-                            opacity: 0.08,
-                            filter: `drop-shadow(0 0 25px rgba(${section.rgb}, 0.35))`,
+                            opacity: 0.07,
+                            filter: `drop-shadow(0 0 30px rgba(${section.rgb}, 0.35))`,
                           }}
                         >
                           {section.num}
@@ -95,40 +98,40 @@ export function SolucoesGrid() {
                       </div>
 
                       {/* Concentric rings */}
-                      <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-60 z-0">
+                      <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-50 z-1">
                         <div
-                          className="absolute w-32 h-32 rounded-full border group-hover:scale-110 transition-transform duration-700"
-                          style={{ borderColor: `rgba(${section.rgb}, 0.5)` }}
+                          className="absolute w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-full border group-hover:scale-110 transition-transform duration-700 ease-out"
+                          style={{ borderColor: `rgba(${section.rgb}, 0.45)` }}
                         />
                         <div
-                          className="absolute w-48 h-48 rounded-full border group-hover:scale-110 transition-transform duration-700 delay-75"
-                          style={{ borderColor: `rgba(${section.rgb}, 0.3)` }}
+                          className="absolute w-36 h-36 sm:w-48 sm:h-48 md:w-60 md:h-60 rounded-full border group-hover:scale-110 transition-transform duration-700 ease-out delay-75"
+                          style={{ borderColor: `rgba(${section.rgb}, 0.28)` }}
                         />
                         <div
-                          className="absolute w-72 h-72 rounded-full border group-hover:scale-110 transition-transform duration-700 delay-150"
-                          style={{ borderColor: `rgba(${section.rgb}, 0.2)` }}
+                          className="absolute w-52 h-52 sm:w-68 sm:h-68 md:w-84 md:h-84 rounded-full border group-hover:scale-110 transition-transform duration-700 ease-out delay-150"
+                          style={{ borderColor: `rgba(${section.rgb}, 0.18)` }}
                         />
                         <div
-                          className="absolute w-96 h-96 rounded-full border group-hover:scale-110 transition-transform duration-700 delay-200"
-                          style={{ borderColor: `rgba(${section.rgb}, 0.1)` }}
+                          className="absolute w-72 h-72 sm:w-96 sm:h-96 md:w-[28rem] md:h-[28rem] rounded-full border group-hover:scale-110 transition-transform duration-700 ease-out delay-200"
+                          style={{ borderColor: `rgba(${section.rgb}, 0.08)` }}
                         />
                       </div>
 
                       {/* Soft background glow */}
-                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-0">
+                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-1 pointer-events-none">
                         <div
-                          className="w-64 h-64 blur-3xl rounded-full"
-                          style={{ backgroundColor: `rgba(${section.rgb}, 0.1)` }}
+                          className="w-56 h-56 md:w-80 md:h-80 blur-3xl rounded-full"
+                          style={{ backgroundColor: `rgba(${section.rgb}, 0.12)` }}
                         />
                       </div>
 
                       {/* Icon */}
-                      <div className="relative z-10 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+                      <div className="relative z-20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500 ease-out">
                         <section.icon
-                          className="size-20 lg:size-24"
+                          className="size-14 sm:size-18 md:size-22 lg:size-26"
                           style={{
                             color: section.color,
-                            filter: `drop-shadow(0 0 10px rgba(${section.rgb}, 0.2))`,
+                            filter: `drop-shadow(0 0 16px rgba(${section.rgb}, 0.4))`,
                           }}
                           strokeWidth={1}
                         />
@@ -137,51 +140,51 @@ export function SolucoesGrid() {
                   </div>
 
                   {/* Content Side */}
-                  <div className="w-full lg:w-1/2">
+                  <div className="w-full lg:w-1/2 relative z-20">
                     <ScrollReveal>
                       <div className="flex flex-wrap items-center gap-3 sm:gap-4 mb-6">
                         <div className="flex items-center gap-2.5">
                           <div
-                            className="w-2 h-2 rounded-full"
+                            className="w-2.5 h-2.5 rounded-full"
                             style={{
                               backgroundColor: section.color,
-                              boxShadow: `0 0 8px ${section.color}`,
+                              boxShadow: `0 0 10px ${section.color}`,
                             }}
                           />
                           <span
-                            className="font-mono text-[11px] font-bold uppercase tracking-[0.2em]"
+                            className="font-mono text-[11px] sm:text-xs font-bold uppercase tracking-[0.2em]"
                             style={{ color: section.color }}
                           >
                             {section.label}
                           </span>
                         </div>
                         <span
-                          className="font-mono text-[10px] font-semibold uppercase tracking-[0.15em] px-3 py-1 rounded-sm border"
+                          className="font-mono text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.15em] px-3 py-1 rounded-sm border"
                           style={{
                             color: section.color,
                             borderColor: `rgba(${section.rgb}, 0.35)`,
-                            backgroundColor: `rgba(${section.rgb}, 0.05)`,
+                            backgroundColor: `rgba(${section.rgb}, 0.06)`,
                           }}
                         >
                           {section.badge}
                         </span>
                       </div>
-                      <h3 className="font-display text-2xl sm:text-3xl font-bold text-white mb-6">
+                      <h3 className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 tracking-tight leading-[1.15]">
                         {section.title}
                       </h3>
-                      <p className="text-sm sm:text-base text-slate-400 font-light mb-8 leading-relaxed">
+                      <p className="text-base sm:text-lg text-slate-300/90 font-light mb-8 leading-relaxed">
                         {section.desc}
                       </p>
 
                       <ul className="space-y-4">
                         {section.checks.map((check, cIdx) => (
-                          <li key={cIdx} className="flex items-start gap-3 text-slate-300">
+                          <li key={cIdx} className="flex items-start gap-3.5 text-slate-200 text-sm sm:text-base">
                             <FaCheck
                               className="mt-1 shrink-0"
                               size={18}
                               style={{ color: section.color }}
                             />
-                            <span className="leading-snug">{check}</span>
+                            <span className="leading-relaxed font-normal">{check}</span>
                           </li>
                         ))}
                       </ul>
@@ -196,3 +199,4 @@ export function SolucoesGrid() {
     </>
   );
 }
+

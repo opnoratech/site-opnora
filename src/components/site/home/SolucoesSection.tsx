@@ -9,7 +9,7 @@ type SolucoesSectionProps = {
 
 export function SolucoesSection({
   bgClass = "bg-[#0e0e12]",
-  eyebrow = "02 / SOLUÇÕES — COMO CONSTRUÍMOS",
+  eyebrow = "02 / METODOLOGIA DE DESENVOLVIMENTO",
 }: SolucoesSectionProps = {}) {
   const steps = [
     {
@@ -93,7 +93,7 @@ export function SolucoesSection({
               animation: aurora-flow 5s linear infinite;
             }
           `}</style>
-          {/* Continuous horizontal line across steps */}
+          {/* Continuous horizontal line across steps - desktop only */}
           <div className="absolute top-[38px] left-[15%] right-[15%] h-[2px] hidden md:block rounded-full bg-white/5 overflow-hidden">
             <div
               className="absolute inset-0 opacity-70 animate-aurora-flow"
@@ -104,12 +104,13 @@ export function SolucoesSection({
               }}
             />
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-4 relative z-10">
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-4 relative z-10">
             {steps.map((step, i) => (
               <FadeIn key={i} delay={i * 150} className="flex flex-col items-center text-center">
                 {/* Circle Icon */}
                 <div
-                  className="organic-float w-[60px] h-[60px] mt-2 rounded-full flex items-center justify-center border-2 mb-5 bg-[#0c0c0f]"
+                  className="organic-float w-12 h-12 md:w-[60px] md:h-[60px] rounded-full flex items-center justify-center border-2 mb-4 md:mb-5 bg-[#0c0c0f]"
                   style={{
                     borderColor: step.color,
                     boxShadow: `0 0 12px ${step.glow}`,
@@ -118,21 +119,20 @@ export function SolucoesSection({
                   }}
                 >
                   <step.icon
-                    size={28}
-                    className="text-white drop-shadow-[0_0_2px_rgba(255,255,255,0.1)] transition-all duration-500"
+                    className="size-5 md:size-7 text-white drop-shadow-[0_0_2px_rgba(255,255,255,0.1)] transition-all duration-500"
                   />
                 </div>
 
                 {/* Step Title */}
                 <h3
-                  className="font-display text-base font-bold mb-2 tracking-wide"
+                  className="font-display text-sm sm:text-base font-bold mb-1.5 md:mb-2 tracking-wide"
                   style={{ color: step.color }}
                 >
                   {step.title}
                 </h3>
 
                 {/* Step Description */}
-                <p className="text-[11px] md:text-xs text-slate-400 leading-relaxed font-light px-2">
+                <p className="text-[11px] md:text-xs text-slate-400 leading-relaxed font-light px-1 md:px-2">
                   {step.desc}
                 </p>
               </FadeIn>

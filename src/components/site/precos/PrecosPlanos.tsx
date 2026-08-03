@@ -475,12 +475,12 @@ export function PrecosPlanos() {
       <div className="flex flex-wrap gap-x-6 gap-y-2.5 text-[11px]">
         <div className="flex items-center gap-2 text-slate-500">
           <span>
-            <strong className="text-slate-400">Incluída</strong> — faz parte do valor inicial
+            <strong className="text-slate-400">Incluída</strong> (faz parte do valor inicial)
           </span>
         </div>
         <div className="flex items-center gap-2 text-slate-500">
           <span>
-            <strong className="text-amber-400/80">Adicional</strong> — pode ser contratado
+            <strong className="text-amber-400/80">Adicional</strong> (pode ser contratado
             separadamente
           </span>
         </div>

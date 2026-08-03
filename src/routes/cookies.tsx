@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/cookies")({
   head: () => ({
-    meta: [{ title: "Política de Cookies — Opnora" }],
+    meta: [{ title: "Política de Cookies | Opnora" }],
   }),
   component: CookiesPage,
 });

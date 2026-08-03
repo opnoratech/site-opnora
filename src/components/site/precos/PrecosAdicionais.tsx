@@ -317,8 +317,9 @@ export function PrecosAdicionais() {
           <ScrollReveal delay={200}>
             <p className="text-sm sm:text-base text-slate-400 font-light leading-relaxed">
               Depois de lançar seu projeto, a Opnora continua ao lado da sua empresa com
-              acompanhamento mensal de melhorias, tráfego, automações e análise de dados —
-              contratados como complementos pós-entrega ou incorporados à sua operação.
+              acompanhamento mensal de melhorias, tráfego, automações e análise de dados.
+              Esses serviços podem ser contratados como complementos pós-entrega ou
+              incorporados diretamente à sua operação.
             </p>
           </ScrollReveal>
         </div>

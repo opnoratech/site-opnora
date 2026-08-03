@@ -1,6 +1,5 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
-import { Shader, Swirl, ChromaFlow, FlutedGlass, FilmGrain } from "shaders/react";
 
 const MARQUEE_LOGOS = [
   {
@@ -47,7 +46,7 @@ const MARQUEE_LOGOS = [
 
 const MarqueeSection = () => {
   return (
-    <section className="relative w-full py-6 overflow-hidden bg-[#0e0e12] border-b border-white/5">
+    <section className="relative w-full py-4 md:py-6 overflow-hidden bg-[#0e0e12] border-b border-white/5">
       {/* Inline styles for the infinite CSS animation */}
       <style
         dangerouslySetInnerHTML={{
@@ -67,15 +66,15 @@ const MarqueeSection = () => {
       />
 
       {/* Gradient masks for seamless fading on edges */}
-      <div className="absolute inset-y-0 left-0 w-24 sm:w-40 bg-gradient-to-r from-[#0e0e12] to-transparent z-10 pointer-events-none" />
-      <div className="absolute inset-y-0 right-0 w-24 sm:w-40 bg-gradient-to-l from-[#0e0e12] to-transparent z-10 pointer-events-none" />
+      <div className="absolute inset-y-0 left-0 w-12 md:w-40 bg-gradient-to-r from-[#0e0e12] to-transparent z-10 pointer-events-none" />
+      <div className="absolute inset-y-0 right-0 w-12 md:w-40 bg-gradient-to-l from-[#0e0e12] to-transparent z-10 pointer-events-none" />
 
       {/* Scroll Track */}
-      <div className="flex w-max gap-8 animate-marquee-scroll items-center px-4">
+      <div className="flex w-max gap-4 md:gap-8 animate-marquee-scroll items-center px-4">
         {[...MARQUEE_LOGOS, ...MARQUEE_LOGOS].map((logo, index) => (
           <div
             key={`${logo.name}-${index}`}
-            className="group relative h-20 w-44 shrink-0 flex items-center justify-center rounded-full bg-[#131318] border border-white/5 shadow-sm hover:border-white/20 transition-all duration-500 overflow-hidden cursor-pointer"
+            className="group relative h-12 w-28 md:h-20 md:w-44 shrink-0 flex items-center justify-center rounded-full bg-[#131318] border border-white/5 shadow-sm hover:border-white/20 transition-all duration-500 overflow-hidden cursor-pointer"
           >
             {/* Absolute Gradient Element inside the card */}
             <div
@@ -86,7 +85,7 @@ const MarqueeSection = () => {
             <img
               src={logo.src}
               alt={logo.name}
-              className="relative z-10 w-8 h-8 object-contain transition-all duration-500 group-hover:brightness-0 group-hover:invert"
+              className="relative z-10 w-5 h-5 md:w-8 md:h-8 object-contain transition-all duration-500 group-hover:brightness-0 group-hover:invert"
             />
           </div>
         ))}
@@ -95,70 +94,38 @@ const MarqueeSection = () => {
   );
 };
 
-const ShaderBackground = ({ isHovered }: { isHovered: boolean }) => {
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-      {/* Shaders Stack adapted to Opnora's dark theme */}
-      <div className="absolute inset-0 opacity-100">
-        <Shader style={{ width: "100%", height: "100%", display: "block" }}>
-          <Swirl colorA="#0a0a0c" colorB="#1a1a24" detail={1.7} />
-          <ChromaFlow
-            baseColor="#0a0a0c"
-            leftColor="#a79df0"
-            upColor="#82b8f7"
-            rightColor="#4ed4cf"
-            downColor="#58e5a6"
-            momentum={13}
-            radius={isHovered ? 2.4 : 0}
-          />
-          <FlutedGlass
-            aberration={0.61}
-            angle={31}
-            frequency={10}
-            highlight={0.25}
-            highlightSoftness={0.2}
-            lightAngle={-90}
-            refraction={4}
-            softness={1}
-            speed={0.15}
-          />
-          <FilmGrain strength={0.05} />
-        </Shader>
-      </div>
-
-      {/* Faint Grid on top of the shader for extra texture */}
-      <div
-        className="absolute inset-0 opacity-[0.10]"
-        style={{
-          backgroundImage: `
-            linear-gradient(to right, rgba(255,255,255,0.2) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(255,255,255,0.2) 1px, transparent 1px)
-          `,
-          backgroundSize: "80px 80px",
-          backgroundPosition: "center center",
-          maskImage: "radial-gradient(ellipse at center, black 40%, transparent 80%)",
-          WebkitMaskImage: "radial-gradient(ellipse at center, black 40%, transparent 80%)",
-        }}
-      />
-    </div>
-  );
-};
-
 export function SolucoesHero() {
-  const [isHeroHovered, setIsHeroHovered] = useState(true);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setMousePos({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+  };
 
   return (
     <>
       <section
-        className="relative min-h-dvh flex items-center justify-center overflow-hidden border-b border-white/5 py-20 lg:py-0"
-        onPointerEnter={() => setIsHeroHovered(true)}
-        onPointerLeave={() => setIsHeroHovered(false)}
+        className="hero-bg group relative flex min-h-dvh items-center justify-center overflow-hidden border-b border-white/5"
+        onMouseMove={handleMouseMove}
+        style={
+          {
+            "--mouse-x": `${mousePos.x}px`,
+            "--mouse-y": `${mousePos.y}px`,
+          } as React.CSSProperties
+        }
       >
-        <div className="absolute inset-0 bg-[#0e0e12]" />
+        {/* Efeito interativo de luz do mouse (exatamente como no Inicio/HomeHero) */}
+        <div
+          className="pointer-events-none absolute inset-0 z-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+          style={{
+            background: `radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.03), transparent 40%)`,
+          }}
+        />
 
-        <ShaderBackground isHovered={isHeroHovered} />
-
-        <div className="relative z-10 w-full max-w-[90rem] mx-auto px-6 lg:px-12 flex flex-col items-start justify-center pt-24 lg:pt-0">
+        <div className="relative z-10 w-full max-w-[90rem] mx-auto px-6 pt-32 pb-24 lg:py-0 lg:px-12 flex flex-col items-start justify-center min-h-dvh">
           <div className="flex flex-col items-start lg:py-0 w-full max-w-4xl">
             <ScrollReveal delay={0}>
               <div className="flex items-center gap-4 mb-1.5">
@@ -188,10 +155,40 @@ export function SolucoesHero() {
               as="p"
               className="mt-3 max-w-4xl text-sm sm:text-lg text-slate-400 font-light leading-relaxed mb-12"
             >
-              Software sob medida, inteligência artificial e visão de negócio. Nossas três frentes —
-              Build, Intelligence e Labs — trabalham juntas para criar soluções que ajudam empresas
+              Software sob medida, inteligência artificial e visão de negócio. Nossas três frentes
+              (Build, Intelligence e Labs) trabalham juntas para criar soluções que ajudam empresas
               a evoluir.
             </ScrollReveal>
+          </div>
+        </div>
+        {/* Scroll Down Indicator */}
+        <div className="absolute bottom-3 sm:bottom-5 md:bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 md:gap-2 z-10 pointer-events-none">
+          <span className="font-mono text-[9px] sm:text-[11px] font-medium uppercase tracking-[0.3em] text-slate-300/90 select-none">
+            SCROLL
+          </span>
+          <div className="w-[1.5px] h-8 md:h-12 relative overflow-hidden">
+            <style>{`
+              @keyframes scroll-line-flow {
+                0% {
+                  transform: translateY(-100%);
+                  opacity: 0;
+                }
+                25% {
+                  opacity: 1;
+                }
+                75% {
+                  opacity: 1;
+                }
+                100% {
+                  transform: translateY(100%);
+                  opacity: 0;
+                }
+              }
+              .animate-scroll-line {
+                animation: scroll-line-flow 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+              }
+            `}</style>
+            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent via-[#a280ff] to-transparent animate-scroll-line" />
           </div>
         </div>
       </section>
@@ -200,3 +197,4 @@ export function SolucoesHero() {
     </>
   );
 }
+

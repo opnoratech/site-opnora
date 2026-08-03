@@ -99,7 +99,7 @@ export function AuroraSection() {
         <ScrollReveal delay={100} className="mb-6 flex items-center justify-center gap-4">
           <div className="h-[2px] w-8 bg-gradient-to-r from-aurora-violet to-aurora-cyan"></div>
           <span className="font-display text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 md:text-[11px]">
-            ALÉM DO CÓDIGO
+            Engenharia como arte
           </span>
           <div className="h-[2px] w-8 bg-gradient-to-r from-aurora-violet to-aurora-cyan"></div>
         </ScrollReveal>
@@ -107,9 +107,13 @@ export function AuroraSection() {
         <ScrollReveal
           as="h2"
           delay={200}
-          className="font-display text-3xl font-bold leading-[1.1] tracking-tight text-white sm:text-5xl md:text-6xl"
+          className="font-display text-3xl font-bold leading-[1.1] tracking-tight text-white sm:text-5xl md:text-6xl uppercase"
         >
-          Engenharia como arte.
+          SEU PRÓXIMO PROJETO
+          <br />
+          <span className="aurora-holographic-text">
+            COMEÇA AQUI.
+          </span>
         </ScrollReveal>
 
         <ScrollReveal
@@ -117,16 +121,18 @@ export function AuroraSection() {
           delay={300}
           className="mt-6 max-w-2xl text-sm font-light leading-relaxed text-slate-400 sm:text-base md:text-lg"
         >
-          Acreditamos que software de excelência não é apenas funcional. Ele também precisa ser
-          claro, útil e construído com cuidado em cada detalhe da experiência.
+          Conte o que sua empresa precisa resolver. A Opnora avalia o escopo e propõe uma
+          solução digital adequada para o seu momento.
         </ScrollReveal>
 
         <ScrollReveal delay={400} className="mt-10">
           <Link
-            to="/solucoes"
-            className="inline-flex h-11 md:h-12 w-full sm:w-auto items-center justify-center rounded-sm bg-white px-8 text-[11px] sm:text-xs font-black uppercase tracking-[0.15em] text-black transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_4px_14px_rgba(255,255,255,0.15)]"
+            to="/contato"
+            hash="formulario-contato"
+            className="group inline-flex h-11 md:h-12 w-full sm:w-auto items-center justify-center gap-2 rounded-sm bg-white px-8 text-[11px] sm:text-xs font-black uppercase tracking-[0.15em] text-black transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_4px_14px_rgba(255,255,255,0.15)]"
           >
-            CONHECER SOLUÇÕES
+            SOLICITAR PROPOSTA
+            <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
           </Link>
         </ScrollReveal>
       </div>

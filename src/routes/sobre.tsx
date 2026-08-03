@@ -9,7 +9,7 @@ import { SobreEquipe } from "@/components/site/sobre/SobreEquipe";
 export const Route = createFileRoute("/sobre")({
   head: () => ({
     meta: [
-      { title: "Sobre — Opnora" },
+      { title: "Sobre | Opnora" },
       { name: "description", content: "A Opnora desenvolve software sob medida com inteligência artificial, automação e dados para transformar problemas reais em soluções digitais." },
     ],
   }),

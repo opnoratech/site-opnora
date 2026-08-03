@@ -61,7 +61,7 @@ export function HomeHero() {
           <span
             className="text-white"
             style={{
-              fontSize: "clamp(3rem, 10vw, 9rem)",
+              fontSize: "clamp(2rem, 10vw, 9rem)",
             }}
           >
             OPNORA
@@ -71,7 +71,7 @@ export function HomeHero() {
           <span
             className="mt-1 max-w-full aurora-holographic-text"
             style={{
-              fontSize: "clamp(3rem, 11vw, 9rem)",
+              fontSize: "clamp(1.75rem, 11vw, 9rem)",
             }}
           >
             TECNOLOGIAS
