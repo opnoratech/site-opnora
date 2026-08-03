@@ -595,10 +595,10 @@ export function useContatoSimulador(defaultPlano?: string, defaultNivel?: string
     let baseName = "";
 
     if (basePlano === "landing") {
-      basePrice = 700;
+      basePrice = 550;
       baseName = "Landing Page";
     } else if (basePlano === "essencial") {
-      basePrice = 1200;
+      basePrice = 1100;
       baseName = "Essencial";
     } else if (basePlano === "profissional") {
       basePrice = 2000;

@@ -182,7 +182,7 @@ export function EcosystemSection({
             as="h2"
             className="text-3xl sm:text-4xl md:text-5xl font-bold leading-[1.3] mb-6 tracking-tight font-display max-w-3xl"
           >
-            <span className="text-white">O ecossistema </span>
+            <span className="text-white">A estrutura </span>
             <span
               className="text-transparent bg-clip-text"
               style={{

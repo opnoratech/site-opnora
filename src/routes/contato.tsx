@@ -338,18 +338,17 @@ function ContatoPage() {
                   <div className="flex items-center gap-4 mb-4">
                     <div className="h-[2px] w-8 bg-gradient-to-r from-aurora-violet to-aurora-cyan" />
                     <span className="font-mono text-[10px] sm:text-[11px] text-slate-400 font-bold uppercase tracking-[0.2em]">
-                      ENTRE EM CONTATO
+                      FALE CONOSCO
                     </span>
                   </div>
                   <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight text-white mb-6">
-                    Entre em contato conosco.
+                    Vamos construir juntos?
                   </h2>
                   <p className="text-sm sm:text-base text-slate-400 font-light leading-relaxed">
-                    A Opnora é construída em torno de trabalho significativo e colaboração
-                    cuidadosa. Se você tiver uma ideia para discutir, um projeto para construir ou
-                    dúvidas sobre nossos produtos e serviços, entre em contato. Cada mensagem é
-                    revisada por nossa equipe e entraremos em contato com você o mais breve
-                    possível.
+                    A Opnora é construída em torno de trabalho significativo e colaboração próxima.
+                    Se você tem uma ideia para debater, um projeto para desenvolver ou deseja
+                    tirar dúvidas sobre nossas soluções, envie sua mensagem. Analisamos cada
+                    proposta com atenção e responderemos o mais rápido possível.
                   </p>
                 </div>
               </ScrollReveal>
