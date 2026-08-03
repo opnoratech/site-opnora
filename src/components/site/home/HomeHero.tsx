@@ -83,7 +83,7 @@ export function HomeHero() {
           ref={subtitleRef}
           className="mx-auto mt-8 text-base sm:text-lg md:text-xl font-display font-medium text-white tracking-wide"
         >
-          Desenvolvimento & Engenharia de Software
+          Tecnologia do Futuro
         </h2>
 
         {/* Subtitle */}
@@ -91,8 +91,8 @@ export function HomeHero() {
           ref={descRef}
           className="mx-auto mt-4 max-w-[680px] text-sm font-light leading-relaxed text-slate-400 sm:text-base"
         >
-          Desenvolvemos software sob medida, automações e soluções com IA para empresas que querem
-          organizar processos e evoluir com tecnologia.
+          A Opnora transforma desafios do dia a dia em soluções digitais inteligentes, combinando
+          software, automação e inteligência artificial.
         </p>
 
         {/* Buttons */}

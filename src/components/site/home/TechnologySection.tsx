@@ -193,25 +193,7 @@ export function TechnologySection({
             delay={50}
             className="text-3xl sm:text-4xl md:text-5xl font-display font-bold leading-[1.1] mb-6 tracking-tight text-white max-w-4xl"
           >
-            Capacidades técnicas &{" "}
-            <span
-              className="text-transparent bg-clip-text"
-              style={{
-                backgroundImage: "linear-gradient(135deg, #a280ff 0%, #40c4ff 100%)",
-              }}
-            >
-              stack moderna
-            </span>
-          </ScrollReveal>
-
-          <ScrollReveal
-            as="p"
-            delay={100}
-            className="text-sm sm:text-base text-slate-400 font-light leading-relaxed max-w-2xl"
-          >
-            Não utilizamos soluções engessadas. Selecionamos a tecnologia certa para cada desafio,
-            garantindo que sua aplicação tenha arquitetura limpa, velocidade de execução e
-            facilidade de evolução.
+            Tecnologias que construímos
           </ScrollReveal>
         </div>
 

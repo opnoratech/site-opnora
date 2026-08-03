@@ -43,14 +43,16 @@ export function HomeAbout({ eyebrow = "01 / OS PROBLEMAS QUE RESOLVEMOS" }: Home
               className="space-y-4 text-sm sm:text-base text-slate-400 font-light leading-relaxed mb-10 max-w-xl"
             >
               <p>
-                Muitas empresas operam com planilhas soltas, processos manuais repetitivos e
-                sistemas que não conversam entre si. Isso gera lentidão, falhas no atendimento e
-                perda de visibilidade dos dados.
+                A Opnora desenvolve soluções digitais sob medida para empresas, projetos e
+                instituições que buscam mais eficiência, organização e inovação. Acreditamos que a
+                tecnologia deve simplificar o dia a dia, resolver problemas reais e acompanhar o
+                crescimento de cada negócio.
               </p>
               <p>
-                A Opnora desenvolve software sob medida, automações e plataformas digitais para
-                estruturar sua operação. Substituímos remendos tecnológicos por arquiteturas
-                sólidas, organizadas e feitas para o seu fluxo de trabalho.
+                Mais do que criar sistemas, entendemos as necessidades de cada cliente para
+                desenvolver soluções que façam sentido na prática. Da ideia à entrega, trabalhamos
+                lado a lado para transformar desafios em resultados, com tecnologia confiável,
+                intuitiva e preparada para evoluir junto com o seu projeto.
               </p>
             </ScrollReveal>
 
