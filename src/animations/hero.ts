@@ -45,7 +45,7 @@ export function animateHero({
           stagger: 0.15,
           duration: 1.0,
           ease: OPNORA_EASINGS.SMOOTH_OUT,
-        }
+        },
       );
     }
 
@@ -60,7 +60,7 @@ export function animateHero({
           duration: 1.2,
           delay: 0.3,
           ease: OPNORA_EASINGS.EXPO_OUT,
-        }
+        },
       );
     }
   }, container);

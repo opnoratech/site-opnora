@@ -116,7 +116,8 @@ export function SolucoesAutomacaoIA({
             <ScrollReveal delay={200}>
               <p className="text-base sm:text-lg text-slate-400 font-light leading-relaxed">
                 Criamos automações, assistentes inteligentes e fluxos digitais para melhorar o
-                atendimento, captar oportunidades e ajudar sua empresa a crescer com mais organização.
+                atendimento, captar oportunidades e ajudar sua empresa a crescer com mais
+                organização.
               </p>
             </ScrollReveal>
           </div>

@@ -32,10 +32,10 @@ function TermosPage() {
               </span>
             </div>
 
-            <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight uppercase leading-[0.9]">
+            <h1 className="font-display text-[3.2rem] xs:text-[3.8rem] sm:text-[4.4rem] md:text-[5.2rem] lg:text-[6rem] font-black tracking-tight leading-[0.98] uppercase py-2">
               <span className="block text-white">TERMOS DE</span>
               <span
-                className="inline-block text-transparent bg-clip-text w-fit"
+                className="inline-block text-transparent bg-clip-text w-fit pt-1 pb-1 mt-0 sm:mt-0.5 drop-shadow-[0_0_35px_rgba(167,157,240,0.45)]"
                 style={{
                   backgroundImage: "linear-gradient(160deg, #a79df0, #82b8f7, #4ed4cf, #58e5a6)",
                 }}
@@ -61,7 +61,9 @@ function TermosPage() {
                 1. Aceitação dos Termos
               </h2>
               <p className="text-slate-300">
-                Ao navegar no site da Opnora Technologies ("Site") ou utilizar nossos formulários de simulação e contato, você concorda em cumprir estes Termos de Uso. Caso não concorde com estes termos, solicitamos que interrompa a navegação no site.
+                Ao navegar no site da Opnora Technologies ("Site") ou utilizar nossos formulários de
+                simulação e contato, você concorda em cumprir estes Termos de Uso. Caso não concorde
+                com estes termos, solicitamos que interrompa a navegação no site.
               </p>
             </div>
 
@@ -71,12 +73,21 @@ function TermosPage() {
                 2. Uso Permitido do Site
               </h2>
               <p className="mb-4 text-slate-300">
-                Você concorda em utilizar o site apenas para finalidades legítimas de informação e contratação de serviços. É expressamente proibido:
+                Você concorda em utilizar o site apenas para finalidades legítimas de informação e
+                contratação de serviços. É expressamente proibido:
               </p>
               <ul className="list-disc pl-5 space-y-2 mt-4 marker:text-white">
-                <li>Tentar acessar áreas restritas, servidores ou códigos da plataforma sem autorização.</li>
-                <li>Utilizar mecanismos automatizados (bots, scrapers) para extrair dados do site.</li>
-                <li>Enviar mensagens maliciosas, spam ou tentativas de invasão através dos formulários.</li>
+                <li>
+                  Tentar acessar áreas restritas, servidores ou códigos da plataforma sem
+                  autorização.
+                </li>
+                <li>
+                  Utilizar mecanismos automatizados (bots, scrapers) para extrair dados do site.
+                </li>
+                <li>
+                  Enviar mensagens maliciosas, spam ou tentativas de invasão através dos
+                  formulários.
+                </li>
               </ul>
             </div>
 
@@ -86,7 +97,10 @@ function TermosPage() {
                 3. Propriedade Intelectual
               </h2>
               <p className="text-slate-300">
-                Todo o conteúdo deste site — incluindo logotipos, marcas, códigos, identidades visuais, textos e estruturas de dados — pertence exclusivamente à Opnora Technologies. É proibida a cópia, reprodução ou engenharia reversa sem autorização prévia por escrito.
+                Todo o conteúdo deste site — incluindo logotipos, marcas, códigos, identidades
+                visuais, textos e estruturas de dados — pertence exclusivamente à Opnora
+                Technologies. É proibida a cópia, reprodução ou engenharia reversa sem autorização
+                prévia por escrito.
               </p>
             </div>
 
@@ -96,7 +110,10 @@ function TermosPage() {
                 4. Simuladores, Orçamentos e Propostas
               </h2>
               <p className="text-slate-300">
-                As estimativas de valores e prazos geradas no simulador do site têm caráter puramente informativo e preliminar. A contratação definitiva de desenvolvimento de software é formalizada através de proposta técnica e contrato de prestação de serviços específico.
+                As estimativas de valores e prazos geradas no simulador do site têm caráter
+                puramente informativo e preliminar. A contratação definitiva de desenvolvimento de
+                software é formalizada através de proposta técnica e contrato de prestação de
+                serviços específico.
               </p>
             </div>
 
@@ -106,7 +123,9 @@ function TermosPage() {
                 5. Isenção e Limitação de Responsabilidade
               </h2>
               <p className="text-slate-300">
-                Embora nos esforcemos para manter o site continuamente disponível e seguro, a Opnora não se responsabiliza por instabilidades temporárias decorrentes de falhas em redes de terceiros, provedores de conexão ou manutenção de infraestrutura.
+                Embora nos esforcemos para manter o site continuamente disponível e seguro, a Opnora
+                não se responsabiliza por instabilidades temporárias decorrentes de falhas em redes
+                de terceiros, provedores de conexão ou manutenção de infraestrutura.
               </p>
             </div>
 
@@ -116,7 +135,8 @@ function TermosPage() {
                 6. Links Externos
               </h2>
               <p className="text-slate-300">
-                Nosso site pode conter links para serviços ou plataformas externas. A Opnora não exerce controle sobre o conteúdo ou políticas de privacidade de terceiros.
+                Nosso site pode conter links para serviços ou plataformas externas. A Opnora não
+                exerce controle sobre o conteúdo ou políticas de privacidade de terceiros.
               </p>
             </div>
 
@@ -126,7 +146,9 @@ function TermosPage() {
                 7. Legislação Aplicável e Foro
               </h2>
               <p className="text-slate-300">
-                Estes Termos são regidos pelas leis da República Federativa do Brasil (incluindo a LGPD e o Marco Civil da Internet). Eventuais controvérsias serão dirimidas no foro da comarca da sede da Opnora.
+                Estes Termos são regidos pelas leis da República Federativa do Brasil (incluindo a
+                LGPD e o Marco Civil da Internet). Eventuais controvérsias serão dirimidas no foro
+                da comarca da sede da Opnora.
               </p>
             </div>
 
@@ -142,7 +164,8 @@ function TermosPage() {
                   className="text-[#a280ff] hover:text-[#b3a1ff] font-medium underline transition-colors"
                 >
                   contato@opnora.tech
-                </a>.
+                </a>
+                .
               </p>
             </div>
           </div>

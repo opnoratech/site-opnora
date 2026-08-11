@@ -8,7 +8,7 @@ export function animateCounter(
   targetEl: HTMLElement | null,
   endValue: number,
   prefix: string = "",
-  suffix: string = ""
+  suffix: string = "",
 ) {
   if (!targetEl) return;
   if (shouldReduceMotion()) {

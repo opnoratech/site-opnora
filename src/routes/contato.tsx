@@ -28,7 +28,9 @@ import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { CONTACT } from "@/config/site";
 
 export const Route = createFileRoute("/contato")({
-  validateSearch: (search: Record<string, unknown>): { plano?: string; expansao?: string; nivel?: string } => {
+  validateSearch: (
+    search: Record<string, unknown>,
+  ): { plano?: string; expansao?: string; nivel?: string } => {
     return {
       plano: search.plano as string | undefined,
       expansao: search.expansao as string | undefined,
@@ -268,10 +270,10 @@ function ContatoPage() {
               </ScrollReveal>
 
               <ScrollReveal delay={100}>
-                <h1 className="font-display text-[2.1rem] sm:text-[3.0rem] md:text-[4.5rem] lg:text-[6rem] font-black tracking-tight leading-[1.02] uppercase py-2">
+                <h1 className="font-display text-[3.2rem] xs:text-[3.8rem] sm:text-[4.4rem] md:text-[5.2rem] lg:text-[6rem] font-black tracking-tight leading-[0.98] uppercase py-2">
                   <span className="block text-white">OPNORA</span>
                   <span
-                    className="inline-block text-transparent bg-clip-text w-fit py-4 -my-4"
+                    className="inline-block text-transparent bg-clip-text w-fit pt-1 pb-1 mt-0 sm:mt-0.5 drop-shadow-[0_0_35px_rgba(167,157,240,0.45)]"
                     style={{
                       backgroundImage:
                         "linear-gradient(160deg, #a79df0, #82b8f7, #4ed4cf, #58e5a6)",
@@ -292,13 +294,13 @@ function ContatoPage() {
             </div>
           </div>
         </div>
-          {/* Scroll Down Indicator */}
-          <div className="absolute bottom-3 sm:bottom-5 md:bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 md:gap-2 z-10 pointer-events-none">
-            <span className="font-mono text-[9px] sm:text-[11px] font-medium uppercase tracking-[0.3em] text-slate-300/90 select-none">
-              SCROLL
-            </span>
-            <div className="w-[1.5px] h-8 md:h-12 relative overflow-hidden">
-              <style>{`
+        {/* Scroll Down Indicator */}
+        <div className="absolute bottom-3 sm:bottom-5 md:bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 md:gap-2 z-10 pointer-events-none">
+          <span className="font-mono text-[9px] sm:text-[11px] font-medium uppercase tracking-[0.3em] text-slate-300/90 select-none">
+            SCROLL
+          </span>
+          <div className="w-[1.5px] h-8 md:h-12 relative overflow-hidden">
+            <style>{`
                 @keyframes scroll-line-flow {
                   0% {
                     transform: translateY(-100%);
@@ -319,10 +321,10 @@ function ContatoPage() {
                   animation: scroll-line-flow 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
                 }
               `}</style>
-              <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent via-[#a280ff] to-transparent animate-scroll-line" />
-            </div>
+            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent via-[#a280ff] to-transparent animate-scroll-line" />
           </div>
-        </section>
+        </div>
+      </section>
 
       {/* ===== SEÇÃO 2: FORMULÁRIO & INFORMAÇÕES DE CONTATO ===== */}
       <section
@@ -346,9 +348,9 @@ function ContatoPage() {
                   </h2>
                   <p className="text-sm sm:text-base text-slate-400 font-light leading-relaxed">
                     A Opnora é construída em torno de trabalho significativo e colaboração próxima.
-                    Se você tem uma ideia para debater, um projeto para desenvolver ou deseja
-                    tirar dúvidas sobre nossas soluções, envie sua mensagem. Analisamos cada
-                    proposta com atenção e responderemos o mais rápido possível.
+                    Se você tem uma ideia para debater, um projeto para desenvolver ou deseja tirar
+                    dúvidas sobre nossas soluções, envie sua mensagem. Analisamos cada proposta com
+                    atenção e responderemos o mais rápido possível.
                   </p>
                 </div>
               </ScrollReveal>

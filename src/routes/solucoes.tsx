@@ -17,7 +17,8 @@ export const Route = createFileRoute("/solucoes")({
       { property: "og:title", content: "Soluções & Engenharia | Opnora" },
       {
         property: "og:description",
-        content: "Software sob medida, arquitetura escalável e formas de entrega para a sua empresa.",
+        content:
+          "Software sob medida, arquitetura escalável e formas de entrega para a sua empresa.",
       },
       { property: "og:url", content: "/solucoes" },
     ],

@@ -27,7 +27,7 @@ export function animateFooter(footerEl: HTMLElement | null) {
           start: "top 88%",
           toggleActions: "play none none none",
         },
-      }
+      },
     );
   });
 

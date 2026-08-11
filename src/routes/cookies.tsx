@@ -32,10 +32,10 @@ function CookiesPage() {
               </span>
             </div>
 
-            <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight uppercase leading-[0.9]">
+            <h1 className="font-display text-[3.2rem] xs:text-[3.8rem] sm:text-[4.4rem] md:text-[5.2rem] lg:text-[6rem] font-black tracking-tight leading-[0.98] uppercase py-2">
               <span className="block text-white">POLÍTICA DE</span>
               <span
-                className="inline-block text-transparent bg-clip-text w-fit"
+                className="inline-block text-transparent bg-clip-text w-fit pt-1 pb-1 mt-0 sm:mt-0.5 drop-shadow-[0_0_35px_rgba(167,157,240,0.45)]"
                 style={{
                   backgroundImage: "linear-gradient(160deg, #a79df0, #82b8f7, #4ed4cf, #58e5a6)",
                 }}
@@ -61,7 +61,9 @@ function CookiesPage() {
                 1. O que são Cookies?
               </h2>
               <p className="text-slate-300">
-                Cookies são pequenos arquivos de texto armazenados no seu dispositivo ao navegar em um site. Eles permitem reconhecer as escolhas do usuário e manter o funcionamento correto da navegação e dos formulários.
+                Cookies são pequenos arquivos de texto armazenados no seu dispositivo ao navegar em
+                um site. Eles permitem reconhecer as escolhas do usuário e manter o funcionamento
+                correto da navegação e dos formulários.
               </p>
             </div>
 
@@ -71,19 +73,26 @@ function CookiesPage() {
                 2. Como Utilizamos Cookies em Nosso Site
               </h2>
               <p className="mb-4 text-slate-300">
-                Na Opnora Technologies, prezamos por uma abordagem de privacidade estrita. Utilizamos cookies de forma mínima e focada exclusivamente em:
+                Na Opnora Technologies, prezamos por uma abordagem de privacidade estrita.
+                Utilizamos cookies de forma mínima e focada exclusivamente em:
               </p>
               <ul className="list-disc pl-5 space-y-2.5 mt-4 marker:text-white">
                 <li>
-                  <strong className="text-white font-medium">Garantir a segurança e estabilidade</strong>{" "}
+                  <strong className="text-white font-medium">
+                    Garantir a segurança e estabilidade
+                  </strong>{" "}
                   da sua navegação e envios de formulários.
                 </li>
                 <li>
-                  <strong className="text-white font-medium">Manter suas preferências visuais</strong>{" "}
+                  <strong className="text-white font-medium">
+                    Manter suas preferências visuais
+                  </strong>{" "}
                   (como tema escuro).
                 </li>
                 <li>
-                  <strong className="text-white font-medium">Coletar métricas anônimas de tráfego</strong>{" "}
+                  <strong className="text-white font-medium">
+                    Coletar métricas anônimas de tráfego
+                  </strong>{" "}
                   para entender o desempenho das páginas sem rastrear sua identidade pessoal.
                 </li>
               </ul>
@@ -106,7 +115,8 @@ function CookiesPage() {
                   </h3>
                 </div>
                 <p className="text-sm text-slate-400">
-                  Estes cookies são fundamentais para o funcionamento do site e proteção contra envios maliciosos.
+                  Estes cookies são fundamentais para o funcionamento do site e proteção contra
+                  envios maliciosos.
                 </p>
                 <div className="overflow-x-auto rounded-xl border border-white/10 bg-[#131318]/70 backdrop-blur-sm">
                   <table className="w-full text-left text-xs sm:text-sm">
@@ -121,7 +131,9 @@ function CookiesPage() {
                     <tbody className="divide-y divide-white/5 text-slate-300">
                       <tr>
                         <td className="py-3 px-4 font-mono text-[#a280ff]">opnora_session</td>
-                        <td className="py-3 px-4">Gerencia o estado de sessão segura e navegação.</td>
+                        <td className="py-3 px-4">
+                          Gerencia o estado de sessão segura e navegação.
+                        </td>
                         <td className="py-3 px-4">Sessão</td>
                         <td className="py-3 px-4">Próprio</td>
                       </tr>
@@ -164,9 +176,7 @@ function CookiesPage() {
                     <tbody className="divide-y divide-white/5 text-slate-300">
                       <tr>
                         <td className="py-3 px-4 font-mono text-[#a280ff]">theme_mode</td>
-                        <td className="py-3 px-4">
-                          Armazena a preferência de modo escuro/claro.
-                        </td>
+                        <td className="py-3 px-4">Armazena a preferência de modo escuro/claro.</td>
                         <td className="py-3 px-4">1 ano</td>
                         <td className="py-3 px-4">Próprio</td>
                       </tr>
@@ -190,7 +200,8 @@ function CookiesPage() {
                 4. Ausência de Rastreamento Comercial
               </h2>
               <p className="text-slate-300">
-                A Opnora não utiliza cookies de redes de anúncios, remarketing, corretores de dados ou rastreadores de publicidade de terceiros.
+                A Opnora não utiliza cookies de redes de anúncios, remarketing, corretores de dados
+                ou rastreadores de publicidade de terceiros.
               </p>
             </div>
 
@@ -236,13 +247,15 @@ function CookiesPage() {
                 6. Contato
               </h2>
               <p className="text-slate-300">
-                Se tiver dúvidas sobre nossa utilização de cookies, entre em contato através do e-mail{" "}
+                Se tiver dúvidas sobre nossa utilização de cookies, entre em contato através do
+                e-mail{" "}
                 <a
                   href="mailto:contato@opnora.tech"
                   className="text-[#a280ff] hover:text-[#b3a1ff] font-medium underline transition-colors"
                 >
                   contato@opnora.tech
-                </a>.
+                </a>
+                .
               </p>
             </div>
           </div>

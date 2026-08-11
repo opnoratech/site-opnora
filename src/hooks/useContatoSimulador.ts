@@ -535,9 +535,7 @@ export function useContatoSimulador(defaultPlano?: string, defaultNivel?: string
         .map((id) => `• ${OBJECTIVE_OPTIONS.find((o) => o.id === id)?.label}`)
         .filter(Boolean)
         .join("<br />");
-      const solutionsText = selectedSolutions
-        .map((sol) => `• ${sol}`)
-        .join("<br />");
+      const solutionsText = selectedSolutions.map((sol) => `• ${sol}`).join("<br />");
       const featuresText = selectedFeatures
         .map((feat) => `• ${feat} (${featureLevels[feat] || "Padrão"})`)
         .join("<br />");

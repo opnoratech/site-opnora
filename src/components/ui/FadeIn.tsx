@@ -30,7 +30,7 @@ export function FadeIn({ children, delay = 0, direction = "up", className = "" }
           }
         }
       },
-      { threshold: 0.01, rootMargin: "50px 0px 100px 0px" }
+      { threshold: 0.01, rootMargin: "50px 0px 100px 0px" },
     );
 
     if (ref.current) {
@@ -44,11 +44,16 @@ export function FadeIn({ children, delay = 0, direction = "up", className = "" }
 
   const getTransform = () => {
     switch (direction) {
-      case "up": return "translateY(30px)";
-      case "down": return "translateY(-30px)";
-      case "left": return "translateX(30px)";
-      case "right": return "translateX(-30px)";
-      default: return "none";
+      case "up":
+        return "translateY(30px)";
+      case "down":
+        return "translateY(-30px)";
+      case "left":
+        return "translateX(30px)";
+      case "right":
+        return "translateX(-30px)";
+      default:
+        return "none";
     }
   };
 

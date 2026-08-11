@@ -1,10 +1,5 @@
 import React, { useState, useRef } from "react";
-import {
-  FaLaptopCode,
-  FaServer,
-  FaGears,
-  FaBrain,
-} from "react-icons/fa6";
+import { FaLaptopCode, FaServer, FaGears, FaBrain } from "react-icons/fa6";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 
 type TechCapability = {

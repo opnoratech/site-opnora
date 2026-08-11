@@ -4,9 +4,10 @@ type Props = {
 };
 
 export function Logo({ className = "", theme = "white" }: Props) {
-  const src = theme === "black"
-    ? "/images/logo/LogoOpnora_ExtendedBlack.png"
-    : "/images/logo/LogoOpnora_ExtendedWhite.png";
+  const src =
+    theme === "black"
+      ? "/images/logo/LogoOpnora_ExtendedBlack.png"
+      : "/images/logo/LogoOpnora_ExtendedWhite.png";
 
   return (
     <img
@@ -16,4 +17,3 @@ export function Logo({ className = "", theme = "white" }: Props) {
     />
   );
 }
-

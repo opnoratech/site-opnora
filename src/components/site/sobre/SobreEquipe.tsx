@@ -59,11 +59,7 @@ export function SobreEquipe() {
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 max-w-[85rem] mx-auto">
           {EQUIPE.map((membro, i) => (
-            <ScrollReveal
-              key={membro.nome}
-              delay={300 + i * 120}
-              className="h-full"
-            >
+            <ScrollReveal key={membro.nome} delay={300 + i * 120} className="h-full">
               <div className="group relative flex h-full w-full flex-col items-center text-center bg-[#131318] border border-white/5 rounded-sm p-8 hover:-translate-y-2 hover:bg-[#181820] hover:border-[#b3a1ff]/20 hover:shadow-[0_8px_30px_rgba(179,161,255,0.08)] motion-reduce:transition-none motion-reduce:hover:transform-none overflow-hidden transition-all duration-700 ease-out">
                 {/* Ícone (Avatar placeholder) */}
                 <ScrollReveal

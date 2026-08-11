@@ -126,10 +126,10 @@ export default async function handler(req, res) {
 
       // Token do Resend (obtido via variável de ambiente)
       const resendApiKey = process.env.RESEND_API_KEY || "";
-      
+
       const emailHtml = generateEmailHtml(data);
       const isSimulador = data.type === "simulador";
-      const subject = isSimulador 
+      const subject = isSimulador
         ? `Simulador Opnora: Novo Projeto - ${data.nome} (${data.empresa || "Sem empresa"})`
         : `Contato Opnora: Nova Mensagem - ${data.nome}`;
 
@@ -137,7 +137,7 @@ export default async function handler(req, res) {
       const resendResponse = await fetch("https://api.resend.com/emails", {
         method: "POST",
         headers: {
-          "Authorization": `Bearer ${resendApiKey}`,
+          Authorization: `Bearer ${resendApiKey}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({

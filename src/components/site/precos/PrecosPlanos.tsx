@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "@tanstack/react-router";
 import {
   FaCheck,
@@ -18,6 +18,7 @@ import {
   FaArrowRight,
 } from "react-icons/fa6";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 import { PLANOS } from "@/data/pricing";
 
@@ -330,6 +331,19 @@ const COMPARISON_CATEGORIES: ComparisonCategory[] = [
 export function PrecosPlanos() {
   const [activeAccordion, setActiveAccordion] = useState<string | null>(null);
   const [selectedMobilePlan, setSelectedMobilePlan] = useState<PlanKey>("profissional");
+  const [mobileActiveCardIndex, setMobileActiveCardIndex] = useState<number | null>(null);
+  const lastTapTimeRef = useRef<number>(0);
+  const isMobile = useIsMobile();
+
+  const handleMobileCardClick = (idx: number) => {
+    if (!isMobile) return;
+    const now = Date.now();
+    if (now - lastTapTimeRef.current < 300) return;
+    lastTapTimeRef.current = now;
+
+    setMobileActiveCardIndex((prev) => (prev === idx ? null : idx));
+  };
+
   const [mobileOpenCats, setMobileOpenCats] = useState<Set<string>>(
     () => new Set(["Estrutura do projeto"]),
   );
@@ -522,139 +536,156 @@ export function PrecosPlanos() {
 
         {/* ===== Grid dos 4 Planos ===== */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 items-stretch mb-24">
-          {PLANOS.map((plano, idx) => (
-            <ScrollReveal key={plano.name} delay={100 * (idx + 1)} className="flex">
-              <div className="group relative w-full h-full flex flex-col rounded-lg bg-[#121218] border border-white/10 p-6 sm:p-7 transition-all duration-500 overflow-hidden hover:border-white/15 hover:shadow-[0_10px_35px_rgba(0,0,0,0.5)]">
-                {/* Glow de fundo */}
-                <div
-                  className={`absolute -top-20 -right-20 w-48 h-48 rounded-full blur-[60px] pointer-events-none transition-opacity duration-500 opacity-0 group-hover:opacity-100 ${plano.theme.glow}`}
-                />
+          {PLANOS.map((plano, idx) => {
+            const isMobileActive = mobileActiveCardIndex === idx;
 
-                {/* Ícone */}
+            return (
+              <ScrollReveal key={plano.name} delay={100 * (idx + 1)} className="flex">
                 <div
-                  className={`mb-6 w-12 h-12 rounded-lg ${plano.theme.bg} flex items-center justify-center ${plano.theme.iconShadow} flex-shrink-0`}
+                  onClick={() => handleMobileCardClick(idx)}
+                  className={`group relative w-full h-full flex flex-col rounded-lg p-6 sm:p-7 transition-all duration-500 overflow-hidden cursor-pointer select-none ${
+                    isMobileActive
+                      ? "bg-[#161620] border border-white/30 -translate-y-1 shadow-[0_10px_35px_rgba(0,0,0,0.7)]"
+                      : "bg-[#121218] border border-white/10 md:hover:border-white/15 md:hover:shadow-[0_10px_35px_rgba(0,0,0,0.5)]"
+                  }`}
                 >
-                  <plano.icon className="size-6 text-black transition-transform duration-500 group-hover:scale-110" />
-                </div>
+                  {/* Glow de fundo */}
+                  <div
+                    className={`absolute -top-20 -right-20 w-48 h-48 rounded-full blur-[60px] pointer-events-none transition-opacity duration-500 ${
+                      isMobileActive ? "opacity-100" : "opacity-0 md:group-hover:opacity-100"
+                    } ${plano.theme.glow}`}
+                  />
 
-                {/* Título */}
-                <h3 className="font-display text-2xl font-bold text-white mb-4 h-[32px] flex items-center flex-shrink-0">
-                  {plano.name}
-                </h3>
-
-                {/* Rótulo 'IDEAL PARA' */}
-                <span className="font-mono text-[9px] font-bold uppercase tracking-wider block mb-1.5 flex-shrink-0">
-                  <span className="text-slate-500">Ideal para:</span>{" "}
-                  <span className={plano.theme.text}>{plano.idealPara}</span>
-                </span>
-
-                {/* Descrição curta */}
-                <p className="text-sm text-slate-400 font-light leading-relaxed mb-6 h-auto md:h-[120px] lg:h-[96px] xl:h-[96px] flex items-start flex-shrink-0">
-                  {plano.desc}
-                </p>
-
-                {/* Preço */}
-                <div className="mb-6 h-[72px] flex items-center flex-shrink-0">
-                  {plano.price === "Orçamento personalizado" ? (
-                    <div className="text-xl sm:text-2xl font-display font-bold text-white leading-tight">
-                      Orçamento personalizado
-                    </div>
-                  ) : (
-                    <div className="flex items-baseline gap-1.5">
-                      <span className="text-sm text-slate-400 font-medium">A partir de R$</span>
-                      <span className="text-3xl sm:text-4xl font-display font-bold text-white">
-                        {plano.price}
-                      </span>
-                    </div>
-                  )}
-                </div>
-
-                {/* Botão CTA */}
-                <div className="mb-8 h-[48px] flex-shrink-0">
-                  {plano.ctaLink.startsWith("#") ? (
-                    <a
-                      href={plano.ctaLink}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        const target = document.querySelector(plano.ctaLink);
-                        if (target) {
-                          target.scrollIntoView({ behavior: "smooth", block: "start" });
-                        }
-                      }}
-                      className="group/btn flex items-center justify-center gap-2.5 text-center w-full h-[48px] rounded-2xl text-xs font-bold uppercase tracking-[0.15em] transition-all duration-300 bg-white/5 text-white hover:bg-white hover:text-black border border-white/10 hover:shadow-[0_0_20px_rgba(255,255,255,0.25)]"
-                    >
-                      <span>{plano.cta}</span>
-                      <FaArrowRight className="w-3 h-3 transition-transform duration-300 group-hover/btn:translate-x-1" />
-                    </a>
-                  ) : (
-                    <Link
-                      to={plano.ctaLink}
-                      search={plano.ctaSearch as { plano: string }}
-                      hash="personalize"
-                      className="group/btn flex items-center justify-center gap-2.5 text-center w-full h-[48px] rounded-2xl text-xs font-bold uppercase tracking-[0.15em] transition-all duration-300 bg-white/5 text-white hover:bg-white hover:text-black border border-white/10 hover:shadow-[0_0_20px_rgba(255,255,255,0.25)]"
-                    >
-                      <span>{plano.cta}</span>
-                      <FaArrowRight className="w-3 h-3 transition-transform duration-300 group-hover/btn:translate-x-1" />
-                    </Link>
-                  )}
-                </div>
-
-                {/* Inclusões */}
-                <div className="border-t border-white/5 pt-6 flex-grow flex flex-col justify-between">
-                  <div>
-                    <p className="text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-4 h-[32px] flex items-center">
-                      {plano.featuresTitle}
-                    </p>
-                    <ul className="space-y-3.5">
-                      {plano.features.map((feat, i) => (
-                        <li
-                          key={i}
-                          className="flex items-start gap-3 text-xs sm:text-sm text-slate-300 font-light"
-                        >
-                          <div
-                            className={`w-4 h-4 rounded-full ${plano.name === "Sob medida" ? "bg-[#58e5a6]" : "bg-[#b3a1ff]"} flex items-center justify-center shrink-0 mt-0.5`}
-                          >
-                            <FaCheck className="size-2.5 text-black" />
-                          </div>
-                          <span className="leading-relaxed">{feat}</span>
-                        </li>
-                      ))}
-                    </ul>
+                  {/* Ícone */}
+                  <div
+                    className={`mb-6 w-12 h-12 rounded-lg ${plano.theme.bg} flex items-center justify-center ${plano.theme.iconShadow} flex-shrink-0`}
+                  >
+                    <plano.icon
+                      className={`size-6 text-black transition-transform duration-500 ${
+                        isMobileActive ? "scale-110" : "md:group-hover:scale-110"
+                      }`}
+                    />
                   </div>
 
-                  {/* Link: Comparar todas as diferenças */}
-                  {idx !== 3 && (
-                    <div className="mt-5 pt-3.5 border-t border-white/5 flex items-center">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setActiveAccordion("tabela");
-                          setCompMode("rapido");
-                          const currentKey = idx === 0 ? "landing" : "essencial";
-                          const nextKey = idx === 0 ? "essencial" : "profissional";
-                          setCompPlanA(currentKey);
-                          setCompPlanB(nextKey);
-                          setActiveAccordion("tabela");
-                          setTimeout(() => {
-                            const element = document.getElementById("comparativo-detalhado");
-                            if (element) {
-                              element.scrollIntoView({ behavior: "smooth", block: "start" });
-                            }
-                          }, 120);
-                        }}
-                        className={`text-xs font-semibold ${plano.theme.text} hover:text-white flex items-center gap-1.5 transition-colors group/link`}
-                      >
-                        Comparar todas as diferenças
-                        <span className="inline-block transition-transform duration-300 group-hover/link:translate-x-1">
-                          →
+                  {/* Título */}
+                  <h3 className="font-display text-2xl font-bold text-white mb-4 h-[32px] flex items-center flex-shrink-0">
+                    {plano.name}
+                  </h3>
+
+                  {/* Rótulo 'IDEAL PARA' */}
+                  <span className="font-mono text-[9px] font-bold uppercase tracking-wider block mb-1.5 flex-shrink-0">
+                    <span className="text-slate-500">Ideal para:</span>{" "}
+                    <span className={plano.theme.text}>{plano.idealPara}</span>
+                  </span>
+
+                  {/* Descrição curta */}
+                  <p className="text-sm text-slate-400 font-light leading-relaxed mb-6 h-auto md:h-[120px] lg:h-[96px] xl:h-[96px] flex items-start flex-shrink-0">
+                    {plano.desc}
+                  </p>
+
+                  {/* Preço */}
+                  <div className="mb-6 h-[72px] flex items-center flex-shrink-0">
+                    {plano.price === "Orçamento personalizado" ? (
+                      <div className="text-xl sm:text-2xl font-display font-bold text-white leading-tight">
+                        Orçamento personalizado
+                      </div>
+                    ) : (
+                      <div className="flex items-baseline gap-1.5">
+                        <span className="text-sm text-slate-400 font-medium">A partir de R$</span>
+                        <span className="text-3xl sm:text-4xl font-display font-bold text-white">
+                          {plano.price}
                         </span>
-                      </button>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Botão CTA */}
+                  <div className="mb-8 h-[48px] flex-shrink-0">
+                    {plano.ctaLink.startsWith("#") ? (
+                      <a
+                        href={plano.ctaLink}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          const target = document.querySelector(plano.ctaLink);
+                          if (target) {
+                            target.scrollIntoView({ behavior: "smooth", block: "start" });
+                          }
+                        }}
+                        className="group/btn flex items-center justify-center gap-2.5 text-center w-full h-[48px] rounded-2xl text-xs font-bold uppercase tracking-[0.15em] transition-all duration-300 bg-white/5 text-white hover:bg-white hover:text-black border border-white/10 hover:shadow-[0_0_20px_rgba(255,255,255,0.25)]"
+                      >
+                        <span>{plano.cta}</span>
+                        <FaArrowRight className="w-3 h-3 transition-transform duration-300 group-hover/btn:translate-x-1" />
+                      </a>
+                    ) : (
+                      <Link
+                        to={plano.ctaLink}
+                        search={plano.ctaSearch as { plano: string }}
+                        hash="personalize"
+                        className="group/btn flex items-center justify-center gap-2.5 text-center w-full h-[48px] rounded-2xl text-xs font-bold uppercase tracking-[0.15em] transition-all duration-300 bg-white/5 text-white hover:bg-white hover:text-black border border-white/10 hover:shadow-[0_0_20px_rgba(255,255,255,0.25)]"
+                      >
+                        <span>{plano.cta}</span>
+                        <FaArrowRight className="w-3 h-3 transition-transform duration-300 group-hover/btn:translate-x-1" />
+                      </Link>
+                    )}
+                  </div>
+
+                  {/* Inclusões */}
+                  <div className="border-t border-white/5 pt-6 flex-grow flex flex-col justify-between">
+                    <div>
+                      <p className="text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-4 h-[32px] flex items-center">
+                        {plano.featuresTitle}
+                      </p>
+                      <ul className="space-y-3.5">
+                        {plano.features.map((feat, i) => (
+                          <li
+                            key={i}
+                            className="flex items-start gap-3 text-xs sm:text-sm text-slate-300 font-light"
+                          >
+                            <div
+                              className={`w-4 h-4 rounded-full ${plano.name === "Sob medida" ? "bg-[#58e5a6]" : "bg-[#b3a1ff]"} flex items-center justify-center shrink-0 mt-0.5`}
+                            >
+                              <FaCheck className="size-2.5 text-black" />
+                            </div>
+                            <span className="leading-relaxed">{feat}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
-                  )}
+
+                    {/* Link: Comparar todas as diferenças */}
+                    {idx !== 3 && (
+                      <div className="mt-5 pt-3.5 border-t border-white/5 flex items-center">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setActiveAccordion("tabela");
+                            setCompMode("rapido");
+                            const currentKey = idx === 0 ? "landing" : "essencial";
+                            const nextKey = idx === 0 ? "essencial" : "profissional";
+                            setCompPlanA(currentKey);
+                            setCompPlanB(nextKey);
+                            setActiveAccordion("tabela");
+                            setTimeout(() => {
+                              const element = document.getElementById("comparativo-detalhado");
+                              if (element) {
+                                element.scrollIntoView({ behavior: "smooth", block: "start" });
+                              }
+                            }, 120);
+                          }}
+                          className={`text-xs font-semibold ${plano.theme.text} hover:text-white flex items-center gap-1.5 transition-colors group/link`}
+                        >
+                          Comparar todas as diferenças
+                          <span className="inline-block transition-transform duration-300 group-hover/link:translate-x-1">
+                            →
+                          </span>
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </ScrollReveal>
-          ))}
+              </ScrollReveal>
+            );
+          })}
         </div>
 
         {/* ===== Acordeão: Comparativo Detalhado ===== */}

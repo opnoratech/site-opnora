@@ -111,9 +111,7 @@ export function AuroraSection() {
         >
           SEU PRÓXIMO PROJETO
           <br />
-          <span className="aurora-holographic-text">
-            COMEÇA AQUI.
-          </span>
+          <span className="aurora-holographic-text">COMEÇA AQUI.</span>
         </ScrollReveal>
 
         <ScrollReveal
@@ -121,8 +119,8 @@ export function AuroraSection() {
           delay={300}
           className="mt-6 max-w-2xl text-sm font-light leading-relaxed text-slate-400 sm:text-base md:text-lg"
         >
-          Conte o que sua empresa precisa resolver. A Opnora avalia o escopo e propõe uma
-          solução digital adequada para o seu momento.
+          Conte o que sua empresa precisa resolver. A Opnora avalia o escopo e propõe uma solução
+          digital adequada para o seu momento.
         </ScrollReveal>
 
         <ScrollReveal delay={400} className="mt-10">

@@ -1,12 +1,5 @@
 import { IconType } from "react-icons";
-import {
-  FaCheck,
-  FaBolt,
-  FaRocket,
-  FaCode,
-  FaFileCode,
-  FaLayerGroup,
-} from "react-icons/fa6";
+import { FaCheck, FaBolt, FaRocket, FaCode, FaFileCode, FaLayerGroup } from "react-icons/fa6";
 
 /* ================================================================
    ESTRUTURAS E CONSTANTES DE DADOS PARA PREÇOS E SIMULADOR
@@ -161,8 +154,8 @@ export const PLAN_FEATURE_LEVELS: PlanLevel = {
     "Garantia pós-entrega (Inclusa)": "3 meses",
     "Usuários e permissões": "Adicional",
     "Segurança e boas práticas": "Básica",
-    "Documentação": "Adicional",
-    "Treinamento": "Adicional",
+    Documentação: "Adicional",
+    Treinamento: "Adicional",
     "Evolução futura": "Adicional",
     "Tráfego pago e campanhas": "Adicional (+ R$ 250/mês)",
     "Plano mensal de evolução/suporte": "Adicional (+ R$ 100/mês)",
@@ -199,8 +192,8 @@ export const PLAN_FEATURE_LEVELS: PlanLevel = {
     "Garantia pós-entrega (Inclusa)": "6 meses",
     "Usuários e permissões": "Adicional",
     "Segurança e boas práticas": "Padrão",
-    "Documentação": "Adicional",
-    "Treinamento": "Guia Rápido",
+    Documentação: "Adicional",
+    Treinamento: "Guia Rápido",
     "Evolução futura": "Limitada",
     "Tráfego pago e campanhas": "Adicional (+ R$ 250/mês)",
     "Plano mensal de evolução/suporte": "Adicional (+ R$ 100/mês)",
@@ -237,8 +230,8 @@ export const PLAN_FEATURE_LEVELS: PlanLevel = {
     "Garantia pós-entrega (Inclusa)": "9 meses",
     "Usuários e permissões": "Múltiplos",
     "Segurança e boas práticas": "Avançada",
-    "Documentação": "Básica",
-    "Treinamento": "Vídeo-tutorial",
+    Documentação: "Básica",
+    Treinamento: "Vídeo-tutorial",
     "Evolução futura": "Completa",
     "Tráfego pago e campanhas": "Adicional (+ R$ 250/mês)",
     "Plano mensal de evolução/suporte": "Adicional (+ R$ 100/mês)",
@@ -482,7 +475,7 @@ export function getAvailableLevels(feature: string): string[] {
 export function isFeatureIncludedInPlan(
   plano: string | undefined,
   feature: string,
-  currentLevel: string
+  currentLevel: string,
 ): boolean {
   if (!plano) return false;
   const planLevels = PLAN_FEATURE_LEVELS[plano];
@@ -518,11 +511,7 @@ export function isFeatureIncludedInPlan(
 
   const getWeight = (lvl: string): number => {
     if (lvl.startsWith("Adicional") || lvl.startsWith("Sem plano mensal")) return 0;
-    if (
-      lvl.startsWith("Simples") ||
-      lvl === "Pixel Básico" ||
-      lvl === "Básico (Template)"
-    )
+    if (lvl.startsWith("Simples") || lvl === "Pixel Básico" || lvl === "Básico (Template)")
       return 1;
     if (
       lvl.startsWith("Básic") ||
@@ -534,12 +523,7 @@ export function isFeatureIncludedInPlan(
       lvl === "Eventos Principais"
     )
       return 2;
-    if (
-      lvl.startsWith("Padrão") ||
-      lvl === "Fluidas" ||
-      lvl === "GA4 Padrão"
-    )
-      return 3;
+    if (lvl.startsWith("Padrão") || lvl === "Fluidas" || lvl === "GA4 Padrão") return 3;
     if (
       lvl.startsWith("Incluíd") ||
       lvl === "Incluído" ||

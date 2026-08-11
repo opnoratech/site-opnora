@@ -32,10 +32,10 @@ function PrivacidadePage() {
               </span>
             </div>
 
-            <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight uppercase leading-[0.9]">
+            <h1 className="font-display text-[3.2rem] xs:text-[3.8rem] sm:text-[4.4rem] md:text-[5.2rem] lg:text-[6rem] font-black tracking-tight leading-[0.98] uppercase py-2">
               <span className="block text-white">POLÍTICA DE</span>
               <span
-                className="inline-block text-transparent bg-clip-text w-fit"
+                className="inline-block text-transparent bg-clip-text w-fit pt-1 pb-1 mt-0 sm:mt-0.5 drop-shadow-[0_0_35px_rgba(167,157,240,0.45)]"
                 style={{
                   backgroundImage: "linear-gradient(160deg, #a79df0, #82b8f7, #4ed4cf, #58e5a6)",
                 }}
@@ -61,7 +61,8 @@ function PrivacidadePage() {
                 1. Informações que Coletamos
               </h2>
               <p className="mb-4 text-slate-300">
-                Coletamos exclusivamente as informações fornecidas por você ao interagir com nosso site:
+                Coletamos exclusivamente as informações fornecidas por você ao interagir com nosso
+                site:
               </p>
               <ul className="list-disc pl-5 space-y-2 mt-4 marker:text-white">
                 <li>
@@ -69,8 +70,11 @@ function PrivacidadePage() {
                   endereço de e-mail e conteúdo da mensagem enviados para nossa equipe.
                 </li>
                 <li>
-                  <strong className="text-white font-medium">Simulador e propostas de projetos:</strong>{" "}
-                  Requisitos técnicos, escolhas de funcionalidades, prazos e estimativas de orçamento fornecidos durante o planejamento da sua solução.
+                  <strong className="text-white font-medium">
+                    Simulador e propostas de projetos:
+                  </strong>{" "}
+                  Requisitos técnicos, escolhas de funcionalidades, prazos e estimativas de
+                  orçamento fornecidos durante o planejamento da sua solução.
                 </li>
               </ul>
             </div>
@@ -81,7 +85,8 @@ function PrivacidadePage() {
                 2. Informações Coletadas Automaticamente
               </h2>
               <p className="mb-4 text-slate-300">
-                Quando você navega no site da Opnora, podemos coletar automaticamente dados técnicos genéricos:
+                Quando você navega no site da Opnora, podemos coletar automaticamente dados técnicos
+                genéricos:
               </p>
               <ul className="list-disc pl-5 space-y-2 mt-4 marker:text-white">
                 <li>Visualizações de páginas, acessos e métricas anônimas de tráfego.</li>
@@ -89,7 +94,8 @@ function PrivacidadePage() {
                 <li>Origem de acesso e região geográfica aproximada.</li>
               </ul>
               <p className="mt-6 text-sm text-slate-400 font-light">
-                Estes dados são utilizados apenas para garantir o bom funcionamento técnico e otimizar a experiência de uso. Não comercializamos dados com terceiros.
+                Estes dados são utilizados apenas para garantir o bom funcionamento técnico e
+                otimizar a experiência de uso. Não comercializamos dados com terceiros.
               </p>
             </div>
 
@@ -112,7 +118,10 @@ function PrivacidadePage() {
                 4. Compartilhamento de Dados
               </h2>
               <p className="text-slate-300">
-                A Opnora não vende, aluga ou compartilha seus dados pessoais para fins comerciais. Compartilhamos dados exclusivamente em casos de obrigação legal ou com provedores de infraestrutura essencial (como hospedagem em nuvem e servidores de e-mail), estritamente vinculados a deveres de confidencialidade.
+                A Opnora não vende, aluga ou compartilha seus dados pessoais para fins comerciais.
+                Compartilhamos dados exclusivamente em casos de obrigação legal ou com provedores de
+                infraestrutura essencial (como hospedagem em nuvem e servidores de e-mail),
+                estritamente vinculados a deveres de confidencialidade.
               </p>
             </div>
 
@@ -122,10 +131,13 @@ function PrivacidadePage() {
                 5. Seus Direitos (LGPD)
               </h2>
               <p className="mb-4 text-slate-300">
-                Em conformidade com a Lei Geral de Proteção de Dados (LGPD - Lei nº 13.709/2018), você tem o direito de:
+                Em conformidade com a Lei Geral de Proteção de Dados (LGPD - Lei nº 13.709/2018),
+                você tem o direito de:
               </p>
               <ul className="list-disc pl-5 space-y-2 marker:text-white">
-                <li>Confirmar a existência de tratamento e acessar seus dados mantidos pela Opnora.</li>
+                <li>
+                  Confirmar a existência de tratamento e acessar seus dados mantidos pela Opnora.
+                </li>
                 <li>Solicitar a correção de dados incompletos ou desatualizados.</li>
                 <li>Solicitar a eliminação dos seus dados pessoais fornecidos nos formulários.</li>
               </ul>
@@ -137,7 +149,9 @@ function PrivacidadePage() {
                 6. Segurança dos Dados
               </h2>
               <p className="text-slate-300">
-                Adotamos medidas de segurança técnicas e organizacionais para proteger suas informações contra acessos não autorizados. Toda a navegação no site é criptografada via protocolo HTTPS/TLS.
+                Adotamos medidas de segurança técnicas e organizacionais para proteger suas
+                informações contra acessos não autorizados. Toda a navegação no site é criptografada
+                via protocolo HTTPS/TLS.
               </p>
             </div>
 
@@ -147,13 +161,15 @@ function PrivacidadePage() {
                 7. Contato
               </h2>
               <p className="text-slate-300">
-                Para solicitar informações ou exercer seus direitos de privacidade, entre em contato com nossa equipe através do e-mail{" "}
+                Para solicitar informações ou exercer seus direitos de privacidade, entre em contato
+                com nossa equipe através do e-mail{" "}
                 <a
                   href="mailto:contato@opnora.tech"
                   className="text-[#a280ff] hover:text-[#b3a1ff] font-medium underline transition-colors"
                 >
                   contato@opnora.tech
-                </a>.
+                </a>
+                .
               </p>
             </div>
           </div>

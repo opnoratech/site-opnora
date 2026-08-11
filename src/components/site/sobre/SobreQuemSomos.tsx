@@ -19,12 +19,8 @@ export function SobreQuemSomos() {
               delay={100}
               className="text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight leading-[1.1]"
             >
-              <span className="block text-white">
-                Sistemas inteligentes
-              </span>
-              <span className="block text-white">
-                para empresas que
-              </span>
+              <span className="block text-white">Sistemas inteligentes</span>
+              <span className="block text-white">para empresas que</span>
               <span
                 className="block text-transparent bg-clip-text w-fit"
                 style={{
@@ -37,13 +33,20 @@ export function SobreQuemSomos() {
 
             <div className="mt-8 space-y-6 text-sm sm:text-base text-slate-400 font-light leading-relaxed">
               <ScrollReveal delay={200} as="p">
-                A <strong>Opnora</strong> tem como principal foco desenvolver software sob medida para empresas, projetos e instituições que querem sair do improviso digital e evoluir com tecnologia.
+                A <strong>Opnora</strong> tem como principal foco desenvolver software sob medida
+                para empresas, projetos e instituições que querem sair do improviso digital e
+                evoluir com tecnologia.
               </ScrollReveal>
               <ScrollReveal delay={300} as="p">
-                A proposta não é apenas criar sites ou sistemas comuns. O objetivo é entender problemas reais, mapear processos, identificar gargalos e construir soluções digitais que sejam úteis, inteligentes e preparadas para crescer.
+                A proposta não é apenas criar sites ou sistemas comuns. O objetivo é entender
+                problemas reais, mapear processos, identificar gargalos e construir soluções
+                digitais que sejam úteis, inteligentes e preparadas para crescer.
               </ScrollReveal>
               <ScrollReveal delay={400} as="p">
-                A inteligência artificial entra como uma das principais frentes de evolução da Opnora. Por meio de IA, automação, dados e integrações, criamos sistemas capazes de auxiliar no atendimento, organizar informações, gerar insights, automatizar tarefas repetitivas e ajudar empresas a tomar decisões melhores.
+                A inteligência artificial entra como uma das principais frentes de evolução da
+                Opnora. Por meio de IA, automação, dados e integrações, criamos sistemas capazes de
+                auxiliar no atendimento, organizar informações, gerar insights, automatizar tarefas
+                repetitivas e ajudar empresas a tomar decisões melhores.
               </ScrollReveal>
             </div>
           </div>

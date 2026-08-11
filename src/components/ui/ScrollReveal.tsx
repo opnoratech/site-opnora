@@ -42,7 +42,7 @@ export function ScrollReveal({
 }: ScrollRevealProps) {
   // O motion() cria componentes animados nativos do Framer Motion a partir de tags HTML padrão.
   const MotionComponent = (motion as any)[Component as string] || motion.div;
-  
+
   // Convertendo delay e duration (ms) para segundos (s)
   const delaySec = delay / 1000;
   const durationSec = duration / 1000;

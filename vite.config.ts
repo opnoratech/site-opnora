@@ -129,9 +129,9 @@ export default defineConfig({
                 const resendApiKey = process.env.RESEND_API_KEY || "";
                 const receiver = process.env.CONTACT_RECEIVER_EMAIL || "opnora.tech@gmail.com";
                 const sender = process.env.CONTACT_SENDER_EMAIL || "Opnora <onboarding@resend.dev>";
-                
+
                 const isSimulador = data.type === "simulador";
-                const subject = isSimulador 
+                const subject = isSimulador
                   ? `Simulador Opnora: Novo Projeto - ${data.nome} (${data.empresa || "Sem empresa"})`
                   : `Contato Opnora: Nova Mensagem - ${data.nome}`;
 
@@ -140,7 +140,7 @@ export default defineConfig({
                 const resendResponse = await fetch("https://api.resend.com/emails", {
                   method: "POST",
                   headers: {
-                    "Authorization": `Bearer ${resendApiKey}`,
+                    Authorization: `Bearer ${resendApiKey}`,
                     "Content-Type": "application/json",
                   },
                   body: JSON.stringify({
@@ -173,8 +173,8 @@ export default defineConfig({
             }
             next();
           });
-        }
-      }
-    ]
-  }
+        },
+      },
+    ],
+  },
 });

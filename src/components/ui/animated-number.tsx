@@ -23,12 +23,12 @@ export function AnimatedNumber({
           const step = (timestamp: number) => {
             if (!startTimestamp) startTimestamp = timestamp;
             const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-            
+
             // easeOutQuad for a smoother, less abrupt deceleration at the end
             const easeOut = 1 - (1 - progress) * (1 - progress);
-            
+
             setCurrentValue(Math.floor(easeOut * end));
-            
+
             if (progress < 1) {
               animationFrameId = window.requestAnimationFrame(step);
             } else {
@@ -39,7 +39,7 @@ export function AnimatedNumber({
           observer.disconnect(); // Run animation only once
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
 
     if (elementRef.current) {

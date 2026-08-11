@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useCallback, useRef } from "react";
 import { FaCode, FaDiagramProject, FaFlaskVial } from "react-icons/fa6";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 type CardData = {
   num: string;
@@ -15,48 +16,83 @@ type CardData = {
   span?: boolean;
 };
 
-function CardItem({ card, delay = 0 }: { card: CardData; delay?: number }) {
+function CardItem({
+  card,
+  delay = 0,
+  isMobile = false,
+  isMobileActive = false,
+  onMobileTap,
+}: {
+  card: CardData;
+  delay?: number;
+  isMobile?: boolean;
+  isMobileActive?: boolean;
+  onMobileTap?: () => void;
+}) {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    setMousePos({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
-  };
+  // No mobile, ignorar mousemove para evitar re-renders desnecessários
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent<HTMLElement>) => {
+      if (isMobile) return;
+      const rect = e.currentTarget.getBoundingClientRect();
+      setMousePos({
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
+      });
+    },
+    [isMobile],
+  );
+
+  const handleClick = useCallback(() => {
+    if (isMobile) {
+      onMobileTap?.();
+    }
+  }, [isMobile, onMobileTap]);
 
   return (
     <ScrollReveal delay={delay} className={`h-full ${card.span ? "md:col-span-2" : ""}`}>
       <div
         onMouseMove={handleMouseMove}
-        className="group relative h-full w-full rounded-sm bg-[#131318] border border-white/[0.05] transition-all duration-700 ease-out hover:bg-[#181820] hover:border-[#b3a1ff]/20 hover:shadow-[0_8px_30px_rgba(179,161,255,0.08)] hover:-translate-y-2 overflow-hidden"
+        onClick={handleClick}
+        className={`group relative h-full w-full rounded-sm border transition-all duration-500 ease-out overflow-hidden cursor-pointer select-none ${
+          isMobileActive
+            ? "bg-[#181820] -translate-y-1"
+            : "bg-[#131318] border-white/[0.05] md:hover:bg-[#181820] md:hover:border-[#b3a1ff]/20 md:hover:shadow-[0_8px_30px_rgba(179,161,255,0.08)] md:hover:-translate-y-2"
+        }`}
+        style={{
+          borderColor: isMobileActive ? card.borderGlow.replace("0.65", "0.3") : undefined,
+          boxShadow: isMobileActive
+            ? `0 8px 25px ${card.glow}, 0 0 10px ${card.glow}`
+            : undefined,
+        }}
       >
-
-        {/* Actual Card Body */}
         <div className="relative z-10 flex h-full w-full flex-col items-start p-6 sm:p-8 overflow-hidden rounded-sm">
-          {/* Large Number Background */}
           <ScrollReveal
             as="span"
             animation="sr-fade-in"
             delay={delay + 100}
-            className="pointer-events-none absolute top-3 right-4 select-none font-display text-[5rem] font-bold leading-none text-white/[0.02] transition-all duration-500 group-hover:-translate-x-1 group-hover:-translate-y-1 group-hover:scale-105 group-hover:text-white/[0.04] md:top-1 md:right-3 md:text-[7rem]"
+            className={`pointer-events-none absolute top-3 right-4 select-none font-display text-[5rem] font-bold leading-none transition-all duration-500 md:top-1 md:right-3 md:text-[7rem] ${
+              isMobileActive
+                ? "text-white/[0.06] scale-105"
+                : "text-white/[0.02] md:group-hover:-translate-x-1 md:group-hover:-translate-y-1 md:group-hover:scale-105 md:group-hover:text-white/[0.04]"
+            }`}
             style={{ fontFamily: "'Orbitron', sans-serif" }}
           >
             {card.num}
           </ScrollReveal>
 
-          {/* Icon */}
           <ScrollReveal delay={delay + 150} animation="sr-fade-up">
             <card.icon
               size={36}
               color={card.color}
-              style={{ filter: `drop-shadow(0 0 4px ${card.color}40)` }}
-              className="mb-6 relative z-10"
+              style={{
+                filter: `drop-shadow(0 0 ${isMobileActive ? "10px" : "4px"} ${card.color}${isMobileActive ? "80" : "40"})`,
+              }}
+              className={`mb-6 relative z-10 transition-transform duration-300 ${isMobileActive ? "scale-110" : ""}`}
             />
           </ScrollReveal>
 
-          {/* Label */}
           <ScrollReveal
             as="span"
             delay={delay + 200}
@@ -67,7 +103,6 @@ function CardItem({ card, delay = 0 }: { card: CardData; delay?: number }) {
             {card.label}
           </ScrollReveal>
 
-          {/* Content */}
           <ScrollReveal
             as="h3"
             delay={delay + 250}
@@ -85,7 +120,6 @@ function CardItem({ card, delay = 0 }: { card: CardData; delay?: number }) {
             {card.desc}
           </ScrollReveal>
 
-          {/* Tags */}
           <ScrollReveal
             delay={delay + 400}
             animation="sr-fade-up"
@@ -94,7 +128,11 @@ function CardItem({ card, delay = 0 }: { card: CardData; delay?: number }) {
             {card.tags.map((tag, j) => (
               <span
                 key={j}
-                className="inline-flex items-center rounded-sm border border-white/5 bg-white/[0.01] px-2 py-1 font-mono text-[9px] uppercase tracking-wider text-slate-400 transition-colors group-hover:border-white/10 group-hover:text-slate-300 md:text-[10px]"
+                className={`inline-flex items-center rounded-sm border px-2 py-1 font-mono text-[9px] uppercase tracking-wider transition-colors md:text-[10px] ${
+                  isMobileActive
+                    ? "border-white/20 text-slate-200 bg-white/5"
+                    : "border-white/5 bg-white/[0.01] text-slate-400 md:group-hover:border-white/10 md:group-hover:text-slate-300"
+                }`}
               >
                 {tag}
               </span>
@@ -115,8 +153,15 @@ export function EcosystemSection({
 }: EcosystemSectionProps = {}) {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
+  const [mobileActiveIndex, setMobileActiveIndex] = useState<number | null>(null);
+  const isMobile = useIsMobile();
+
+  const handleMobileCardTap = useCallback((idx: number) => {
+    setMobileActiveIndex((prev) => (prev === idx ? null : idx));
+  }, []);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    if (isMobile) return;
     const rect = e.currentTarget.getBoundingClientRect();
     setMousePos({
       x: e.clientX - rect.left,
@@ -132,7 +177,7 @@ export function EcosystemSection({
       desc: "Desenvolvimento de sistemas, plataformas, sites, painéis administrativos e ferramentas digitais sob medida.",
       tags: ["Sistemas web", "Plataformas", "Dashboards", "Portais", "Software sob medida"],
       icon: FaCode,
-      color: "#b873ff", // roxo vivo
+      color: "#b873ff",
       glow: "rgba(184, 115, 255, 0.18)",
       borderGlow: "rgba(184, 115, 255, 0.65)",
     },
@@ -143,7 +188,7 @@ export function EcosystemSection({
       desc: "Uso de inteligência artificial, automação, dados, bots, integrações e fluxos inteligentes para tornar os processos mais eficientes.",
       tags: ["Automação", "Integrações", "Dados", "WhatsApp", "Fluxos digitais"],
       icon: FaDiagramProject,
-      color: "#00d8ff", // azul ciano vivo
+      color: "#00d8ff",
       glow: "rgba(0, 216, 255, 0.18)",
       borderGlow: "rgba(0, 216, 255, 0.65)",
     },
@@ -154,7 +199,7 @@ export function EcosystemSection({
       desc: "Pesquisa, prototipação e experimentação de novas ideias, conectando aprendizado, inovação e soluções digitais futuras.",
       tags: ["MVPs", "Protótipos", "Pesquisa", "Experimentação", "Inovação"],
       icon: FaFlaskVial,
-      color: "#00ff88", // verde neon vivo
+      color: "#00ff88",
       glow: "rgba(0, 255, 136, 0.18)",
       borderGlow: "rgba(0, 255, 136, 0.65)",
     },
@@ -164,11 +209,10 @@ export function EcosystemSection({
     <section
       className="relative min-h-dvh flex flex-col items-center justify-center overflow-hidden bg-[#0c0c0f] border-t border-white/5 py-24 lg:py-32"
       onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={() => !isMobile && setIsHovered(true)}
+      onMouseLeave={() => !isMobile && setIsHovered(false)}
     >
       <div className="relative z-10 mx-auto max-w-[90rem] px-4 sm:px-6 lg:px-12">
-        {/* Header - Left Aligned */}
         <div className="flex flex-col items-start text-left mb-16 lg:mb-20">
           <ScrollReveal delay={0} className="flex items-center gap-4 mb-6">
             <div className="h-[2px] w-8 bg-gradient-to-r from-aurora-violet to-aurora-cyan"></div>
@@ -203,17 +247,22 @@ export function EcosystemSection({
           </ScrollReveal>
         </div>
 
-        {/* Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-20">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-stretch relative z-20">
           {cards.map((card, idx) => (
-            <CardItem key={idx} card={card} delay={idx * 150} />
+            <CardItem
+              key={card.num}
+              card={card}
+              delay={idx * 150}
+              isMobile={isMobile}
+              isMobileActive={mobileActiveIndex === idx}
+              onMobileTap={() => handleMobileCardTap(idx)}
+            />
           ))}
         </div>
       </div>
 
-      {/* Flashlight Effect for the whole section (Over everything) */}
       <div
-        className={`pointer-events-none absolute inset-0 z-50 transition-opacity duration-500 ${isHovered ? "opacity-50" : "opacity-0"}`}
+        className={`pointer-events-none absolute inset-0 z-50 transition-opacity duration-500 hidden md:block ${isHovered ? "opacity-50" : "opacity-0"}`}
         style={{
           background: `radial-gradient(500px circle at ${mousePos.x}px ${mousePos.y}px, rgba(162, 128, 255, 0.03), transparent 50%)`,
         }}

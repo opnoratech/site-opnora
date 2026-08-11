@@ -47,23 +47,58 @@ type MarqueeLogo = {
 const MARQUEE_LOGOS: MarqueeLogo[] = [
   { name: "React", icon: SiReact, color: "#61DAFB", gradient: "from-[#61DAFB] to-[#00B4D8]" },
   { name: "Next.js", icon: SiNextdotjs, color: "#ffffff", gradient: "from-[#ffffff] to-[#71717a]" },
-  { name: "TypeScript", icon: SiTypescript, color: "#3178C6", gradient: "from-[#3178C6] to-[#0052CC]" },
-  { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E", gradient: "from-[#F7DF1E] to-[#D6BA00]" },
+  {
+    name: "TypeScript",
+    icon: SiTypescript,
+    color: "#3178C6",
+    gradient: "from-[#3178C6] to-[#0052CC]",
+  },
+  {
+    name: "JavaScript",
+    icon: SiJavascript,
+    color: "#F7DF1E",
+    gradient: "from-[#F7DF1E] to-[#D6BA00]",
+  },
   { name: "Python", icon: SiPython, color: "#3776AB", gradient: "from-[#3776AB] to-[#FFD43B]" },
   { name: "Java", icon: SiOpenjdk, color: "#E76F00", gradient: "from-[#5382A1] to-[#E76F00]" },
   { name: "C#", icon: SiDotnet, color: "#512BD4", gradient: "from-[#512BD4] to-[#178600]" },
   { name: "PHP", icon: SiPhp, color: "#777BB4", gradient: "from-[#777BB4] to-[#4F5B93]" },
   { name: "Node.js", icon: SiNodedotjs, color: "#5FA04E", gradient: "from-[#339933] to-[#215732]" },
-  { name: "OpenAI", icon: TbBrandOpenai, color: "#10A37F", gradient: "from-[#10A37F] to-[#00A67E]" },
-  { name: "Tailwind", icon: SiTailwindcss, color: "#06B6D4", gradient: "from-[#38B2AC] to-[#0D9488]" },
+  {
+    name: "OpenAI",
+    icon: TbBrandOpenai,
+    color: "#10A37F",
+    gradient: "from-[#10A37F] to-[#00A67E]",
+  },
+  {
+    name: "Tailwind",
+    icon: SiTailwindcss,
+    color: "#06B6D4",
+    gradient: "from-[#38B2AC] to-[#0D9488]",
+  },
   { name: "Vue.js", icon: SiVuedotjs, color: "#4FC08D", gradient: "from-[#4FC08D] to-[#35495E]" },
   { name: "Angular", icon: SiAngular, color: "#DD0031", gradient: "from-[#DD0031] to-[#C3002F]" },
-  { name: "PostgreSQL", icon: SiPostgresql, color: "#4169E1", gradient: "from-[#4169E1] to-[#2F4F4F]" },
+  {
+    name: "PostgreSQL",
+    icon: SiPostgresql,
+    color: "#4169E1",
+    gradient: "from-[#4169E1] to-[#2F4F4F]",
+  },
   { name: "MongoDB", icon: SiMongodb, color: "#47A248", gradient: "from-[#47A248] to-[#116149]" },
   { name: "Docker", icon: SiDocker, color: "#2496ED", gradient: "from-[#2496ED] to-[#0DB7ED]" },
   { name: "AWS", icon: FaAws, color: "#FF9900", gradient: "from-[#FF9900] to-[#E47911]" },
-  { name: "Google Cloud", icon: SiGooglecloud, color: "#4285F4", gradient: "from-[#4285F4] to-[#34A853]" },
-  { name: "Kubernetes", icon: SiKubernetes, color: "#326CE5", gradient: "from-[#326CE5] to-[#1D4ED8]" },
+  {
+    name: "Google Cloud",
+    icon: SiGooglecloud,
+    color: "#4285F4",
+    gradient: "from-[#4285F4] to-[#34A853]",
+  },
+  {
+    name: "Kubernetes",
+    icon: SiKubernetes,
+    color: "#326CE5",
+    gradient: "from-[#326CE5] to-[#1D4ED8]",
+  },
   { name: "GraphQL", icon: SiGraphql, color: "#E10098", gradient: "from-[#E10098] to-[#C7007D]" },
   { name: "Flutter", icon: SiFlutter, color: "#02569B", gradient: "from-[#02569B] to-[#0175C2]" },
   { name: "Swift", icon: SiSwift, color: "#F05138", gradient: "from-[#F05138] to-[#D83B24]" },
@@ -158,42 +193,38 @@ const MarqueeSection = () => {
   );
 };
 
-const DesktopShaderBackground = ({ isHovered }: { isHovered: boolean }) => {
+const CSSFlutedGlassFallback = () => {
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-      <div className="absolute inset-0 bg-[#0c0c10] -z-10" />
-
-      {/* Shaders Stack adaptado para o tema escuro da Opnora - Ativo no Desktop */}
-      <div className="absolute inset-0 opacity-100">
-        <Shader style={{ width: "100%", height: "100%", display: "block" }}>
-          <Swirl colorA="#0a0a0c" colorB="#1a1a24" detail={1.7} />
-          <ChromaFlow
-            baseColor="#0a0a0c"
-            leftColor="#a79df0"
-            upColor="#82b8f7"
-            rightColor="#4ed4cf"
-            downColor="#58e5a6"
-            momentum={13}
-            radius={isHovered ? 2.4 : 0}
-          />
-          <FlutedGlass
-            aberration={0.61}
-            angle={31}
-            frequency={10}
-            highlight={0.25}
-            highlightSoftness={0.2}
-            lightAngle={-90}
-            refraction={4}
-            softness={1}
-            speed={0.15}
-          />
-          <FilmGrain strength={0.05} />
-        </Shader>
-      </div>
-
-      {/* Faint Grid por cima do shader para textura */}
+    <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 bg-[#0c0c10]">
+      {/* Aurora Ambient Glows */}
       <div
-        className="absolute inset-0 opacity-[0.10]"
+        className="absolute inset-0 opacity-40"
+        style={{
+          background: `
+            radial-gradient(ellipse 60% 50% at 20% 30%, rgba(167, 157, 240, 0.18), transparent 70%),
+            radial-gradient(ellipse 50% 60% at 80% 70%, rgba(78, 212, 207, 0.15), transparent 70%),
+            radial-gradient(ellipse 40% 40% at 50% 50%, rgba(130, 184, 247, 0.12), transparent 70%)
+          `,
+        }}
+      />
+
+      {/* Fluted Glass Diagonal Lines Texture */}
+      <div
+        className="absolute inset-0 opacity-35 mix-blend-screen"
+        style={{
+          backgroundImage: `repeating-linear-gradient(
+            125deg,
+            rgba(255, 255, 255, 0.06) 0px,
+            rgba(255, 255, 255, 0.06) 2px,
+            transparent 2px,
+            transparent 28px
+          )`,
+        }}
+      />
+
+      {/* Subtle Grid Pattern */}
+      <div
+        className="absolute inset-0 opacity-[0.12]"
         style={{
           backgroundImage: `
             linear-gradient(to right, rgba(255,255,255,0.2) 1px, transparent 1px),
@@ -209,9 +240,64 @@ const DesktopShaderBackground = ({ isHovered }: { isHovered: boolean }) => {
   );
 };
 
+const DesktopShaderBackground = ({ isHovered }: { isHovered: boolean }) => {
+  const [hasWebGl, setHasWebGl] = useState(true);
+
+  useEffect(() => {
+    try {
+      const canvas = document.createElement("canvas");
+      const gl =
+        canvas.getContext("webgl2") ||
+        canvas.getContext("webgl") ||
+        canvas.getContext("experimental-webgl");
+      setHasWebGl(!!gl);
+    } catch {
+      setHasWebGl(false);
+    }
+  }, []);
+
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+      {/* Camada de Fallback CSS com Textura Fluted Glass (sempre ativa como segurança) */}
+      <CSSFlutedGlassFallback />
+
+      {/* Camada WebGL Shader (se o navegador suportar WebGL) */}
+      {hasWebGl && (
+        <div className="absolute inset-0 opacity-100 transition-opacity duration-1000">
+          <Shader style={{ width: "100%", height: "100%", display: "block" }}>
+            <Swirl colorA="#0a0a0c" colorB="#1a1a24" detail={1.7} />
+            <ChromaFlow
+              baseColor="#0a0a0c"
+              leftColor="#a79df0"
+              upColor="#82b8f7"
+              rightColor="#4ed4cf"
+              downColor="#58e5a6"
+              momentum={13}
+              radius={isHovered ? 2.4 : 1.6}
+            />
+            <FlutedGlass
+              aberration={0.61}
+              angle={31}
+              frequency={10}
+              highlight={0.25}
+              highlightSoftness={0.2}
+              lightAngle={-90}
+              refraction={4}
+              softness={1}
+              speed={0.15}
+            />
+            <FilmGrain strength={0.05} />
+          </Shader>
+        </div>
+      )}
+    </div>
+  );
+};
+
 const MobileHeroBackground = () => {
   return (
     <div className="hero-bg absolute inset-0 overflow-hidden pointer-events-none z-0">
+      <CSSFlutedGlassFallback />
       <AntigravityParticleField />
     </div>
   );
@@ -220,16 +306,20 @@ const MobileHeroBackground = () => {
 export function SolucoesHero() {
   const [isHeroHovered, setIsHeroHovered] = useState(true);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [isMobile, setIsMobile] = useState(() => {
+  const [isMobileOrTablet, setIsMobileOrTablet] = useState(() => {
     if (typeof window !== "undefined") {
-      return window.innerWidth < 768;
+      const isTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+      const isSmallScreen = window.innerWidth < 1024;
+      return isTouch || isSmallScreen;
     }
     return false;
   });
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
+      const isTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+      const isSmallScreen = window.innerWidth < 1024;
+      setIsMobileOrTablet(isTouch || isSmallScreen);
     };
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -247,7 +337,7 @@ export function SolucoesHero() {
     <>
       <section
         className={`${
-          isMobile ? "hero-bg" : "bg-[#0e0e12]"
+          isMobileOrTablet ? "hero-bg" : "bg-[#0e0e12]"
         } group relative min-h-dvh flex items-center justify-center overflow-hidden border-b border-white/5`}
         onMouseMove={handleMouseMove}
         onPointerEnter={() => setIsHeroHovered(true)}
@@ -259,33 +349,28 @@ export function SolucoesHero() {
           } as React.CSSProperties
         }
       >
-        {isMobile ? (
-          <div
-            className="pointer-events-none absolute inset-0 z-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-            style={{
-              background: `radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.03), transparent 40%)`,
-            }}
-          />
+        {isMobileOrTablet ? (
+          <MobileHeroBackground />
         ) : (
           <DesktopShaderBackground isHovered={isHeroHovered} />
         )}
 
-        <div className="relative z-10 w-full max-w-[90rem] mx-auto px-6 pt-36 pb-24 lg:py-0 lg:px-12 flex flex-col items-start justify-center min-h-dvh">
-          <div className="flex flex-col items-start pt-10 md:pt-16 lg:pt-20 w-full max-w-4xl">
+        <div className="relative z-10 w-full max-w-[90rem] mx-auto px-5 sm:px-6 pt-28 pb-20 lg:py-0 lg:px-12 flex flex-col items-start justify-center min-h-dvh">
+          <div className="flex flex-col items-start pt-4 md:pt-16 lg:pt-20 w-full max-w-4xl">
             <ScrollReveal delay={0}>
-              <div className="flex items-center gap-4 mb-1.5">
+              <div className="flex items-center gap-4 mb-2">
                 <div className="h-[2px] w-8 bg-gradient-to-r from-aurora-violet to-aurora-cyan" />
-                <span className="font-mono text-[11px] text-[#b3a1ff] uppercase tracking-[0.25em]">
+                <span className="font-mono text-[11px] sm:text-xs text-[#b3a1ff] uppercase tracking-[0.25em]">
                   NOSSAS SOLUÇÕES
                 </span>
               </div>
             </ScrollReveal>
 
             <ScrollReveal delay={100}>
-              <h1 className="font-display text-[2.1rem] sm:text-[3.0rem] md:text-[4.5rem] lg:text-[6rem] font-black tracking-tight leading-[1.02] uppercase py-2">
+              <h1 className="font-display text-[3.2rem] xs:text-[3.8rem] sm:text-[4.4rem] md:text-[5.2rem] lg:text-[6rem] font-black tracking-tight leading-[0.98] uppercase py-2">
                 <span className="block text-white">Opnora</span>
                 <span
-                  className="inline-block text-transparent bg-clip-text w-fit py-4 -my-4"
+                  className="inline-block text-transparent bg-clip-text w-fit pt-1 pb-1 mt-0 sm:mt-0.5 drop-shadow-[0_0_35px_rgba(167,157,240,0.45)]"
                   style={{
                     backgroundImage: "linear-gradient(160deg, #a79df0, #82b8f7, #4ed4cf, #58e5a6)",
                   }}
@@ -332,5 +417,3 @@ export function SolucoesHero() {
     </>
   );
 }
-
-

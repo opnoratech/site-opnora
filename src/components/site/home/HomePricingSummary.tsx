@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "@tanstack/react-router";
 import { FaRocket, FaBolt, FaCode, FaFileCode, FaArrowRight } from "react-icons/fa6";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const PLANOS_RESUMO = [
   {
@@ -43,6 +44,19 @@ export function HomePricingSummary({
   eyebrow = "03 / PLANOS E MODALIDADES DE INVESTIMENTO",
   bgClass = "bg-[#0c0c0f]",
 }: HomePricingSummaryProps = {}) {
+  const [mobileActiveIndex, setMobileActiveIndex] = useState<number | null>(null);
+  const lastTapTimeRef = useRef<number>(0);
+  const isMobile = useIsMobile();
+
+  const handleMobileCardClick = (idx: number) => {
+    if (!isMobile) return;
+    const now = Date.now();
+    if (now - lastTapTimeRef.current < 300) return;
+    lastTapTimeRef.current = now;
+
+    setMobileActiveIndex((prev) => (prev === idx ? null : idx));
+  };
+
   return (
     <section
       className={`relative w-full overflow-hidden ${bgClass} border-t border-white/5 py-24 sm:py-32`}
@@ -76,21 +90,38 @@ export function HomePricingSummary({
           </ScrollReveal>
         </div>
 
-        {/* Grade de 4 Planos Resumidos - Todos Padronizados sem preços */}
+        {/* Grade de 4 Planos Resumidos */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
           {PLANOS_RESUMO.map((plano, idx) => {
             const Icon = plano.icon;
+            const isMobileActive = mobileActiveIndex === idx;
+
             return (
               <ScrollReveal key={plano.name} delay={idx * 100} className="h-full">
-                <div className="group relative flex flex-col h-full rounded-2xl p-6 sm:p-7 bg-[#111116] border border-white/10 hover:border-white/20 hover:bg-[#14141c] transition-all duration-300">
+                <div
+                  onClick={() => handleMobileCardClick(idx)}
+                  className={`group relative flex flex-col h-full rounded-2xl p-6 sm:p-7 transition-all duration-300 cursor-pointer select-none overflow-hidden ${
+                    isMobileActive
+                      ? "bg-[#14141c] border border-white/40 -translate-y-1 shadow-[0_8px_30px_rgba(255,255,255,0.08)]"
+                      : "bg-[#111116] border border-white/10 md:hover:border-white/20 md:hover:bg-[#14141c] md:hover:-translate-y-1"
+                  }`}
+                >
                   <div className="flex items-center justify-between mb-6">
                     <div
-                      className="flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
+                      className={`flex items-center justify-center transition-transform duration-300 ${
+                        isMobileActive ? "scale-110" : "md:group-hover:scale-110"
+                      }`}
                       style={{ color: plano.color }}
                     >
                       <Icon className="w-6 h-6" />
                     </div>
-                    <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] px-3 py-1 rounded-sm bg-white/5 text-slate-300 border border-white/10">
+                    <span
+                      className={`font-mono text-[10px] font-bold uppercase tracking-[0.18em] px-3 py-1 rounded-sm border transition-colors ${
+                        isMobileActive
+                          ? "bg-white/15 text-white border-white/20"
+                          : "bg-white/5 text-slate-300 border-white/10"
+                      }`}
+                    >
                       {plano.badge}
                     </span>
                   </div>
@@ -98,9 +129,7 @@ export function HomePricingSummary({
                   <h3 className="font-display text-2xl font-bold text-white mb-2.5">
                     {plano.name}
                   </h3>
-                  <p className="text-sm text-slate-400 font-light leading-relaxed">
-                    {plano.desc}
-                  </p>
+                  <p className="text-sm text-slate-400 font-light leading-relaxed">{plano.desc}</p>
                 </div>
               </ScrollReveal>
             );

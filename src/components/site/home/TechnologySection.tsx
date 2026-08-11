@@ -214,7 +214,6 @@ export function TechnologySection({
                   delay={idx * 80}
                   className="group relative rounded-sm bg-[#131318] border border-white/[0.05] p-6 sm:p-7 transition-all duration-700 ease-out hover:bg-[#181820] hover:-translate-y-2 overflow-hidden"
                 >
-
                   {/* Conteúdo Horizontal Limpo */}
                   <div className="flex items-start gap-5">
                     <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-sm bg-gradient-to-br from-[#a280ff]/15 to-white/[0.02] border border-[#a280ff]/25 flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:border-[#a280ff]/50 transition-all duration-300">

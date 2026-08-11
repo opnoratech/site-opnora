@@ -26,25 +26,23 @@ export function SobreHeroSection() {
           </div>
         </ScrollReveal>
         <ScrollReveal delay={100}>
-          <h1 className="font-display text-[2.1rem] sm:text-[3.0rem] md:text-[4.5rem] lg:text-[6rem] font-black tracking-tight leading-[1.02] uppercase py-2">
-            <span className="block text-white">
-              NOSSA
-            </span>
+          <h1 className="font-display text-[3.2rem] xs:text-[3.8rem] sm:text-[4.4rem] md:text-[5.2rem] lg:text-[6rem] font-black tracking-tight leading-[0.98] uppercase py-2">
+            <span className="block text-white">NOSSA</span>
             <span
-              className="inline-block text-transparent bg-clip-text w-fit py-4 -my-4"
+              className="inline-block text-transparent bg-clip-text w-fit pt-1 pb-1 mt-0 sm:mt-0.5 drop-shadow-[0_0_35px_rgba(167,157,240,0.45)]"
               style={{
                 backgroundImage: "linear-gradient(160deg, #a79df0, #82b8f7, #4ed4cf, #58e5a6)",
               }}
             >
-              <span className="block">
-                HISTÓRIA.
-              </span>
+              <span className="block">HISTÓRIA.</span>
             </span>
           </h1>
         </ScrollReveal>
         <ScrollReveal delay={200}>
           <p className="mt-3 max-w-4xl text-sm sm:text-lg text-slate-400 font-light leading-relaxed">
-            A Opnora é uma Startup de tecnologia orientada para resultados focada em transformar visões ambiciosas em software sob medida, plataformas e sistemas inteligentes por meio de engenharia avançada, IA e inovação.
+            A Opnora é uma Startup de tecnologia orientada para resultados focada em transformar
+            visões ambiciosas em software sob medida, plataformas e sistemas inteligentes por meio
+            de engenharia avançada, IA e inovação.
           </p>
         </ScrollReveal>
       </div>

@@ -70,7 +70,7 @@ class Particle {
 
     // ─── Velocidade base: drift diagonal lento ───
     const speed = (0.08 + Math.random() * 0.18) * this.z;
-    this.angle = (-0.3 + Math.random() * 0.6); // levemente diagonal
+    this.angle = -0.3 + Math.random() * 0.6; // levemente diagonal
     this.vx = Math.cos(this.angle) * speed;
     this.vy = Math.sin(this.angle) * speed * 0.4;
   }
@@ -97,7 +97,7 @@ class Particle {
     if (r < 0.35) {
       // Parte inferior
       return h * 0.6 + Math.random() * h * 0.4;
-    } else if (r < 0.50) {
+    } else if (r < 0.5) {
       // Topo (poucos)
       return Math.random() * h * 0.15;
     } else {
@@ -122,7 +122,7 @@ class Particle {
     mouseActive: boolean,
     mouseSpeedMultiplier: number,
     time: number,
-    reducedMotion: boolean
+    reducedMotion: boolean,
   ) {
     if (!reducedMotion) {
       // ─── Ondulação orgânica ───
@@ -153,13 +153,13 @@ class Particle {
       if (mouseActive && mouseX > 0 && mouseSpeedMultiplier > 0.01) {
         const cx = this.canvasW / 2;
         if (mouseX > cx && this.x < cx) {
-           // Mouse na direita, empurra quem está na esquerda mais pra direita
-           const factor = (mouseX - cx) / cx;
-           windVx = factor * 0.4 * this.z * mouseSpeedMultiplier;
+          // Mouse na direita, empurra quem está na esquerda mais pra direita
+          const factor = (mouseX - cx) / cx;
+          windVx = factor * 0.4 * this.z * mouseSpeedMultiplier;
         } else if (mouseX < cx && this.x > cx) {
-           // Mouse na esquerda, empurra quem está na direita mais pra esquerda
-           const factor = (cx - mouseX) / cx;
-           windVx = -factor * 0.4 * this.z * mouseSpeedMultiplier;
+          // Mouse na esquerda, empurra quem está na direita mais pra esquerda
+          const factor = (cx - mouseX) / cx;
+          windVx = -factor * 0.4 * this.z * mouseSpeedMultiplier;
         }
       }
 
@@ -201,11 +201,11 @@ class Particle {
     }
 
     ctx.beginPath();
-    
+
     // Calcula posição de renderização final com o parallax global + profundidade
     const renderX = this.x - parallaxX * this.z;
     const renderY = this.y - parallaxY * this.z;
-    
+
     ctx.arc(renderX, renderY, this.size, 0, Math.PI * 2);
     ctx.fill();
 
@@ -292,7 +292,7 @@ export function AntigravityParticleField() {
           }
         });
       },
-      { threshold: 0 }
+      { threshold: 0 },
     );
 
     if (containerRef.current) observer.observe(containerRef.current);
@@ -350,7 +350,7 @@ export function AntigravityParticleField() {
         targetParallaxX = (mouse.current.x - centerX) * 0.1; // Intensidade do movimento
         targetParallaxY = (mouse.current.y - centerY) * 0.1;
       }
-      
+
       // Interpolacao suave (lerp)
       parallax.current.x += (targetParallaxX - parallax.current.x) * 0.05;
       parallax.current.y += (targetParallaxY - parallax.current.y) * 0.05;
@@ -362,7 +362,7 @@ export function AntigravityParticleField() {
           mouse.current.active,
           mouseSpeedMultiplier,
           time,
-          reducedMotion.current
+          reducedMotion.current,
         );
         p.draw(ctx, fadeAlpha, parallax.current.x, parallax.current.y);
       });
@@ -400,10 +400,7 @@ export function AntigravityParticleField() {
   }, [isVisible]);
 
   return (
-    <div
-      ref={containerRef}
-      className="absolute inset-0 z-0 overflow-hidden pointer-events-none"
-    >
+    <div ref={containerRef} className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
     </div>
   );

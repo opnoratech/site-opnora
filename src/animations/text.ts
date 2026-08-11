@@ -6,7 +6,7 @@ import { initGSAP, shouldReduceMotion, OPNORA_EASINGS } from "./utils";
  */
 export function animateTextStagger(
   textEl: HTMLElement | null,
-  options: { delay?: number; duration?: number; threshold?: string } = {}
+  options: { delay?: number; duration?: number; threshold?: string } = {},
 ) {
   if (!textEl || shouldReduceMotion()) return;
   initGSAP();
@@ -17,7 +17,7 @@ export function animateTextStagger(
   textEl.innerHTML = words
     .map(
       (w) =>
-        `<span className="inline-block opacity-0 translate-y-4 will-change-transform">${w}</span>`
+        `<span className="inline-block opacity-0 translate-y-4 will-change-transform">${w}</span>`,
     )
     .join(" ");
 

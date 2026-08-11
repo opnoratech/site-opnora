@@ -21,7 +21,7 @@ export interface ScrollRevealOptions {
  */
 export function animateOnScroll(
   target: HTMLElement | HTMLElement[] | string,
-  options: ScrollRevealOptions = {}
+  options: ScrollRevealOptions = {},
 ) {
   if (shouldReduceMotion()) return;
   initGSAP();
@@ -63,27 +63,23 @@ export function animateOnScroll(
         break;
     }
 
-    gsap.fromTo(
-      target,
-      fromProps,
-      {
-        opacity: 1,
-        x: 0,
-        y: 0,
-        scale: 1,
-        clipPath: "inset(0 0% 0 0)",
-        duration,
-        delay,
-        stagger,
-        ease: OPNORA_EASINGS.SMOOTH_OUT,
-        clearProps: "willChange,clipPath",
-        scrollTrigger: {
-          trigger: target as gsap.DOMTarget,
-          start: threshold,
-          toggleActions: "play none none none",
-        },
-      }
-    );
+    gsap.fromTo(target, fromProps, {
+      opacity: 1,
+      x: 0,
+      y: 0,
+      scale: 1,
+      clipPath: "inset(0 0% 0 0)",
+      duration,
+      delay,
+      stagger,
+      ease: OPNORA_EASINGS.SMOOTH_OUT,
+      clearProps: "willChange,clipPath",
+      scrollTrigger: {
+        trigger: target as gsap.DOMTarget,
+        start: threshold,
+        toggleActions: "play none none none",
+      },
+    });
   });
 
   return () => ctx.revert();

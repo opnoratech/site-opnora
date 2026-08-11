@@ -15,8 +15,7 @@ const FAQS = [
   },
   {
     question: "A verba de tráfego pago está inclusa?",
-    answer:
-      "Não. A verba dos anúncios é separada do valor do serviço da Opnora.",
+    answer: "Não. A verba dos anúncios é separada do valor do serviço da Opnora.",
   },
   {
     question: "Vocês fazem sistemas personalizados?",
@@ -30,8 +29,7 @@ const FAQS = [
   },
   {
     question: "Tem manutenção mensal?",
-    answer:
-      "Sim. A manutenção pode ser contratada separadamente de acordo com o tipo de projeto.",
+    answer: "Sim. A manutenção pode ser contratada separadamente de acordo com o tipo de projeto.",
   },
 ];
 

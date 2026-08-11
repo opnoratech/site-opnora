@@ -36,7 +36,13 @@ import {
   ADDITIONAL_PRICES,
 } from "@/data/pricing";
 
-export function ContatoSimulador({ defaultPlano, defaultNivel }: { defaultPlano?: string; defaultNivel?: string }) {
+export function ContatoSimulador({
+  defaultPlano,
+  defaultNivel,
+}: {
+  defaultPlano?: string;
+  defaultNivel?: string;
+}) {
   const {
     currentStep,
     setCurrentStep,
@@ -127,9 +133,9 @@ export function ContatoSimulador({ defaultPlano, defaultNivel }: { defaultPlano?
             Achou o simulador muito técnico ou complexo?
           </div>
           <p className="text-[11px] sm:text-xs text-slate-300 leading-relaxed font-light">
-            Não se preocupe! A Opnora constrói soluções 100% sob medida. Se você não
-            souber quais opções escolher, pode simplesmente clicar em{" "}
-            <strong>Continuar</strong> para avançar sem marcar nada, ou se preferir,{" "}
+            Não se preocupe! A Opnora constrói soluções 100% sob medida. Se você não souber quais
+            opções escolher, pode simplesmente clicar em <strong>Continuar</strong> para avançar sem
+            marcar nada, ou se preferir,{" "}
             <button
               type="button"
               onClick={() => {
@@ -402,8 +408,8 @@ export function ContatoSimulador({ defaultPlano, defaultNivel }: { defaultPlano?
           <ScrollReveal delay={200}>
             <p className="text-sm sm:text-base text-slate-400 font-light leading-relaxed">
               Selecione seus objetivos, funcionalidades e prioridades. A Opnora analisa as escolhas,
-              orienta o que realmente faz sentido e prepara uma proposta personalizada, sem que
-              sua empresa precise contratar recursos desnecessários.
+              orienta o que realmente faz sentido e prepara uma proposta personalizada, sem que sua
+              empresa precise contratar recursos desnecessários.
             </p>
           </ScrollReveal>
         </div>
@@ -888,7 +894,11 @@ export function ContatoSimulador({ defaultPlano, defaultNivel }: { defaultPlano?
                                       getIncludedFeatures(basePlano).includes(item);
 
                                     if ((isPages || isIntegrations || isSupport) && active) {
-                                      const defaultValue = isPages ? "1 página" : isIntegrations ? "1 integração" : "1 mês";
+                                      const defaultValue = isPages
+                                        ? "1 página"
+                                        : isIntegrations
+                                          ? "1 integração"
+                                          : "1 mês";
                                       const isIncludedCount = isFeatureIncludedInPlan(
                                         basePlano,
                                         item,
@@ -1426,6 +1436,7 @@ export function ContatoSimulador({ defaultPlano, defaultNivel }: { defaultPlano?
                                 <div
                                   className="fixed inset-0 z-40"
                                   onClick={() => setIsInvestimentoOpen(false)}
+                                  onTouchStart={() => setIsInvestimentoOpen(false)}
                                 />
                                 <div className="absolute z-50 left-0 w-full mt-2 bg-[#0c0c10] border border-white/10 rounded-xl py-1 shadow-[0_15px_50px_rgba(0,0,0,0.8)] overflow-hidden animate-fade-in">
                                   {INVESTMENT_OPTIONS.map((opt) => {
@@ -1438,10 +1449,10 @@ export function ContatoSimulador({ defaultPlano, defaultNivel }: { defaultPlano?
                                           setFormData((prev) => ({ ...prev, investimento: opt }));
                                           setIsInvestimentoOpen(false);
                                         }}
-                                        className={`cursor-pointer w-full text-left px-4 py-2.5 text-sm transition-colors ${
+                                        className={`cursor-pointer w-full text-left px-4 py-2.5 text-sm transition-colors touch-manipulation active:bg-white/[0.08] ${
                                           selected
                                             ? "text-aurora-violet bg-aurora-violet/[0.04] font-medium"
-                                            : "text-slate-300 hover:text-white hover:bg-white/[0.04]"
+                                            : "text-slate-300 md:hover:text-white md:hover:bg-white/[0.04]"
                                         }`}
                                       >
                                         {opt}
@@ -1500,8 +1511,6 @@ export function ContatoSimulador({ defaultPlano, defaultNivel }: { defaultPlano?
                       transition: background-color 5000s ease-in-out 0s;
                     }
                   `}</style>
-
-
 
                   {/* Botões de Ação da Jornada */}
                   <div className="pt-6 flex items-center justify-between gap-4 border-t border-white/5">

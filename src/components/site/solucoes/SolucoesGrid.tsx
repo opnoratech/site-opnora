@@ -118,10 +118,10 @@ export function SolucoesGrid() {
                       </div>
 
                       {/* Soft background glow */}
-                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-1 pointer-events-none">
+                      <div className="absolute inset-0 flex items-center justify-center opacity-40 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-700 z-0 pointer-events-none">
                         <div
                           className="w-56 h-56 md:w-80 md:h-80 blur-3xl rounded-full"
-                          style={{ backgroundColor: `rgba(${section.rgb}, 0.12)` }}
+                          style={{ backgroundColor: `rgba(${section.rgb}, 0.14)` }}
                         />
                       </div>
 
@@ -178,7 +178,10 @@ export function SolucoesGrid() {
 
                       <ul className="space-y-4">
                         {section.checks.map((check, cIdx) => (
-                          <li key={cIdx} className="flex items-start gap-3.5 text-slate-200 text-sm sm:text-base">
+                          <li
+                            key={cIdx}
+                            className="flex items-start gap-3.5 text-slate-200 text-sm sm:text-base"
+                          >
                             <FaCheck
                               className="mt-1 shrink-0"
                               size={18}
@@ -199,4 +202,3 @@ export function SolucoesGrid() {
     </>
   );
 }
-

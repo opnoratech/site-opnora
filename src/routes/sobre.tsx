@@ -10,7 +10,11 @@ export const Route = createFileRoute("/sobre")({
   head: () => ({
     meta: [
       { title: "Sobre | Opnora" },
-      { name: "description", content: "A Opnora desenvolve software sob medida com inteligência artificial, automação e dados para transformar problemas reais em soluções digitais." },
+      {
+        name: "description",
+        content:
+          "A Opnora desenvolve software sob medida com inteligência artificial, automação e dados para transformar problemas reais em soluções digitais.",
+      },
     ],
   }),
   component: SobrePage,

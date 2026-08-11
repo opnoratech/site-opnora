@@ -245,10 +245,12 @@ function AdicionalCard({ item, index }: { item: AdicionalItem; index: number }) 
         <div className="mb-8 h-[48px] flex-shrink-0">
           <Link
             to="/contato"
-            search={{
-              plano: item.ctaSearch.plano,
-              nivel: selectedLvl ? selectedLvl.name : undefined,
-            } as any}
+            search={
+              {
+                plano: item.ctaSearch.plano,
+                nivel: selectedLvl ? selectedLvl.name : undefined,
+              } as any
+            }
             hash="personalize"
             className="group/btn flex items-center justify-center gap-2.5 text-center w-full h-[48px] rounded-2xl text-xs font-bold uppercase tracking-[0.15em] transition-all duration-300 bg-white/5 text-white hover:bg-white hover:text-black border border-white/10 hover:shadow-[0_0_20px_rgba(255,255,255,0.25)]"
           >
@@ -317,9 +319,9 @@ export function PrecosAdicionais() {
           <ScrollReveal delay={200}>
             <p className="text-sm sm:text-base text-slate-400 font-light leading-relaxed">
               Depois de lançar seu projeto, a Opnora continua ao lado da sua empresa com
-              acompanhamento mensal de melhorias, tráfego, automações e análise de dados.
-              Esses serviços podem ser contratados como complementos pós-entrega ou
-              incorporados diretamente à sua operação.
+              acompanhamento mensal de melhorias, tráfego, automações e análise de dados. Esses
+              serviços podem ser contratados como complementos pós-entrega ou incorporados
+              diretamente à sua operação.
             </p>
           </ScrollReveal>
         </div>
