@@ -15,6 +15,9 @@ import { Header } from "@/components/site/layout/Header";
 import { Footer } from "@/components/site/layout/Footer";
 import { Toaster } from "@/components/ui/sonner";
 import { SITE, CONTACT } from "@/config/site";
+import { SettingsProvider } from "@/hooks/useSiteSettings";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 function NotFoundComponent() {
   return (
@@ -152,6 +155,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { name: "google-site-verification", content: "hYBIfokwzQO-l2sWXrgnGBIOAUkPFJHOjrWNHBfOk-Q" },
       { name: "theme-color", content: "#050507" },
       { title: `${SITE.name} | ${SITE.tagline}` },
       { name: "description", content: SITE.description },
@@ -204,11 +208,13 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const location = useRouter().state.location;
+  const isAppRoute = location.pathname.startsWith('/admin') || location.pathname.startsWith('/login');
 
   useEffect(() => {
     // 2. Read the saved scroll position from the last session
     const savedScroll = sessionStorage.getItem("opnora_scroll_y");
-    if (savedScroll) {
+    if (savedScroll && !isAppRoute) {
       const targetY = parseInt(savedScroll, 10);
       if (targetY > 100) {
         // Force the browser to start at the top immediately
@@ -245,23 +251,29 @@ function RootComponent() {
       }, 100);
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    if (!isAppRoute) {
+      window.addEventListener("scroll", handleScroll, { passive: true });
+    }
     return () => {
       window.removeEventListener("scroll", handleScroll);
       if (scrollTimeout) clearTimeout(scrollTimeout);
     };
-  }, []);
+  }, [isAppRoute]);
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="flex min-h-dvh flex-col bg-background text-foreground">
-        <Header />
-        <main className="flex-1">
-          <Outlet />
-        </main>
-        <Footer />
-      </div>
-      <Toaster />
+      <SettingsProvider>
+        <div className={`flex min-h-dvh flex-col bg-background text-foreground ${isAppRoute ? 'font-sans' : ''}`}>
+          {!isAppRoute && <Header />}
+          <main className="flex-1">
+            <Outlet />
+          </main>
+          {!isAppRoute && <Footer />}
+        </div>
+        <Toaster />
+        <Analytics />
+        <SpeedInsights />
+      </SettingsProvider>
     </QueryClientProvider>
   );
 }
