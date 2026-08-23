@@ -268,8 +268,8 @@
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    animation: cyberpunk-glitch 7s infinite;
-    filter: drop-shadow(0 0 8px rgba(78, 212, 207, 0.15));
+    animation: cyberpunk-glitch 5s infinite;
+
   }
 
   @keyframes aurora-holographic-flow {
@@ -298,14 +298,14 @@
     94% {
       transform: skew(-4deg);
       text-shadow:
-        3px 0 var(--aurora-violet),
-        -3px 0 var(--aurora-blue);
+        3px 0 #b3a1ff,
+        -3px 0 #82b8f7;
     }
     95% {
       transform: skew(4deg);
       text-shadow:
-        -3px 0 var(--aurora-violet),
-        3px 0 var(--aurora-blue);
+        -3px 0 #b3a1ff,
+        3px 0 #82b8f7;
     }
     96% {
       transform: skew(0deg);
@@ -314,8 +314,8 @@
     97% {
       transform: skew(-2deg);
       text-shadow:
-        2px 0 var(--aurora-violet),
-        -2px 0 var(--aurora-blue);
+        2px 0 #b3a1ff,
+        -2px 0 #82b8f7;
     }
     98%,
     100% {

@@ -1,5 +1,5 @@
-import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
 // Resolve the path to the built SSR server relative to this file
 const __filename = fileURLToPath(import.meta.url);
@@ -9,19 +9,20 @@ const serverPath = resolve(__dirname, "../dist/server/server.js");
 // Dynamically import the built SSR server (Fetch API interface)
 let server;
 try {
-  const serverModule = await import(serverPath);
-  server = serverModule.default;
+	const serverModule = await import(serverPath);
+	server = serverModule.default;
 } catch (e) {
-  console.error("Failed to load SSR server:", e);
+	console.error("Failed to load SSR server:", e);
 }
 
 // Helper to generate the email HTML with Opnora Dark/Premium aesthetic
 function generateEmailHtml(data) {
-  const isSimulador = data.type === "simulador";
+	const isSimulador = data.type === "simulador";
+	const isStatusUpdate = data.type === "status_update";
 
-  let detailsHtml = "";
-  if (isSimulador) {
-    detailsHtml = `
+	let detailsHtml = "";
+	if (isSimulador) {
+		detailsHtml = `
       <div style="margin-bottom: 25px; background: #121218; padding: 18px; border-radius: 8px; border: 1px solid #1c1c25;">
         <h3 style="color: #a280ff; font-size: 13px; margin-top: 0; margin-bottom: 15px; text-transform: uppercase; font-family: monospace; letter-spacing: 1px; font-weight: bold;">2. Escopo do Simulador</h3>
         <table style="width: 100%; font-size: 13px; color: #d1d1d6; border-collapse: collapse; line-height: 1.6;">
@@ -35,8 +36,18 @@ function generateEmailHtml(data) {
         </table>
       </div>
     `;
-  } else {
-    detailsHtml = `
+	} else if (isStatusUpdate) {
+		detailsHtml = `
+      <div style="margin-bottom: 25px; background: #121218; padding: 18px; border-radius: 8px; border: 1px solid #1c1c25;">
+        <h3 style="color: #a280ff; font-size: 13px; margin-top: 0; margin-bottom: 15px; text-transform: uppercase; font-family: monospace; letter-spacing: 1px; font-weight: bold;">2. Atualização de Status</h3>
+        <table style="width: 100%; font-size: 13px; color: #d1d1d6; border-collapse: collapse; line-height: 1.6;">
+          <tr><td style="padding: 6px 0; font-weight: bold; width: 140px; color: #8e8e93;">Novo Status:</td><td style="color: #58e5a6; font-weight: bold; text-transform: uppercase;">${data.status}</td></tr>
+          <tr><td style="padding: 6px 0; font-weight: bold; color: #8e8e93;">Assunto/Tipo:</td><td style="color: #ffffff;">${data.tipoContato || "Contato Geral"}</td></tr>
+        </table>
+      </div>
+    `;
+	} else {
+		detailsHtml = `
       <div style="margin-bottom: 25px; background: #121218; padding: 18px; border-radius: 8px; border: 1px solid #1c1c25;">
         <h3 style="color: #a280ff; font-size: 13px; margin-top: 0; margin-bottom: 15px; text-transform: uppercase; font-family: monospace; letter-spacing: 1px; font-weight: bold;">2. Assunto do Contato</h3>
         <table style="width: 100%; font-size: 13px; color: #d1d1d6; border-collapse: collapse; line-height: 1.6;">
@@ -44,9 +55,12 @@ function generateEmailHtml(data) {
         </table>
       </div>
     `;
-  }
+	}
 
-  return `
+	let headerSubtitle = isStatusUpdate ? "Atualização de Lead (Admin)" : "Nova Oportunidade Comercial";
+	let badgeText = isStatusUpdate ? "Status Admin" : (isSimulador ? "Simulador" : "Contato");
+
+	return `
     <!doctype html>
     <html lang="pt-BR">
       <head>
@@ -63,10 +77,10 @@ function generateEmailHtml(data) {
             <div style="border-bottom: 1px solid #1c1c21; padding-bottom: 15px; margin-bottom: 20px; clear: both; overflow: hidden;">
               <div style="float: left;">
                 <h2 style="margin: 0; color: #a280ff; font-size: 18px; letter-spacing: 1.5px; font-weight: 800; text-transform: uppercase; font-family: monospace;">OPNORA</h2>
-                <span style="font-size: 10px; color: #6e6e73; font-family: monospace; text-transform: uppercase; tracking-wider; display: block; margin-top: 2px;">Nova Oportunidade Comercial</span>
+                <span style="font-size: 10px; color: #6e6e73; font-family: monospace; text-transform: uppercase; tracking-wider; display: block; margin-top: 2px;">${headerSubtitle}</span>
               </div>
               <div style="float: right; background: rgba(162, 128, 255, 0.1); border: 1px solid rgba(162, 128, 255, 0.2); padding: 4px 10px; border-radius: 20px; color: #a280ff; font-size: 10px; font-family: monospace; text-transform: uppercase; margin-top: 5px;">
-                ${isSimulador ? "Simulador" : "Contato"}
+                ${badgeText}
               </div>
             </div>
 
@@ -77,7 +91,7 @@ function generateEmailHtml(data) {
                 <tr><td style="padding: 6px 0; font-weight: bold; width: 140px; color: #8e8e93;">Nome Completo:</td><td style="color: #ffffff; font-weight: 600;">${data.nome}</td></tr>
                 <tr><td style="padding: 6px 0; font-weight: bold; color: #8e8e93;">Empresa:</td><td style="color: #ffffff;">${data.empresa || "Não informada"}</td></tr>
                 <tr><td style="padding: 6px 0; font-weight: bold; color: #8e8e93;">E-mail:</td><td><a href="mailto:${data.email}" style="color: #a280ff; text-decoration: none;">${data.email}</a></td></tr>
-                <tr><td style="padding: 6px 0; font-weight: bold; color: #8e8e93;">WhatsApp:</td><td><a href="https://wa.me/${data.whatsapp.replace(/\D/g, "")}" style="color: #58e5a6; text-decoration: none; font-weight: bold;">${data.whatsapp}</a></td></tr>
+                <tr><td style="padding: 6px 0; font-weight: bold; color: #8e8e93;">WhatsApp:</td><td><a href="https://wa.me/${(data.whatsapp || "").replace(/\D/g, "")}" style="color: #58e5a6; text-decoration: none; font-weight: bold;">${data.whatsapp || "Não informado"}</a></td></tr>
                 ${data.cidade ? `<tr><td style="padding: 6px 0; font-weight: bold; color: #8e8e93;">Localização:</td><td style="color: #ffffff;">${data.cidade}</td></tr>` : ""}
               </table>
             </div>
@@ -86,9 +100,17 @@ function generateEmailHtml(data) {
             ${detailsHtml}
 
             <!-- Descrição/Mensagem -->
-            <div style="margin-bottom: 10px;">
-              <h3 style="color: #a280ff; font-size: 13px; margin-top: 0; margin-bottom: 12px; text-transform: uppercase; font-family: monospace; letter-spacing: 1px; font-weight: bold;">3. Descrição / Mensagem</h3>
+            <div style="margin-bottom: 25px;">
+              <h3 style="color: #a280ff; font-size: 13px; margin-top: 0; margin-bottom: 12px; text-transform: uppercase; font-family: monospace; letter-spacing: 1px; font-weight: bold;">3. Mensagem / Descrição</h3>
               <div style="font-size: 13px; color: #d1d1d6; line-height: 1.6; background: #121218; padding: 15px; border-radius: 8px; border: 1px solid #1c1c25; white-space: pre-wrap;">${data.descricao || data.mensagem || "Sem descrição informada."}</div>
+            </div>
+
+            <!-- Botão de Ação para o Painel Admin -->
+            <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #1c1c21;">
+              <a href="https://opnora.me/admin/leads" target="_blank" style="background: linear-gradient(135deg, #a280ff, #7952eb); color: #ffffff; text-decoration: none; padding: 12px 24px; font-size: 13px; font-weight: bold; border-radius: 8px; display: inline-block; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+                Ver Detalhes no Painel Admin →
+              </a>
+              <p style="color: #6e6e73; font-size: 11px; margin-top: 12px; margin-bottom: 0;">Você pode alterar o status do lead e responder ao cliente diretamente pelo painel.</p>
             </div>
             
           </div>
@@ -99,118 +121,141 @@ function generateEmailHtml(data) {
 }
 
 export default async function handler(req, res) {
-  // Intercepta e gerencia o endpoint de envio de e-mails em /api/contato
-  if (req.url && (req.url.startsWith("/api/contato") || req.url === "/api/contato")) {
-    if (req.method !== "POST") {
-      res.statusCode = 405;
-      res.setHeader("Content-Type", "application/json");
-      res.end(JSON.stringify({ error: "Method Not Allowed" }));
-      return;
-    }
+	// Intercepta e gerencia o endpoint de envio de e-mails em /api/contato
+	if (
+		req.url &&
+		(req.url.startsWith("/api/contato") || req.url === "/api/contato")
+	) {
+		if (req.method !== "POST") {
+			res.statusCode = 405;
+			res.setHeader("Content-Type", "application/json");
+			res.end(JSON.stringify({ error: "Method Not Allowed" }));
+			return;
+		}
 
-    try {
-      // Ler body da request
-      const chunks = [];
-      for await (const chunk of req) {
-        chunks.push(chunk);
-      }
-      const data = JSON.parse(Buffer.concat(chunks).toString());
+		try {
+			// Ler body da request
+			const chunks = [];
+			for await (const chunk of req) {
+				chunks.push(chunk);
+			}
+			const data = JSON.parse(Buffer.concat(chunks).toString());
 
-      // Validar dados mínimos obrigatórios
-      if (!data.nome || !data.email) {
-        res.statusCode = 400;
-        res.setHeader("Content-Type", "application/json");
-        res.end(JSON.stringify({ error: "Nome e e-mail são obrigatórios." }));
-        return;
-      }
+			// Validar dados mínimos obrigatórios
+			if (!data.nome || !data.email) {
+				res.statusCode = 400;
+				res.setHeader("Content-Type", "application/json");
+				res.end(JSON.stringify({ error: "Nome e e-mail são obrigatórios." }));
+				return;
+			}
 
-      // Token do Resend (obtido via variável de ambiente)
-      const resendApiKey = process.env.RESEND_API_KEY || "";
+			const isSimulador = data.type === "simulador";
+			const isStatusUpdate = data.type === "status_update";
 
-      const emailHtml = generateEmailHtml(data);
-      const isSimulador = data.type === "simulador";
-      const subject = isSimulador
-        ? `Simulador Opnora: Novo Projeto - ${data.nome} (${data.empresa || "Sem empresa"})`
-        : `Contato Opnora: Nova Mensagem - ${data.nome}`;
+			// Token do Resend (obtido via variável de ambiente)
+			const resendApiKey = process.env.RESEND_API_KEY || "";
 
-      // Envia via API HTTP do Resend
-      const resendResponse = await fetch("https://api.resend.com/emails", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${resendApiKey}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          from: process.env.CONTACT_SENDER_EMAIL || "Opnora <onboarding@resend.dev>",
-          to: [process.env.CONTACT_RECEIVER_EMAIL || "nicolasharnisch@gmail.com"],
-          subject: subject,
-          html: emailHtml,
-        }),
-      });
+			const emailHtml = generateEmailHtml(data);
+			
+			let subject = `Contato Opnora: Nova Mensagem - ${data.nome}`;
+			if (isStatusUpdate) {
+				subject = `Admin Opnora: Lead "${data.nome}" atualizado para ${data.status.toUpperCase()}`;
+			} else if (isSimulador) {
+				subject = `Simulador Opnora: Novo Projeto - ${data.nome} (${data.empresa || "Sem empresa"})`;
+			}
 
-      if (!resendResponse.ok) {
-        const errText = await resendResponse.text();
-        console.error("Resend API Error:", errText);
-        res.statusCode = 500;
-        res.setHeader("Content-Type", "application/json");
-        res.end(JSON.stringify({ error: "Erro ao enviar e-mail via Resend.", details: errText }));
-        return;
-      }
+			// Envia via API HTTP do Resend
+			const resendResponse = await fetch("https://api.resend.com/emails", {
+				method: "POST",
+				headers: {
+					Authorization: `Bearer ${resendApiKey}`,
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					from:
+						process.env.CONTACT_SENDER_EMAIL ||
+						"Opnora <onboarding@resend.dev>",
+					to: [
+						process.env.CONTACT_RECEIVER_EMAIL || "nicolasharnisch@gmail.com",
+					],
+					subject: subject,
+					html: emailHtml,
+				}),
+			});
 
-      res.statusCode = 200;
-      res.setHeader("Content-Type", "application/json");
-      res.end(JSON.stringify({ success: true }));
-      return;
-    } catch (error) {
-      console.error("API Contato Error:", error);
-      res.statusCode = 500;
-      res.setHeader("Content-Type", "application/json");
-      res.end(JSON.stringify({ error: "Internal Server Error", details: error.message }));
-      return;
-    }
-  }
+			if (!resendResponse.ok) {
+				const errText = await resendResponse.text();
+				console.error("Resend API Error:", errText);
+				res.statusCode = 500;
+				res.setHeader("Content-Type", "application/json");
+				res.end(
+					JSON.stringify({
+						error: "Erro ao enviar e-mail via Resend.",
+						details: errText,
+					}),
+				);
+				return;
+			}
 
-  // Comportamento normal de SSR para as outras rotas
-  if (!server) {
-    res.statusCode = 500;
-    res.setHeader("Content-Type", "text/plain");
-    res.end("SSR server failed to load");
-    return;
-  }
+			res.statusCode = 200;
+			res.setHeader("Content-Type", "application/json");
+			res.end(JSON.stringify({ success: true }));
+			return;
+		} catch (error) {
+			console.error("API Contato Error:", error);
+			res.statusCode = 500;
+			res.setHeader("Content-Type", "application/json");
+			res.end(
+				JSON.stringify({
+					error: "Internal Server Error",
+					details: error.message,
+				}),
+			);
+			return;
+		}
+	}
 
-  // Build a Web API Request from the Node.js IncomingMessage
-  const protocol = req.headers["x-forwarded-proto"] || "https";
-  const host = req.headers["x-forwarded-host"] || req.headers.host;
-  const url = `${protocol}://${host}${req.url}`;
+	// Comportamento normal de SSR para as outras rotas
+	if (!server) {
+		res.statusCode = 500;
+		res.setHeader("Content-Type", "text/plain");
+		res.end("SSR server failed to load");
+		return;
+	}
 
-  // Read body
-  const chunks = [];
-  for await (const chunk of req) {
-    chunks.push(chunk);
-  }
-  const body = chunks.length > 0 ? Buffer.concat(chunks) : undefined;
+	// Build a Web API Request from the Node.js IncomingMessage
+	const protocol = req.headers["x-forwarded-proto"] || "https";
+	const host = req.headers["x-forwarded-host"] || req.headers.host;
+	const url = `${protocol}://${host}${req.url}`;
 
-  const fetchRequest = new Request(url, {
-    method: req.method,
-    headers: req.headers,
-    body: req.method !== "GET" && req.method !== "HEAD" ? body : undefined,
-  });
+	// Read body
+	const chunks = [];
+	for await (const chunk of req) {
+		chunks.push(chunk);
+	}
+	const body = chunks.length > 0 ? Buffer.concat(chunks) : undefined;
 
-  try {
-    const response = await server.fetch(fetchRequest, {}, {});
+	const fetchRequest = new Request(url, {
+		method: req.method,
+		headers: req.headers,
+		body: req.method !== "GET" && req.method !== "HEAD" ? body : undefined,
+	});
 
-    res.statusCode = response.status;
+	try {
+		const response = await server.fetch(fetchRequest, {}, {});
 
-    response.headers.forEach((value, key) => {
-      res.setHeader(key, value);
-    });
+		res.statusCode = response.status;
 
-    const responseBody = await response.arrayBuffer();
-    res.end(Buffer.from(responseBody));
-  } catch (error) {
-    console.error("SSR Error:", error);
-    res.statusCode = 500;
-    res.setHeader("Content-Type", "text/plain");
-    res.end("Internal Server Error");
-  }
+		response.headers.forEach((value, key) => {
+			res.setHeader(key, value);
+		});
+
+		const responseBody = await response.arrayBuffer();
+		res.end(Buffer.from(responseBody));
+	} catch (error) {
+		console.error("SSR Error:", error);
+		res.statusCode = 500;
+		res.setHeader("Content-Type", "text/plain");
+		res.end("Internal Server Error");
+	}
 }

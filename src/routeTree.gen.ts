@@ -15,9 +15,20 @@ import { Route as SobreRouteImport } from './routes/sobre'
 import { Route as ProjetosRouteImport } from './routes/projetos'
 import { Route as PrivacidadeRouteImport } from './routes/privacidade'
 import { Route as PrecosRouteImport } from './routes/precos'
+import { Route as ManutencaoRouteImport } from './routes/manutencao'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as ContatoRouteImport } from './routes/contato'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as PropostaIdRouteImport } from './routes/proposta.$id'
+import { Route as AdminTeamRouteImport } from './routes/admin/team'
+import { Route as AdminSettingsRouteImport } from './routes/admin/settings'
+import { Route as AdminProposalsRouteImport } from './routes/admin/proposals'
+import { Route as AdminPortfolioRouteImport } from './routes/admin/portfolio'
+import { Route as AdminLeadsRouteImport } from './routes/admin/leads'
+import { Route as AdminFinanceRouteImport } from './routes/admin/finance'
 
 const TermosRoute = TermosRouteImport.update({
   id: '/termos',
@@ -49,6 +60,16 @@ const PrecosRoute = PrecosRouteImport.update({
   path: '/precos',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ManutencaoRoute = ManutencaoRouteImport.update({
+  id: '/manutencao',
+  path: '/manutencao',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CookiesRoute = CookiesRouteImport.update({
   id: '/cookies',
   path: '/cookies',
@@ -59,92 +80,205 @@ const ContatoRoute = ContatoRouteImport.update({
   path: '/contato',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const PropostaIdRoute = PropostaIdRouteImport.update({
+  id: '/proposta/$id',
+  path: '/proposta/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminTeamRoute = AdminTeamRouteImport.update({
+  id: '/team',
+  path: '/team',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSettingsRoute = AdminSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminProposalsRoute = AdminProposalsRouteImport.update({
+  id: '/proposals',
+  path: '/proposals',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminPortfolioRoute = AdminPortfolioRouteImport.update({
+  id: '/portfolio',
+  path: '/portfolio',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminLeadsRoute = AdminLeadsRouteImport.update({
+  id: '/leads',
+  path: '/leads',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminFinanceRoute = AdminFinanceRouteImport.update({
+  id: '/finance',
+  path: '/finance',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/contato': typeof ContatoRoute
   '/cookies': typeof CookiesRoute
+  '/login': typeof LoginRoute
+  '/manutencao': typeof ManutencaoRoute
   '/precos': typeof PrecosRoute
   '/privacidade': typeof PrivacidadeRoute
   '/projetos': typeof ProjetosRoute
   '/sobre': typeof SobreRoute
   '/solucoes': typeof SolucoesRoute
   '/termos': typeof TermosRoute
+  '/admin/finance': typeof AdminFinanceRoute
+  '/admin/leads': typeof AdminLeadsRoute
+  '/admin/portfolio': typeof AdminPortfolioRoute
+  '/admin/proposals': typeof AdminProposalsRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/admin/team': typeof AdminTeamRoute
+  '/proposta/$id': typeof PropostaIdRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/contato': typeof ContatoRoute
   '/cookies': typeof CookiesRoute
+  '/login': typeof LoginRoute
+  '/manutencao': typeof ManutencaoRoute
   '/precos': typeof PrecosRoute
   '/privacidade': typeof PrivacidadeRoute
   '/projetos': typeof ProjetosRoute
   '/sobre': typeof SobreRoute
   '/solucoes': typeof SolucoesRoute
   '/termos': typeof TermosRoute
+  '/admin/finance': typeof AdminFinanceRoute
+  '/admin/leads': typeof AdminLeadsRoute
+  '/admin/portfolio': typeof AdminPortfolioRoute
+  '/admin/proposals': typeof AdminProposalsRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/admin/team': typeof AdminTeamRoute
+  '/proposta/$id': typeof PropostaIdRoute
+  '/admin': typeof AdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/contato': typeof ContatoRoute
   '/cookies': typeof CookiesRoute
+  '/login': typeof LoginRoute
+  '/manutencao': typeof ManutencaoRoute
   '/precos': typeof PrecosRoute
   '/privacidade': typeof PrivacidadeRoute
   '/projetos': typeof ProjetosRoute
   '/sobre': typeof SobreRoute
   '/solucoes': typeof SolucoesRoute
   '/termos': typeof TermosRoute
+  '/admin/finance': typeof AdminFinanceRoute
+  '/admin/leads': typeof AdminLeadsRoute
+  '/admin/portfolio': typeof AdminPortfolioRoute
+  '/admin/proposals': typeof AdminProposalsRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/admin/team': typeof AdminTeamRoute
+  '/proposta/$id': typeof PropostaIdRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/contato'
     | '/cookies'
+    | '/login'
+    | '/manutencao'
     | '/precos'
     | '/privacidade'
     | '/projetos'
     | '/sobre'
     | '/solucoes'
     | '/termos'
+    | '/admin/finance'
+    | '/admin/leads'
+    | '/admin/portfolio'
+    | '/admin/proposals'
+    | '/admin/settings'
+    | '/admin/team'
+    | '/proposta/$id'
+    | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/contato'
     | '/cookies'
+    | '/login'
+    | '/manutencao'
     | '/precos'
     | '/privacidade'
     | '/projetos'
     | '/sobre'
     | '/solucoes'
     | '/termos'
+    | '/admin/finance'
+    | '/admin/leads'
+    | '/admin/portfolio'
+    | '/admin/proposals'
+    | '/admin/settings'
+    | '/admin/team'
+    | '/proposta/$id'
+    | '/admin'
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/contato'
     | '/cookies'
+    | '/login'
+    | '/manutencao'
     | '/precos'
     | '/privacidade'
     | '/projetos'
     | '/sobre'
     | '/solucoes'
     | '/termos'
+    | '/admin/finance'
+    | '/admin/leads'
+    | '/admin/portfolio'
+    | '/admin/proposals'
+    | '/admin/settings'
+    | '/admin/team'
+    | '/proposta/$id'
+    | '/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRouteWithChildren
   ContatoRoute: typeof ContatoRoute
   CookiesRoute: typeof CookiesRoute
+  LoginRoute: typeof LoginRoute
+  ManutencaoRoute: typeof ManutencaoRoute
   PrecosRoute: typeof PrecosRoute
   PrivacidadeRoute: typeof PrivacidadeRoute
   ProjetosRoute: typeof ProjetosRoute
   SobreRoute: typeof SobreRoute
   SolucoesRoute: typeof SolucoesRoute
   TermosRoute: typeof TermosRoute
+  PropostaIdRoute: typeof PropostaIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -191,6 +325,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrecosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/manutencao': {
+      id: '/manutencao'
+      path: '/manutencao'
+      fullPath: '/manutencao'
+      preLoaderRoute: typeof ManutencaoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/cookies': {
       id: '/cookies'
       path: '/cookies'
@@ -205,6 +353,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContatoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -212,19 +367,101 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/proposta/$id': {
+      id: '/proposta/$id'
+      path: '/proposta/$id'
+      fullPath: '/proposta/$id'
+      preLoaderRoute: typeof PropostaIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/team': {
+      id: '/admin/team'
+      path: '/team'
+      fullPath: '/admin/team'
+      preLoaderRoute: typeof AdminTeamRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/settings': {
+      id: '/admin/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AdminSettingsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/proposals': {
+      id: '/admin/proposals'
+      path: '/proposals'
+      fullPath: '/admin/proposals'
+      preLoaderRoute: typeof AdminProposalsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/portfolio': {
+      id: '/admin/portfolio'
+      path: '/portfolio'
+      fullPath: '/admin/portfolio'
+      preLoaderRoute: typeof AdminPortfolioRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/leads': {
+      id: '/admin/leads'
+      path: '/leads'
+      fullPath: '/admin/leads'
+      preLoaderRoute: typeof AdminLeadsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/finance': {
+      id: '/admin/finance'
+      path: '/finance'
+      fullPath: '/admin/finance'
+      preLoaderRoute: typeof AdminFinanceRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
+interface AdminRouteChildren {
+  AdminFinanceRoute: typeof AdminFinanceRoute
+  AdminLeadsRoute: typeof AdminLeadsRoute
+  AdminPortfolioRoute: typeof AdminPortfolioRoute
+  AdminProposalsRoute: typeof AdminProposalsRoute
+  AdminSettingsRoute: typeof AdminSettingsRoute
+  AdminTeamRoute: typeof AdminTeamRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminFinanceRoute: AdminFinanceRoute,
+  AdminLeadsRoute: AdminLeadsRoute,
+  AdminPortfolioRoute: AdminPortfolioRoute,
+  AdminProposalsRoute: AdminProposalsRoute,
+  AdminSettingsRoute: AdminSettingsRoute,
+  AdminTeamRoute: AdminTeamRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRouteWithChildren,
   ContatoRoute: ContatoRoute,
   CookiesRoute: CookiesRoute,
+  LoginRoute: LoginRoute,
+  ManutencaoRoute: ManutencaoRoute,
   PrecosRoute: PrecosRoute,
   PrivacidadeRoute: PrivacidadeRoute,
   ProjetosRoute: ProjetosRoute,
   SobreRoute: SobreRoute,
   SolucoesRoute: SolucoesRoute,
   TermosRoute: TermosRoute,
+  PropostaIdRoute: PropostaIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

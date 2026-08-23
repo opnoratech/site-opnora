@@ -1,41 +1,42 @@
-import React, { useState, useEffect } from "react";
-import { ScrollReveal } from "@/components/ui/ScrollReveal";
-import { Shader, Swirl, ChromaFlow, FlutedGlass, FilmGrain } from "shaders/react";
-import { AntigravityParticleField } from "@/components/site/backgrounds/AntigravityParticleField";
+import type React from "react";
+import { useEffect, useState } from "react";
 import { FaAws } from "react-icons/fa6";
-import { TbBrandOpenai } from "react-icons/tb";
 import {
-  SiReact,
-  SiNextdotjs,
-  SiTypescript,
-  SiJavascript,
-  SiPython,
-  SiOpenjdk,
-  SiDotnet,
-  SiPhp,
-  SiNodedotjs,
-  SiTailwindcss,
-  SiVuedotjs,
   SiAngular,
-  SiPostgresql,
-  SiMongodb,
   SiDocker,
-  SiGooglecloud,
-  SiKubernetes,
-  SiGraphql,
-  SiFlutter,
-  SiSwift,
-  SiKotlin,
-  SiRedis,
-  SiVite,
-  SiGo,
-  SiRust,
-  SiPrisma,
-  SiSupabase,
-  SiFramer,
+  SiDotnet,
   SiFigma,
+  SiFlutter,
+  SiFramer,
   SiGit,
+  SiGo,
+  SiGooglecloud,
+  SiGraphql,
+  SiJavascript,
+  SiKotlin,
+  SiKubernetes,
+  SiMongodb,
+  SiNextdotjs,
+  SiNodedotjs,
+  SiOpenjdk,
+  SiPhp,
+  SiPostgresql,
+  SiPrisma,
+  SiPython,
+  SiReact,
+  SiRedis,
+  SiRust,
+  SiSupabase,
+  SiSwift,
+  SiTailwindcss,
+  SiTypescript,
+  SiVite,
+  SiVuedotjs,
 } from "react-icons/si";
+import { TbBrandOpenai } from "react-icons/tb";
+import { ChromaFlow, FilmGrain, FlutedGlass, Shader, Swirl } from "shaders/react";
+import { AntigravityParticleField } from "@/components/site/backgrounds/AntigravityParticleField";
+import { ScrollReveal } from "@/components/ui/ScrollReveal";
 
 type MarqueeLogo = {
   name: string;
@@ -45,8 +46,18 @@ type MarqueeLogo = {
 };
 
 const MARQUEE_LOGOS: MarqueeLogo[] = [
-  { name: "React", icon: SiReact, color: "#61DAFB", gradient: "from-[#61DAFB] to-[#00B4D8]" },
-  { name: "Next.js", icon: SiNextdotjs, color: "#ffffff", gradient: "from-[#ffffff] to-[#71717a]" },
+  {
+    name: "React",
+    icon: SiReact,
+    color: "#61DAFB",
+    gradient: "from-[#61DAFB] to-[#00B4D8]",
+  },
+  {
+    name: "Next.js",
+    icon: SiNextdotjs,
+    color: "#ffffff",
+    gradient: "from-[#ffffff] to-[#71717a]",
+  },
   {
     name: "TypeScript",
     icon: SiTypescript,
@@ -59,11 +70,36 @@ const MARQUEE_LOGOS: MarqueeLogo[] = [
     color: "#F7DF1E",
     gradient: "from-[#F7DF1E] to-[#D6BA00]",
   },
-  { name: "Python", icon: SiPython, color: "#3776AB", gradient: "from-[#3776AB] to-[#FFD43B]" },
-  { name: "Java", icon: SiOpenjdk, color: "#E76F00", gradient: "from-[#5382A1] to-[#E76F00]" },
-  { name: "C#", icon: SiDotnet, color: "#512BD4", gradient: "from-[#512BD4] to-[#178600]" },
-  { name: "PHP", icon: SiPhp, color: "#777BB4", gradient: "from-[#777BB4] to-[#4F5B93]" },
-  { name: "Node.js", icon: SiNodedotjs, color: "#5FA04E", gradient: "from-[#339933] to-[#215732]" },
+  {
+    name: "Python",
+    icon: SiPython,
+    color: "#3776AB",
+    gradient: "from-[#3776AB] to-[#FFD43B]",
+  },
+  {
+    name: "Java",
+    icon: SiOpenjdk,
+    color: "#E76F00",
+    gradient: "from-[#5382A1] to-[#E76F00]",
+  },
+  {
+    name: "C#",
+    icon: SiDotnet,
+    color: "#512BD4",
+    gradient: "from-[#512BD4] to-[#178600]",
+  },
+  {
+    name: "PHP",
+    icon: SiPhp,
+    color: "#777BB4",
+    gradient: "from-[#777BB4] to-[#4F5B93]",
+  },
+  {
+    name: "Node.js",
+    icon: SiNodedotjs,
+    color: "#5FA04E",
+    gradient: "from-[#339933] to-[#215732]",
+  },
   {
     name: "OpenAI",
     icon: TbBrandOpenai,
@@ -76,17 +112,42 @@ const MARQUEE_LOGOS: MarqueeLogo[] = [
     color: "#06B6D4",
     gradient: "from-[#38B2AC] to-[#0D9488]",
   },
-  { name: "Vue.js", icon: SiVuedotjs, color: "#4FC08D", gradient: "from-[#4FC08D] to-[#35495E]" },
-  { name: "Angular", icon: SiAngular, color: "#DD0031", gradient: "from-[#DD0031] to-[#C3002F]" },
+  {
+    name: "Vue.js",
+    icon: SiVuedotjs,
+    color: "#4FC08D",
+    gradient: "from-[#4FC08D] to-[#35495E]",
+  },
+  {
+    name: "Angular",
+    icon: SiAngular,
+    color: "#DD0031",
+    gradient: "from-[#DD0031] to-[#C3002F]",
+  },
   {
     name: "PostgreSQL",
     icon: SiPostgresql,
     color: "#4169E1",
     gradient: "from-[#4169E1] to-[#2F4F4F]",
   },
-  { name: "MongoDB", icon: SiMongodb, color: "#47A248", gradient: "from-[#47A248] to-[#116149]" },
-  { name: "Docker", icon: SiDocker, color: "#2496ED", gradient: "from-[#2496ED] to-[#0DB7ED]" },
-  { name: "AWS", icon: FaAws, color: "#FF9900", gradient: "from-[#FF9900] to-[#E47911]" },
+  {
+    name: "MongoDB",
+    icon: SiMongodb,
+    color: "#47A248",
+    gradient: "from-[#47A248] to-[#116149]",
+  },
+  {
+    name: "Docker",
+    icon: SiDocker,
+    color: "#2496ED",
+    gradient: "from-[#2496ED] to-[#0DB7ED]",
+  },
+  {
+    name: "AWS",
+    icon: FaAws,
+    color: "#FF9900",
+    gradient: "from-[#FF9900] to-[#E47911]",
+  },
   {
     name: "Google Cloud",
     icon: SiGooglecloud,
@@ -99,19 +160,84 @@ const MARQUEE_LOGOS: MarqueeLogo[] = [
     color: "#326CE5",
     gradient: "from-[#326CE5] to-[#1D4ED8]",
   },
-  { name: "GraphQL", icon: SiGraphql, color: "#E10098", gradient: "from-[#E10098] to-[#C7007D]" },
-  { name: "Flutter", icon: SiFlutter, color: "#02569B", gradient: "from-[#02569B] to-[#0175C2]" },
-  { name: "Swift", icon: SiSwift, color: "#F05138", gradient: "from-[#F05138] to-[#D83B24]" },
-  { name: "Kotlin", icon: SiKotlin, color: "#7F52FF", gradient: "from-[#7F52FF] to-[#C711E1]" },
-  { name: "Redis", icon: SiRedis, color: "#DC382D", gradient: "from-[#DC382D] to-[#A32015]" },
-  { name: "Vite", icon: SiVite, color: "#646CFF", gradient: "from-[#646CFF] to-[#FFD816]" },
-  { name: "Go", icon: SiGo, color: "#00ADD8", gradient: "from-[#00ADD8] to-[#007D9C]" },
-  { name: "Rust", icon: SiRust, color: "#DEA584", gradient: "from-[#DEA584] to-[#000000]" },
-  { name: "Prisma", icon: SiPrisma, color: "#ffffff", gradient: "from-[#2D3748] to-[#1A202C]" },
-  { name: "Supabase", icon: SiSupabase, color: "#3FCF8E", gradient: "from-[#3FCF8E] to-[#1F7A52]" },
-  { name: "Framer", icon: SiFramer, color: "#0055FF", gradient: "from-[#0055FF] to-[#FF77CC]" },
-  { name: "Figma", icon: SiFigma, color: "#F24E1E", gradient: "from-[#F24E1E] to-[#A259FF]" },
-  { name: "Git", icon: SiGit, color: "#F05032", gradient: "from-[#F05032] to-[#C93C22]" },
+  {
+    name: "GraphQL",
+    icon: SiGraphql,
+    color: "#E10098",
+    gradient: "from-[#E10098] to-[#C7007D]",
+  },
+  {
+    name: "Flutter",
+    icon: SiFlutter,
+    color: "#02569B",
+    gradient: "from-[#02569B] to-[#0175C2]",
+  },
+  {
+    name: "Swift",
+    icon: SiSwift,
+    color: "#F05138",
+    gradient: "from-[#F05138] to-[#D83B24]",
+  },
+  {
+    name: "Kotlin",
+    icon: SiKotlin,
+    color: "#7F52FF",
+    gradient: "from-[#7F52FF] to-[#C711E1]",
+  },
+  {
+    name: "Redis",
+    icon: SiRedis,
+    color: "#DC382D",
+    gradient: "from-[#DC382D] to-[#A32015]",
+  },
+  {
+    name: "Vite",
+    icon: SiVite,
+    color: "#646CFF",
+    gradient: "from-[#646CFF] to-[#FFD816]",
+  },
+  {
+    name: "Go",
+    icon: SiGo,
+    color: "#00ADD8",
+    gradient: "from-[#00ADD8] to-[#007D9C]",
+  },
+  {
+    name: "Rust",
+    icon: SiRust,
+    color: "#DEA584",
+    gradient: "from-[#DEA584] to-[#000000]",
+  },
+  {
+    name: "Prisma",
+    icon: SiPrisma,
+    color: "#ffffff",
+    gradient: "from-[#2D3748] to-[#1A202C]",
+  },
+  {
+    name: "Supabase",
+    icon: SiSupabase,
+    color: "#3FCF8E",
+    gradient: "from-[#3FCF8E] to-[#1F7A52]",
+  },
+  {
+    name: "Framer",
+    icon: SiFramer,
+    color: "#0055FF",
+    gradient: "from-[#0055FF] to-[#FF77CC]",
+  },
+  {
+    name: "Figma",
+    icon: SiFigma,
+    color: "#F24E1E",
+    gradient: "from-[#F24E1E] to-[#A259FF]",
+  },
+  {
+    name: "Git",
+    icon: SiGit,
+    color: "#F05032",
+    gradient: "from-[#F05032] to-[#C93C22]",
+  },
 ];
 
 const MarqueeSection = () => {
@@ -144,8 +270,8 @@ const MarqueeSection = () => {
       />
 
       {/* Gradient masks for seamless fading on edges */}
-      <div className="absolute inset-y-0 left-0 w-12 md:w-40 bg-gradient-to-r from-[#0e0e12] to-transparent z-10 pointer-events-none" />
-      <div className="absolute inset-y-0 right-0 w-12 md:w-40 bg-gradient-to-l from-[#0e0e12] to-transparent z-10 pointer-events-none" />
+      <div className="absolute inset-y-0 left-0 w-12 md:w-40 bg-linear-to-r from-[#0e0e12] to-transparent z-10 pointer-events-none" />
+      <div className="absolute inset-y-0 right-0 w-12 md:w-40 bg-linear-to-l from-[#0e0e12] to-transparent z-10 pointer-events-none" />
 
       {/* Scroll Track */}
       <div
@@ -171,7 +297,7 @@ const MarqueeSection = () => {
             >
               {/* Absolute Gradient Element inside the card */}
               <div
-                className={`absolute inset-0 bg-gradient-to-br ${logo.gradient} transition-all duration-500 ease-out pointer-events-none ${
+                className={`absolute inset-0 bg-linear-to-br ${logo.gradient} transition-all duration-500 ease-out pointer-events-none ${
                   isActive
                     ? "opacity-100 scale-100"
                     : "opacity-0 scale-150 md:group-hover:opacity-100 md:group-hover:scale-100"
@@ -181,7 +307,7 @@ const MarqueeSection = () => {
               {/* Vector Icon */}
               <Icon
                 style={{ color: isActive ? "#ffffff" : logo.color }}
-                className={`relative z-10 size-[22px] md:size-[30px] transition-all duration-500 pointer-events-none shrink-0 ${
+                className={`relative z-10 size-5.5 md:size-7.5 transition-all duration-500 pointer-events-none shrink-0 ${
                   isActive ? "text-white scale-110" : "md:group-hover:text-white"
                 }`}
               />
@@ -338,7 +464,7 @@ export function SolucoesHero() {
       <section
         className={`${
           isMobileOrTablet ? "hero-bg" : "bg-[#0e0e12]"
-        } group relative min-h-dvh flex items-center justify-center overflow-hidden border-b border-white/5`}
+        } group relative min-h-dvh flex flex-col items-center justify-center overflow-hidden border-b border-white/5`}
         onMouseMove={handleMouseMove}
         onPointerEnter={() => setIsHeroHovered(true)}
         onPointerLeave={() => setIsHeroHovered(false)}
@@ -355,11 +481,11 @@ export function SolucoesHero() {
           <DesktopShaderBackground isHovered={isHeroHovered} />
         )}
 
-        <div className="relative z-10 w-full max-w-[90rem] mx-auto px-5 sm:px-6 pt-28 pb-20 lg:py-0 lg:px-12 flex flex-col items-start justify-center min-h-dvh">
-          <div className="flex flex-col items-start pt-4 md:pt-16 lg:pt-20 w-full max-w-4xl">
+        <div className="relative mx-auto w-full px-4 md:px-8 lg:pl-[6.5rem] lg:pr-12 z-10">
+          <div className="flex flex-col items-start w-full max-w-4xl">
             <ScrollReveal delay={0}>
               <div className="flex items-center gap-4 mb-2">
-                <div className="h-[2px] w-8 bg-gradient-to-r from-aurora-violet to-aurora-cyan" />
+                <div className="h-0.5 w-8 bg-linear-to-r from-aurora-violet to-aurora-cyan" />
                 <span className="font-mono text-[11px] sm:text-xs text-[#b3a1ff] uppercase tracking-[0.25em]">
                   NOSSAS SOLUÇÕES
                 </span>
@@ -370,7 +496,7 @@ export function SolucoesHero() {
               <h1 className="font-display text-[3.2rem] xs:text-[3.8rem] sm:text-[4.4rem] md:text-[5.2rem] lg:text-[6rem] font-black tracking-tight leading-[0.98] uppercase py-2">
                 <span className="block text-white">Opnora</span>
                 <span
-                  className="inline-block text-transparent bg-clip-text w-fit pt-1 pb-1 mt-0 sm:mt-0.5 drop-shadow-[0_0_35px_rgba(167,157,240,0.45)]"
+                  className="inline-block text-transparent bg-clip-text w-fit pt-1 pb-1 mt-0 sm:mt-0.5"
                   style={{
                     backgroundImage: "linear-gradient(160deg, #a79df0, #82b8f7, #4ed4cf, #58e5a6)",
                   }}
@@ -408,7 +534,7 @@ export function SolucoesHero() {
                 animation: scroll-line-flow 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
               }
             `}</style>
-            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent via-[#a280ff] to-transparent animate-scroll-line" />
+            <div className="absolute top-0 left-0 w-full h-full bg-linear-to-b from-transparent via-[#a280ff] to-transparent animate-scroll-line" />
           </div>
         </div>
       </section>

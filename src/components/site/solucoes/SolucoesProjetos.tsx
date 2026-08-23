@@ -1,18 +1,24 @@
 import React, { useState, useRef } from "react";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { FaArrowUpRightFromSquare } from "react-icons/fa6";
+import { supabase } from "@/lib/supabase";
 
-type Projeto = {
+export type Projeto = {
+  id?: string;
   categoria: string;
-  title: string;
-  resumo: string;
-  recursos: string[];
-  status: string;
+  titulo?: string;
+  title?: string;
+  descricao?: string;
+  resumo?: string;
+  recursos?: string[];
+  status?: string;
   url?: string;
+  link?: string;
   accentColor?: string;
+  destaque?: boolean;
 };
 
-const PROJETOS: Projeto[] = [
+const PROJETOS_FALLBACK: Projeto[] = [
   {
     categoria: "E-commerce",
     title: "TFBrand",
@@ -28,6 +34,14 @@ const PROJETOS: Projeto[] = [
 function ProjectCardItem({ p, idx }: { p: Projeto; idx: number }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [transform, setTransform] = useState("translateX(0px) translateY(0px)");
+
+  const titulo = p.titulo || p.title || "Projeto";
+  const resumo = p.descricao || p.resumo || "";
+  const link = p.link || p.url;
+  const status = p.status || "Concluído";
+  const recursos = (p.recursos && p.recursos.length > 0) 
+    ? p.recursos 
+    : ["React", "Supabase", "Cloudinary", "Admin Dashboard", "Checkout WhatsApp"];
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
@@ -49,7 +63,7 @@ function ProjectCardItem({ p, idx }: { p: Projeto; idx: number }) {
   };
 
   return (
-    <ScrollReveal key={p.title} delay={300 + idx * 100} className="h-full">
+    <ScrollReveal key={titulo} delay={300 + idx * 100} className="h-full">
       <div
         ref={cardRef}
         onMouseMove={handleMouseMove}
@@ -79,35 +93,35 @@ function ProjectCardItem({ p, idx }: { p: Projeto; idx: number }) {
             </span>
             <span
               className={`inline-flex items-center rounded-full border border-white/10 px-3 py-0.5 font-mono text-[10px] uppercase font-bold tracking-wider ${
-                p.status === "Concluído"
+                status === "Concluído"
                   ? "text-[#58e5a6] bg-[#58e5a6]/10"
                   : "text-slate-400 bg-white/5"
               }`}
             >
-              {p.status}
+              {status}
             </span>
           </div>
 
           {/* Title with link */}
           <h3 className="text-xl sm:text-2xl font-display font-bold text-white mb-3 tracking-tight">
-            {p.url ? (
+            {link ? (
               <a
-                href={p.url}
+                href={link}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-aurora-violet transition-colors inline-flex items-center gap-2 group/link"
               >
-                {p.title}
+                {titulo}
                 <FaArrowUpRightFromSquare className="text-slate-500 group-hover/link:text-aurora-violet transition-colors size-4" />
               </a>
             ) : (
-              p.title
+              titulo
             )}
           </h3>
 
           {/* Description */}
           <p className="text-sm sm:text-base text-slate-400 font-light leading-relaxed mb-8">
-            {p.resumo}
+            {resumo}
           </p>
         </div>
 
@@ -117,7 +131,7 @@ function ProjectCardItem({ p, idx }: { p: Projeto; idx: number }) {
             tecnologias e recursos
           </p>
           <div className="flex flex-wrap items-center gap-2">
-            {p.recursos.map((r) => (
+            {recursos.map((r) => (
               <span
                 key={r}
                 className="px-2.5 py-1 text-xs font-mono font-medium rounded-sm bg-white/[0.03] text-slate-300 border border-white/5 transition-colors duration-300 group-hover:border-aurora-violet/20 group-hover:text-white"
@@ -137,6 +151,20 @@ type SolucoesProjetosProps = {
 };
 
 export function SolucoesProjetos({ bgClass = "bg-[#0c0c0f]" }: SolucoesProjetosProps = {}) {
+  const [projetos, setProjetos] = React.useState<Projeto[]>(PROJETOS_FALLBACK);
+
+  React.useEffect(() => {
+    supabase
+      .from("projetos")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .then(({ data }) => {
+        if (data && data.length > 0) {
+          setProjetos(data);
+        }
+      });
+  }, []);
+
   return (
     <section className={`relative w-full ${bgClass} py-24 lg:py-32 border-t border-white/5`}>
       <div className="mx-auto max-w-[90rem] px-4 sm:px-6 lg:px-12">
@@ -174,8 +202,8 @@ export function SolucoesProjetos({ bgClass = "bg-[#0c0c0f]" }: SolucoesProjetosP
         </div>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2">
-          {PROJETOS.map((p, i) => (
-            <ProjectCardItem key={p.title} p={p} idx={i} />
+          {projetos.map((p, i) => (
+            <ProjectCardItem key={p.id || p.titulo || p.title || i} p={p} idx={i} />
           ))}
         </div>
       </div>

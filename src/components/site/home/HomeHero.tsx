@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
 import { Link } from "@tanstack/react-router";
+import type React from "react";
+import { useEffect, useRef, useState } from "react";
 import { animateHero } from "@/animations";
 
 export function HomeHero() {
