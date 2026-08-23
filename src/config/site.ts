@@ -8,8 +8,8 @@ export const SITE = {
 		"Desenvolvemos software para empresas que querem sair do improviso digital.",
 	description:
 		"A Opnora é uma iniciativa de desenvolvimento de software. Criamos sites, sistemas e plataformas que organizam processos, melhoram o atendimento e ajudam empresas a crescer com tecnologia.",
-	// Sem domínio oficial ainda — usar caminho relativo para canonical/og:url
-	url: "",
+	// Domínio oficial configurado para SEO/canonical
+	url: "https://opnora.me",
 	locale: "pt-BR",
 } as const;
 

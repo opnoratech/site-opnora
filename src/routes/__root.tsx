@@ -160,10 +160,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 					content: "hYBIfokwzQO-l2sWXrgnGBIOAUkPFJHOjrWNHBfOk-Q",
 				},
 				{ name: "theme-color", content: "#050507" },
+				{ name: "application-name", content: "Opnora" },
+				{ name: "keywords", content: "Opnora, opnora, desenvolvimento de software, tecnologia, automação, inteligência artificial, aplicativos, sistemas web" },
 				{ title: `${SITE.name} | ${SITE.tagline}` },
 				{ name: "description", content: SITE.description },
-				{ name: "author", content: SITE.name },
-				{ property: "og:site_name", content: SITE.name },
+				{ name: "author", content: "Opnora" },
+				{ property: "og:site_name", content: "Opnora" },
 				{ property: "og:type", content: "website" },
 				{
 					property: "og:title",
@@ -199,10 +201,24 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 );
 
 function RootShell({ children }: { children: ReactNode }) {
+	const schemaOrgJSONLD = {
+		"@context": "https://schema.org",
+		"@type": "Organization",
+		"name": "Opnora",
+		"alternateName": ["Opnora Tech", "Opnora Tecnologia"],
+		"url": "https://opnora.me",
+		"logo": "https://opnora.me/images/favicon.png",
+		"description": "Desenvolvimento de software sob medida, automação e inteligência artificial.",
+	};
+
 	return (
 		<html lang="pt-BR">
 			<head>
 				<HeadContent />
+				<script
+					type="application/ld+json"
+					dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaOrgJSONLD) }}
+				/>
 				<script
 					dangerouslySetInnerHTML={{
 						__html: `if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; }`,
