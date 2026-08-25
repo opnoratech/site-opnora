@@ -52,7 +52,7 @@ function SettingsRoute() {
   // Fech extra row ID if necessary since useSiteSettings doesn't expose ID
   useEffect(() => {
     async function fetchId() {
-      const { data } = await supabase.from("site_settings").select("id").limit(1).maybeSingle();
+      const { data } = await supabase.from("site_settings").select("id").order("created_at", { ascending: false }).limit(1).maybeSingle();
       if (data) {
         setFormData((prev) => ({ ...prev, id: data.id }));
       }
