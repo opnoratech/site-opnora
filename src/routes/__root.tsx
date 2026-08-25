@@ -1,15 +1,16 @@
 import { type QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
-	createRootRouteWithContext,
-	HeadContent,
-	Link,
-	Outlet,
-	Scripts,
-	useRouter,
+  createRootRouteWithContext,
+  HeadContent,
+  Link,
+  Outlet,
+  Scripts,
+  useRouter,
 } from "@tanstack/react-router";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { type ReactNode, useEffect } from "react";
+import { LazyMotion, domAnimation } from "framer-motion";
 import { Footer } from "@/components/site/layout/Footer";
 import { Header } from "@/components/site/layout/Header";
 import { Toaster } from "@/components/ui/sonner";
@@ -19,363 +20,365 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import appCss from "../styles.css?url";
 
 function NotFoundComponent() {
-	return (
-		<div className="flex min-h-dvh items-center justify-center bg-[#050507] px-4 py-16 sm:py-20 relative overflow-hidden">
-			<style>{`
+  return (
+    <div className="flex min-h-dvh items-center justify-center bg-[#050507] px-4 py-16 sm:py-20 relative overflow-hidden">
+      <style>{`
         footer { display: none !important; }
       `}</style>
 
-			{/* Background elements */}
-			<div className="absolute inset-0 z-0">
-				<div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-30"></div>
-			</div>
+      {/* Background elements */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-30"></div>
+      </div>
 
-			{/* Main Wide Card */}
-			<div className="relative z-10 w-full max-w-4xl rounded-3xl border border-white/5 bg-[#0c0c0f]/80 backdrop-blur-xl p-8 sm:p-10 md:p-12 text-center shadow-2xl mt-8 flex flex-col items-center">
-				<h1 className="font-display text-6xl sm:text-8xl md:text-[100px] font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-aurora-violet to-aurora-cyan leading-none mb-4">
-					404
-				</h1>
+      {/* Main Wide Card */}
+      <div className="relative z-10 w-full max-w-4xl rounded-3xl border border-white/5 bg-[#0c0c0f]/80 backdrop-blur-xl p-8 sm:p-10 md:p-12 text-center shadow-2xl mt-8 flex flex-col items-center">
+        <h1 className="font-display text-6xl sm:text-8xl md:text-[100px] font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-aurora-violet to-aurora-cyan leading-none mb-4">
+          404
+        </h1>
 
-				<h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-white tracking-tight">
-					Esta Rota Está Ausente
-				</h2>
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-white tracking-tight">
+          Esta Rota Está Ausente
+        </h2>
 
-				<p className="mt-4 text-sm text-slate-400 font-light max-w-2xl mx-auto leading-relaxed">
-					O endereço que você digitou não está ativo no momento. Ele pode ter
-					sido renomeado, removido ou digitado incorretamente.
-				</p>
+        <p className="mt-4 text-sm text-slate-400 font-light max-w-2xl mx-auto leading-relaxed">
+          O endereço que você digitou não está ativo no momento. Ele pode ter sido renomeado,
+          removido ou digitado incorretamente.
+        </p>
 
-				<div className="mt-6 mb-8">
-					<p className="font-mono text-[10px] sm:text-xs text-aurora-cyan uppercase tracking-[0.2em]">
-						Status: Recurso solicitado não encontrado.
-					</p>
-				</div>
+        <div className="mt-6 mb-8">
+          <p className="font-mono text-[10px] sm:text-xs text-aurora-cyan uppercase tracking-[0.2em]">
+            Status: Recurso solicitado não encontrado.
+          </p>
+        </div>
 
-				<div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
-					<Link
-						to="/"
-						className="w-full sm:w-auto inline-flex h-12 items-center justify-center rounded-sm bg-gradient-to-r from-aurora-violet to-aurora-cyan px-8 text-[11px] font-mono font-black uppercase tracking-[0.15em] text-white hover:opacity-90 transition-opacity shadow-[0_0_20px_rgba(64,196,255,0.3)]"
-					>
-						Página Inicial
-					</Link>
-					<Link
-						to="/solucoes"
-						className="w-full sm:w-auto inline-flex h-12 items-center justify-center rounded-sm border border-white/10 bg-transparent px-8 text-[11px] font-mono font-black uppercase tracking-[0.15em] text-slate-300 hover:bg-white/5 hover:text-white transition-colors"
-					>
-						Ver Soluções
-					</Link>
-				</div>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
+          <Link
+            to="/"
+            className="w-full sm:w-auto inline-flex h-12 items-center justify-center rounded-sm bg-gradient-to-r from-aurora-violet to-aurora-cyan px-8 text-[11px] font-mono font-black uppercase tracking-[0.15em] text-white hover:opacity-90 transition-opacity shadow-[0_0_20px_rgba(64,196,255,0.3)]"
+          >
+            Página Inicial
+          </Link>
+          <Link
+            to="/solucoes"
+            className="w-full sm:w-auto inline-flex h-12 items-center justify-center rounded-sm border border-white/10 bg-transparent px-8 text-[11px] font-mono font-black uppercase tracking-[0.15em] text-slate-300 hover:bg-white/5 hover:text-white transition-colors"
+          >
+            Ver Soluções
+          </Link>
+        </div>
 
-				<div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent mb-8"></div>
+        <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent mb-8"></div>
 
-				<div className="w-full text-center">
-					<p className="font-display text-[10px] sm:text-[11px] font-bold text-white uppercase tracking-[0.2em] mb-6">
-						Tente uma destas rotas
-					</p>
-					<div className="flex flex-wrap justify-center gap-4">
-						{[
-							{ label: "Início", path: "/" },
-							{ label: "Sobre", path: "/sobre" },
-							{ label: "Soluções", path: "/solucoes" },
-							{ label: "Preços", path: "/precos" },
-						].map((route) => (
-							<Link
-								key={route.path}
-								to={route.path}
-								className="rounded-full border border-white/10 bg-[#0e0e12] px-6 py-2.5 text-[11px] font-mono text-slate-400 hover:bg-white/5 hover:text-white transition-colors"
-							>
-								{route.label}
-							</Link>
-						))}
-					</div>
-				</div>
-			</div>
-		</div>
-	);
+        <div className="w-full text-center">
+          <p className="font-display text-[10px] sm:text-[11px] font-bold text-white uppercase tracking-[0.2em] mb-6">
+            Tente uma destas rotas
+          </p>
+          <div className="flex flex-wrap justify-center gap-4">
+            {[
+              { label: "Início", path: "/" },
+              { label: "Sobre", path: "/sobre" },
+              { label: "Soluções", path: "/solucoes" },
+              { label: "Preços", path: "/precos" },
+            ].map((route) => (
+              <Link
+                key={route.path}
+                to={route.path}
+                className="rounded-full border border-white/10 bg-[#0e0e12] px-6 py-2.5 text-[11px] font-mono text-slate-400 hover:bg-white/5 hover:text-white transition-colors"
+              >
+                {route.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
-	console.error(error);
-	const router = useRouter();
-	useEffect(() => {
-		reportLovableError(error, { boundary: "tanstack_root_error_component" });
-	}, [error]);
+  console.error(error);
+  const router = useRouter();
+  useEffect(() => {
+    reportLovableError(error, { boundary: "tanstack_root_error_component" });
+  }, [error]);
 
-	return (
-		<div className="flex min-h-dvh items-center justify-center bg-[#050507] px-4 py-24 sm:py-32 relative overflow-hidden">
-			{/* Background elements */}
-			<div className="absolute inset-0 z-0">
-				<div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-30"></div>
-				<div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-aurora-violet/10 blur-[120px] rounded-full pointer-events-none"></div>
-			</div>
+  return (
+    <div className="flex min-h-dvh items-center justify-center bg-[#050507] px-4 py-24 sm:py-32 relative overflow-hidden">
+      {/* Background elements */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-30"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-aurora-violet/10 blur-[60px] md:blur-[120px] rounded-full pointer-events-none"></div>
+      </div>
 
-			<div className="relative z-10 w-full max-w-3xl rounded-3xl border border-white/5 bg-[#0c0c0f]/80 backdrop-blur-xl p-6 sm:p-10 md:p-16 text-center shadow-2xl mt-8">
-				<h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-aurora-violet to-aurora-cyan mb-6">
-					Erro Inesperado
-				</h1>
-				<h2 className="text-xl sm:text-3xl font-display font-bold text-white tracking-tight">
-					Esta página não carregou
-				</h2>
-				<p className="mt-6 text-sm sm:text-base text-slate-400 font-light max-w-lg mx-auto leading-relaxed">
-					Algo deu errado durante a execução. Nossa equipe técnica foi
-					notificada do erro de forma automática.
-				</p>
+      <div className="relative z-10 w-full max-w-3xl rounded-3xl border border-white/5 bg-[#0c0c0f]/80 backdrop-blur-sm md:backdrop-blur-xl p-6 sm:p-10 md:p-16 text-center shadow-2xl mt-8">
+        <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-aurora-violet to-aurora-cyan mb-6">
+          Erro Inesperado
+        </h1>
+        <h2 className="text-xl sm:text-3xl font-display font-bold text-white tracking-tight">
+          Esta página não carregou
+        </h2>
+        <p className="mt-6 text-sm sm:text-base text-slate-400 font-light max-w-lg mx-auto leading-relaxed">
+          Algo deu errado durante a execução. Nossa equipe técnica foi notificada do erro de forma
+          automática.
+        </p>
 
-				<div className="mt-8 mb-10">
-					<p className="font-mono text-[10px] sm:text-xs text-aurora-cyan uppercase tracking-[0.2em]">
-						Status: Erro interno de execução.
-					</p>
-				</div>
+        <div className="mt-8 mb-10">
+          <p className="font-mono text-[10px] sm:text-xs text-aurora-cyan uppercase tracking-[0.2em]">
+            Status: Erro interno de execução.
+          </p>
+        </div>
 
-				<div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-					<button
-						onClick={() => {
-							router.invalidate();
-							reset();
-						}}
-						className="cursor-pointer w-full sm:w-auto inline-flex h-12 items-center justify-center rounded-sm bg-gradient-to-r from-aurora-violet to-aurora-cyan px-8 text-[11px] font-mono font-black uppercase tracking-[0.15em] text-white hover:opacity-90 transition-opacity shadow-[0_0_20px_rgba(64,196,255,0.3)]"
-					>
-						Tentar Novamente
-					</button>
-					<a
-						href="/"
-						className="w-full sm:w-auto inline-flex h-12 items-center justify-center rounded-sm border border-white/10 bg-transparent px-8 text-[11px] font-mono font-black uppercase tracking-[0.15em] text-slate-300 hover:bg-white/5 hover:text-white transition-colors"
-					>
-						Voltar ao Início
-					</a>
-				</div>
-			</div>
-		</div>
-	);
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <button
+            onClick={() => {
+              router.invalidate();
+              reset();
+            }}
+            className="cursor-pointer w-full sm:w-auto inline-flex h-12 items-center justify-center rounded-sm bg-gradient-to-r from-aurora-violet to-aurora-cyan px-8 text-[11px] font-mono font-black uppercase tracking-[0.15em] text-white hover:opacity-90 transition-opacity shadow-[0_0_20px_rgba(64,196,255,0.3)]"
+          >
+            Tentar Novamente
+          </button>
+          <a
+            href="/"
+            className="w-full sm:w-auto inline-flex h-12 items-center justify-center rounded-sm border border-white/10 bg-transparent px-8 text-[11px] font-mono font-black uppercase tracking-[0.15em] text-slate-300 hover:bg-white/5 hover:text-white transition-colors"
+          >
+            Voltar ao Início
+          </a>
+        </div>
+      </div>
+    </div>
+  );
 }
 
-export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
-	{
-		head: () => ({
-			meta: [
-				{ charSet: "utf-8" },
-				{ name: "viewport", content: "width=device-width, initial-scale=1" },
-				{
-					name: "google-site-verification",
-					content: "hYBIfokwzQO-l2sWXrgnGBIOAUkPFJHOjrWNHBfOk-Q",
-				},
-				{ name: "theme-color", content: "#050507" },
-				{ name: "application-name", content: "Opnora" },
-				{ name: "keywords", content: "Opnora, opnora, desenvolvimento de software, tecnologia, automação, inteligência artificial, aplicativos, sistemas web" },
-				{ title: `${SITE.name} | ${SITE.tagline}` },
-				{ name: "description", content: SITE.description },
-				{ name: "author", content: "Opnora" },
-				{ property: "og:site_name", content: "Opnora" },
-				{ property: "og:type", content: "website" },
-				{
-					property: "og:title",
-					content: `${SITE.name} | desenvolvimento de software sob medida`,
-				},
-				{ property: "og:description", content: SITE.description },
-				{ name: "twitter:card", content: "summary_large_image" },
-			],
-			links: [
-				{ rel: "stylesheet", href: appCss },
-				{ rel: "preconnect", href: "https://fonts.googleapis.com" },
-				{
-					rel: "preconnect",
-					href: "https://fonts.gstatic.com",
-					crossOrigin: "",
-				},
-				{
-					rel: "stylesheet",
-					href: "https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800;900&family=Silkscreen:wght@400;700&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap",
-				},
-				{
-					rel: "icon",
-					type: "image/png",
-					href: "/images/favicon.png",
-				},
-			],
-		}),
-		shellComponent: RootShell,
-		component: RootComponent,
-		notFoundComponent: NotFoundComponent,
-		errorComponent: ErrorComponent,
-	},
-);
+export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+  head: () => ({
+    meta: [
+      { charSet: "utf-8" },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      {
+        name: "google-site-verification",
+        content: "hYBIfokwzQO-l2sWXrgnGBIOAUkPFJHOjrWNHBfOk-Q",
+      },
+      { name: "theme-color", content: "#050507" },
+      { name: "application-name", content: "Opnora" },
+      {
+        name: "keywords",
+        content:
+          "Opnora, opnora, desenvolvimento de software, tecnologia, automação, inteligência artificial, aplicativos, sistemas web",
+      },
+      { title: `${SITE.name} | ${SITE.tagline}` },
+      { name: "description", content: SITE.description },
+      { name: "author", content: "Opnora" },
+      { property: "og:site_name", content: "Opnora" },
+      { property: "og:type", content: "website" },
+      {
+        property: "og:title",
+        content: `${SITE.name} | desenvolvimento de software sob medida`,
+      },
+      { property: "og:description", content: SITE.description },
+      { property: "og:image", content: "https://opnora.me/images/favicon.png" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+    links: [
+      { rel: "stylesheet", href: appCss },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      {
+        rel: "preconnect",
+        href: "https://fonts.gstatic.com",
+        crossOrigin: "",
+      },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800;900&family=Silkscreen:wght@400;700&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap",
+      },
+      {
+        rel: "icon",
+        type: "image/png",
+        href: "/images/favicon.png",
+      },
+    ],
+  }),
+  shellComponent: RootShell,
+  component: RootComponent,
+  notFoundComponent: NotFoundComponent,
+  errorComponent: ErrorComponent,
+});
 
 function RootShell({ children }: { children: ReactNode }) {
-	const schemaOrgJSONLD = {
-		"@context": "https://schema.org",
-		"@type": "Organization",
-		"name": "Opnora",
-		"alternateName": ["Opnora Tech", "Opnora Tecnologia"],
-		"url": "https://opnora.me",
-		"logo": "https://opnora.me/images/favicon.png",
-		"description": "Desenvolvimento de software sob medida, automação e inteligência artificial.",
-	};
+  const schemaOrgJSONLD = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Opnora",
+    alternateName: ["Opnora Tech", "Opnora Tecnologia"],
+    url: "https://opnora.me",
+    logo: "https://opnora.me/images/favicon.png",
+    description: "Desenvolvimento de software sob medida, automação e inteligência artificial.",
+  };
 
-	return (
-		<html lang="pt-BR">
-			<head>
-				<HeadContent />
-				<script
-					type="application/ld+json"
-					dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaOrgJSONLD) }}
-				/>
-				<script
-					dangerouslySetInnerHTML={{
-						__html: `if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; }`,
-					}}
-				/>
-			</head>
-			<body>
-				{children}
-				<Scripts />
-			</body>
-		</html>
-	);
+  return (
+    <html lang="pt-BR">
+      <head>
+        <HeadContent />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaOrgJSONLD) }}
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; }`,
+          }}
+        />
+      </head>
+      <body>
+        {children}
+        <Scripts />
+      </body>
+    </html>
+  );
 }
 
 function SiteConfigurator() {
-	const { settings, loading } = useSiteSettings();
-	const router = useRouter();
-	const navigate = router.navigate;
-	const location = router.state.location;
+  const { settings, loading } = useSiteSettings();
+  const router = useRouter();
+  const navigate = router.navigate;
+  const location = router.state.location;
 
-	useEffect(() => {
-		if (loading) return;
+  useEffect(() => {
+    if (loading) return;
 
-		// 1. Dynamic SEO
-		if (settings.seo_title) {
-			document.title = settings.seo_title;
-		}
+    // 1. Dynamic SEO
+    if (settings.seo_title) {
+      document.title = settings.seo_title;
+    }
 
-		if (settings.seo_description) {
-			let metaDesc = document.querySelector('meta[name="description"]');
-			if (!metaDesc) {
-				metaDesc = document.createElement('meta');
-				metaDesc.setAttribute('name', 'description');
-				document.head.appendChild(metaDesc);
-			}
-			metaDesc.setAttribute("content", settings.seo_description);
-		}
+    if (settings.seo_description) {
+      let metaDesc = document.querySelector('meta[name="description"]');
+      if (!metaDesc) {
+        metaDesc = document.createElement("meta");
+        metaDesc.setAttribute("name", "description");
+        document.head.appendChild(metaDesc);
+      }
+      metaDesc.setAttribute("content", settings.seo_description);
+    }
 
-		if (settings.seo_og_image) {
-			let metaOg = document.querySelector('meta[property="og:image"]');
-			if (!metaOg) {
-				metaOg = document.createElement('meta');
-				metaOg.setAttribute('property', 'og:image');
-				document.head.appendChild(metaOg);
-			}
-			metaOg.setAttribute("content", settings.seo_og_image);
-		}
+    if (settings.seo_og_image) {
+      let metaOg = document.querySelector('meta[property="og:image"]');
+      if (!metaOg) {
+        metaOg = document.createElement("meta");
+        metaOg.setAttribute("property", "og:image");
+        document.head.appendChild(metaOg);
+      }
+      metaOg.setAttribute("content", settings.seo_og_image);
+    }
 
-		// 2. Maintenance Mode Redirect
-		const isAppRoute =
-			location.pathname.startsWith("/admin") ||
-			location.pathname.startsWith("/login");
-		const isMaintenanceRoute = location.pathname === "/manutencao";
+    // 2. Maintenance Mode Redirect
+    const isAppRoute =
+      location.pathname.startsWith("/admin") || location.pathname.startsWith("/login");
+    const isMaintenanceRoute = location.pathname === "/manutencao";
 
-		if (settings.maintenance_mode && !isAppRoute && !isMaintenanceRoute) {
-			navigate({ to: "/manutencao" });
-		} else if (!settings.maintenance_mode && isMaintenanceRoute) {
-			navigate({ to: "/" });
-		}
+    if (settings.maintenance_mode && !isAppRoute && !isMaintenanceRoute) {
+      navigate({ to: "/manutencao" });
+    } else if (!settings.maintenance_mode && isMaintenanceRoute) {
+      navigate({ to: "/" });
+    }
 
-		// 3. Google Analytics Injection
-		if (settings.google_analytics_id && !document.getElementById("ga-script")) {
-			const script1 = document.createElement("script");
-			script1.id = "ga-script";
-			script1.async = true;
-			script1.src = `https://www.googletagmanager.com/gtag/js?id=${settings.google_analytics_id}`;
-			document.head.appendChild(script1);
+    // 3. Google Analytics Injection
+    if (settings.google_analytics_id && !document.getElementById("ga-script")) {
+      const script1 = document.createElement("script");
+      script1.id = "ga-script";
+      script1.async = true;
+      script1.src = `https://www.googletagmanager.com/gtag/js?id=${settings.google_analytics_id}`;
+      document.head.appendChild(script1);
 
-			const script2 = document.createElement("script");
-			script2.id = "ga-init";
-			script2.innerHTML = `
+      const script2 = document.createElement("script");
+      script2.id = "ga-init";
+      script2.innerHTML = `
 				window.dataLayer = window.dataLayer || [];
 				function gtag(){dataLayer.push(arguments);}
 				gtag('js', new Date());
 				gtag('config', '${settings.google_analytics_id}');
 			`;
-			document.head.appendChild(script2);
-		}
-	}, [settings, loading, location.pathname, navigate]);
+      document.head.appendChild(script2);
+    }
+  }, [settings, loading, location.pathname, navigate]);
 
-	return null;
+  return null;
 }
 
 function RootComponent() {
-	const { queryClient } = Route.useRouteContext();
-	const location = useRouter().state.location;
-	const isAppRoute =
-		location.pathname.startsWith("/admin") ||
-		location.pathname.startsWith("/login");
+  const { queryClient } = Route.useRouteContext();
+  const location = useRouter().state.location;
+  const isAppRoute =
+    location.pathname.startsWith("/admin") || location.pathname.startsWith("/login");
 
-	useEffect(() => {
-		// 2. Read the saved scroll position from the last session
-		const savedScroll = sessionStorage.getItem("opnora_scroll_y");
-		if (savedScroll && !isAppRoute) {
-			const targetY = parseInt(savedScroll, 10);
-			if (targetY > 100) {
-				// Force the browser to start at the top immediately
-				window.scrollTo(0, 0);
+  useEffect(() => {
+    // 2. Read the saved scroll position from the last session
+    const savedScroll = sessionStorage.getItem("opnora_scroll_y");
+    if (savedScroll && !isAppRoute) {
+      const targetY = parseInt(savedScroll, 10);
+      if (targetY > 100) {
+        // Force the browser to start at the top immediately
+        window.scrollTo(0, 0);
 
-				// Animate scroll frame-by-frame so IntersectionObserver fires
-				// for each element as it enters the viewport — no animation bugs!
-				const duration = 900; // ms — total scroll time
-				const startTime = performance.now();
-				const startY = 0;
+        // Animate scroll frame-by-frame so IntersectionObserver fires
+        // for each element as it enters the viewport — no animation bugs!
+        const duration = 900; // ms — total scroll time
+        const startTime = performance.now();
+        const startY = 0;
 
-				const easeInOutQuad = (t: number) =>
-					t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+        const easeInOutQuad = (t: number) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t);
 
-				const step = (now: number) => {
-					const elapsed = now - startTime;
-					const progress = Math.min(elapsed / duration, 1);
-					const eased = easeInOutQuad(progress);
-					window.scrollTo(0, startY + (targetY - startY) * eased);
-					if (progress < 1) requestAnimationFrame(step);
-				};
+        const step = (now: number) => {
+          const elapsed = now - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          const eased = easeInOutQuad(progress);
+          window.scrollTo(0, startY + (targetY - startY) * eased);
+          if (progress < 1) requestAnimationFrame(step);
+        };
 
-				// small initial delay so the page renders at y=0 first
-				setTimeout(() => requestAnimationFrame(step), 80);
-			}
-		}
+        // small initial delay so the page renders at y=0 first
+        setTimeout(() => requestAnimationFrame(step), 80);
+      }
+    }
 
-		// 4. Continuously save the current scroll position
-		let scrollTimeout: NodeJS.Timeout;
-		const handleScroll = () => {
-			// debounce slightly for performance
-			if (scrollTimeout) clearTimeout(scrollTimeout);
-			scrollTimeout = setTimeout(() => {
-				sessionStorage.setItem("opnora_scroll_y", window.scrollY.toString());
-			}, 100);
-		};
+    // 4. Continuously save the current scroll position
+    let scrollTimeout: NodeJS.Timeout;
+    const handleScroll = () => {
+      // debounce slightly for performance
+      if (scrollTimeout) clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        sessionStorage.setItem("opnora_scroll_y", window.scrollY.toString());
+      }, 100);
+    };
 
-		if (!isAppRoute) {
-			window.addEventListener("scroll", handleScroll, { passive: true });
-		}
-		return () => {
-			window.removeEventListener("scroll", handleScroll);
-			if (scrollTimeout) clearTimeout(scrollTimeout);
-		};
-	}, [isAppRoute]);
+    if (!isAppRoute) {
+      window.addEventListener("scroll", handleScroll, { passive: true });
+    }
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (scrollTimeout) clearTimeout(scrollTimeout);
+    };
+  }, [isAppRoute]);
 
-	return (
-		<QueryClientProvider client={queryClient}>
-			<SettingsProvider>
-				<SiteConfigurator />
-				<div
-					className={`flex min-h-dvh flex-col bg-background text-foreground ${isAppRoute ? "font-sans" : ""}`}
-				>
-					{!isAppRoute && <Header />}
-					<main className="flex-1">
-						<Outlet />
-					</main>
-					{!isAppRoute && <Footer />}
-				</div>
-				<Toaster />
-				<Analytics />
-				<SpeedInsights />
-			</SettingsProvider>
-		</QueryClientProvider>
-	);
+  return (
+    <LazyMotion features={domAnimation} strict>
+      <QueryClientProvider client={queryClient}>
+        <SettingsProvider>
+          <SiteConfigurator />
+          <div
+            className={`flex min-h-dvh flex-col bg-background text-foreground ${isAppRoute ? "font-sans" : ""}`}
+          >
+            {!isAppRoute && <Header />}
+            <main className="flex-1">
+              <Outlet />
+            </main>
+            {!isAppRoute && <Footer />}
+          </div>
+          <Toaster />
+          <Analytics />
+          <SpeedInsights />
+        </SettingsProvider>
+      </QueryClientProvider>
+    </LazyMotion>
+  );
 }

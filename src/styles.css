@@ -269,7 +269,6 @@
     background-clip: text;
     color: transparent;
     animation: cyberpunk-glitch 5s infinite;
-
   }
 
   @keyframes aurora-holographic-flow {

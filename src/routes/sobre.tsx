@@ -7,28 +7,29 @@ import { SobreOperacao } from "@/components/site/sobre/SobreOperacao";
 import { SobreQuemSomos } from "@/components/site/sobre/SobreQuemSomos";
 
 export const Route = createFileRoute("/sobre")({
-	head: () => ({
-		meta: [
-			{ title: "Sobre | Opnora" },
-			{
-				name: "description",
-				content:
-					"A Opnora desenvolve software sob medida com inteligência artificial, automação e dados para transformar problemas reais em soluções digitais.",
-			},
-		],
-	}),
-	component: SobrePage,
+  head: () => ({
+    meta: [
+      { title: "Sobre | Opnora" },
+      {
+        name: "description",
+        content:
+          "A Opnora desenvolve software sob medida com inteligência artificial, automação e dados para transformar problemas reais em soluções digitais.",
+      },
+    ],
+    links: [{ rel: "preload", as: "image", href: "/images/sobre_hero_real.webp" }],
+  }),
+  component: SobrePage,
 });
 
 function SobrePage() {
-	return (
-		<>
-			<SobreHeroSection />
-			<SobreQuemSomos />
-			<SobreOperacao />
-			<SobreFoco />
-			<SobreHistoria />
-			<SobreEquipe />
-		</>
-	);
+  return (
+    <>
+      <SobreHeroSection />
+      <SobreQuemSomos />
+      <SobreOperacao />
+      <SobreFoco />
+      <SobreHistoria />
+      <SobreEquipe />
+    </>
+  );
 }

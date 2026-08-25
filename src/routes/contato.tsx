@@ -28,6 +28,8 @@ import {
 import { toast } from "sonner";
 import { z } from "zod";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { HeroMedia } from "@/components/performance/HeroMedia";
+import { StableSuspense } from "@/components/performance/StableSuspense";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
 
 export const Route = createFileRoute("/contato")({
@@ -56,7 +58,10 @@ export const Route = createFileRoute("/contato")({
       },
       { property: "og:url", content: "/contato" },
     ],
-    links: [{ rel: "canonical", href: "/contato" }],
+    links: [
+      { rel: "canonical", href: "/contato" },
+      { rel: "preload", as: "image", href: "/images/aurora_contact_real.webp" },
+    ],
   }),
   component: ContatoPage,
 });
@@ -275,15 +280,15 @@ function ContatoPage() {
   return (
     <div className="bg-[#08080b] min-h-screen text-white">
       {/* ===== SEÇÃO 1: HERO ===== */}
-      <section
-        className="relative overflow-hidden bg-[#050507] min-h-dvh flex flex-col items-center justify-center border-b border-[#1c1c21]"
-        style={{
-          backgroundImage: "url('/images/aurora_contact_real.webp')",
-          backgroundSize: "cover",
-          backgroundPosition: "center center",
-          backgroundRepeat: "no-repeat",
-        }}
-      >
+      <section className="relative overflow-hidden bg-[#050507] min-h-dvh flex flex-col items-center justify-center border-b border-[#1c1c21]">
+        <HeroMedia
+          src="/images/aurora_contact_real.webp"
+          width={1920}
+          height={1080}
+          isPriority={true}
+          alt="Aurora background"
+          className="opacity-100"
+        />
         {/* Gradiente escuro no mobile (vertical) e desktop (horizontal) para garantir contraste total sem apagar a aurora */}
         <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-[#050507]/85 via-[#050507]/65 md:via-[#050507]/75 to-transparent z-0 pointer-events-none"></div>
         {/* Gradiente na base para fundir suavemente com o final da seção */}
@@ -629,23 +634,50 @@ function ContatoPage() {
       </section>
 
       {/* ===== SEÇÃO 3: SOB MEDIDA & CONSULTORIA (SIMULADOR) ===== */}
-      <Suspense
-        fallback={
-          <div className="mx-auto max-w-[85rem] px-4 sm:px-6 lg:px-12 py-24">
-            <div className="max-w-3xl mb-16 animate-pulse">
-              <div className="h-4 w-48 bg-white/5 rounded mb-4"></div>
-              <div className="h-10 w-96 bg-white/5 rounded mb-6"></div>
-              <div className="h-6 w-[500px] bg-white/5 rounded"></div>
-            </div>
-            <div className="grid grid-cols-1 lg:grid-cols-[1.8fr_1fr] gap-8 items-start animate-pulse">
-              <div className="bg-[#121218] border border-white/5 rounded-2xl p-6 sm:p-8 space-y-8 h-[400px]"></div>
-              <div className="bg-[#121218] border border-white/5 rounded-2xl p-6 sm:p-8 h-[250px] sticky top-24"></div>
-            </div>
-          </div>
-        }
+      <section
+        id="personalize"
+        className="relative w-full bg-[#0c0c0f] py-24 border-b border-white/5"
       >
-        <ContatoSimulador defaultPlano={planoKey || expansaoKey} defaultNivel={nivelKey} />
-      </Suspense>
+        <div className="mx-auto max-w-[85rem] px-4 sm:px-6 lg:px-12">
+          {/* Header da Seção (Agora estruturalmente síncrono para evitar CLS) */}
+          <div className="max-w-3xl mb-14">
+            <ScrollReveal>
+              <div className="flex items-center gap-4 mb-4">
+                <div className="h-[2px] w-8 bg-gradient-to-r from-aurora-violet to-aurora-cyan" />
+                <span className="font-mono text-[10px] sm:text-[11px] text-slate-400 font-bold uppercase tracking-[0.2em]">
+                  SOB MEDIDA & CONSULTORIA
+                </span>
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal delay={100}>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-white mb-6">
+                Seu projeto, construído para a sua realidade.
+              </h2>
+            </ScrollReveal>
+
+            <ScrollReveal delay={200}>
+              <p className="text-sm sm:text-base text-slate-400 font-light leading-relaxed">
+                Selecione seus objetivos, funcionalidades e prioridades. A Opnora analisa as
+                escolhas, orienta o que realmente faz sentido e prepara uma proposta personalizada,
+                sem que sua empresa precise contratar recursos desnecessários.
+              </p>
+            </ScrollReveal>
+          </div>
+
+          <StableSuspense
+            fallbackClassName="min-h-[900px] lg:min-h-[700px]"
+            fallback={
+              <div className="grid grid-cols-1 lg:grid-cols-[1.7fr_1.1fr] gap-8 items-start animate-pulse">
+                <div className="bg-[#121218] border border-white/5 rounded-2xl p-6 sm:p-8 space-y-8 min-h-[500px]"></div>
+                <div className="bg-[#121218] border border-white/5 rounded-2xl p-6 sm:p-8 min-h-[250px] sticky top-24"></div>
+              </div>
+            }
+          >
+            <ContatoSimulador defaultPlano={planoKey || expansaoKey} defaultNivel={nivelKey} />
+          </StableSuspense>
+        </div>
+      </section>
 
       {/* ===== SEÇÃO 4: CHOOSE THE BEST PLACE TO START ===== */}
       <section className="relative py-20 border-b border-white/5 bg-[#0e0e12]">

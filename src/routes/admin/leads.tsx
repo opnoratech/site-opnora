@@ -74,7 +74,12 @@ function LeadsPage() {
   const [loading, setLoading] = useState(true);
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [proposalModalLead, setProposalModalLead] = useState<Lead | null>(null);
-  const [proposalData, setProposalData] = useState({ valor: "", servicos: "", prazos: "", condicoes: "" });
+  const [proposalData, setProposalData] = useState({
+    valor: "",
+    servicos: "",
+    prazos: "",
+    condicoes: "",
+  });
 
   useEffect(() => {
     fetchLeads();
@@ -143,29 +148,35 @@ function LeadsPage() {
 
     const numValor = parseFloat(proposalData.valor.replace(",", "."));
     if (isNaN(numValor)) {
-        toast.error("Valor inválido.");
-        return;
+      toast.error("Valor inválido.");
+      return;
     }
 
-    const { data, error } = await supabase.from("proposals").insert([{
-        lead_id: proposalModalLead.id,
-        valor_total: numValor,
-        servicos: proposalData.servicos,
-        prazos: proposalData.prazos,
-        condicoes_pagamento: proposalData.condicoes,
-        status: "pendente"
-    }]).select().single();
+    const { data, error } = await supabase
+      .from("proposals")
+      .insert([
+        {
+          lead_id: proposalModalLead.id,
+          valor_total: numValor,
+          servicos: proposalData.servicos,
+          prazos: proposalData.prazos,
+          condicoes_pagamento: proposalData.condicoes,
+          status: "pendente",
+        },
+      ])
+      .select()
+      .single();
 
     if (error) {
-        toast.error("Erro ao gerar proposta.");
+      toast.error("Erro ao gerar proposta.");
     } else {
-        toast.success("Proposta gerada com sucesso!");
-        setProposalModalLead(null);
-        setProposalData({ valor: "", servicos: "", prazos: "", condicoes: "" });
-        
-        const url = `${window.location.origin}/proposta/${data.id}`;
-        navigator.clipboard.writeText(url);
-        toast.info("Link da proposta copiado para a área de transferência!");
+      toast.success("Proposta gerada com sucesso!");
+      setProposalModalLead(null);
+      setProposalData({ valor: "", servicos: "", prazos: "", condicoes: "" });
+
+      const url = `${window.location.origin}/proposta/${data.id}`;
+      navigator.clipboard.writeText(url);
+      toast.info("Link da proposta copiado para a área de transferência!");
     }
   }
 
@@ -521,12 +532,15 @@ function LeadsPage() {
                       <Phone className="size-4" /> WhatsApp Indisponível
                     </div>
                   )}
-                  
-                  <Button 
-                      onClick={() => { setSelectedLead(null); setProposalModalLead(selectedLead); }}
-                      className="bg-purple-500 hover:bg-purple-600 text-white font-semibold text-sm h-10 px-4 rounded-lg flex items-center justify-center gap-2 w-full"
+
+                  <Button
+                    onClick={() => {
+                      setSelectedLead(null);
+                      setProposalModalLead(selectedLead);
+                    }}
+                    className="bg-purple-500 hover:bg-purple-600 text-white font-semibold text-sm h-10 px-4 rounded-lg flex items-center justify-center gap-2 w-full"
                   >
-                      <FileText className="size-4" /> Gerar Proposta
+                    <FileText className="size-4" /> Gerar Proposta
                   </Button>
                 </div>
               </div>
@@ -536,7 +550,10 @@ function LeadsPage() {
       </Dialog>
 
       {/* Modal de Gerar Proposta */}
-      <Dialog open={!!proposalModalLead} onOpenChange={(open) => !open && setProposalModalLead(null)}>
+      <Dialog
+        open={!!proposalModalLead}
+        onOpenChange={(open) => !open && setProposalModalLead(null)}
+      >
         <DialogContent className="bg-[#121218] border-white/10 text-white max-w-md">
           <DialogHeader>
             <DialogTitle className="text-xl font-display flex items-center gap-2">
@@ -550,49 +567,58 @@ function LeadsPage() {
 
           <form onSubmit={generateProposal} className="space-y-4 mt-2">
             <div>
-                <label className="text-xs text-slate-400 mb-1 block">Valor Total (R$)</label>
-                <input
-                    type="number" step="0.01" required autoFocus
-                    value={proposalData.valor}
-                    onChange={(e) => setProposalData({...proposalData, valor: e.target.value})}
-                    className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-purple-500"
-                    placeholder="3500.00"
-                />
+              <label className="text-xs text-slate-400 mb-1 block">Valor Total (R$)</label>
+              <input
+                type="number"
+                step="0.01"
+                required
+                autoFocus
+                value={proposalData.valor}
+                onChange={(e) => setProposalData({ ...proposalData, valor: e.target.value })}
+                className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-purple-500"
+                placeholder="3500.00"
+              />
             </div>
             <div>
-                <label className="text-xs text-slate-400 mb-1 block">Serviços (separados por vírgula)</label>
-                <textarea
-                    required
-                    value={proposalData.servicos}
-                    onChange={(e) => setProposalData({...proposalData, servicos: e.target.value})}
-                    className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-purple-500 min-h-[80px]"
-                    placeholder="Ex: Landing Page Premium, Integração WhatsApp, E-mails Corporativos"
-                />
+              <label className="text-xs text-slate-400 mb-1 block">
+                Serviços (separados por vírgula)
+              </label>
+              <textarea
+                required
+                value={proposalData.servicos}
+                onChange={(e) => setProposalData({ ...proposalData, servicos: e.target.value })}
+                className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-purple-500 min-h-[80px]"
+                placeholder="Ex: Landing Page Premium, Integração WhatsApp, E-mails Corporativos"
+              />
             </div>
             <div>
-                <label className="text-xs text-slate-400 mb-1 block">Prazo de Entrega</label>
-                <input
-                    required
-                    value={proposalData.prazos}
-                    onChange={(e) => setProposalData({...proposalData, prazos: e.target.value})}
-                    className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-purple-500"
-                    placeholder="Ex: 15 dias úteis após o briefing"
-                />
+              <label className="text-xs text-slate-400 mb-1 block">Prazo de Entrega</label>
+              <input
+                required
+                value={proposalData.prazos}
+                onChange={(e) => setProposalData({ ...proposalData, prazos: e.target.value })}
+                className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-purple-500"
+                placeholder="Ex: 15 dias úteis após o briefing"
+              />
             </div>
             <div>
-                <label className="text-xs text-slate-400 mb-1 block">Condições de Pagamento</label>
-                <input
-                    required
-                    value={proposalData.condicoes}
-                    onChange={(e) => setProposalData({...proposalData, condicoes: e.target.value})}
-                    className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-purple-500"
-                    placeholder="Ex: 50% de entrada via Pix, 50% na aprovação final"
-                />
+              <label className="text-xs text-slate-400 mb-1 block">Condições de Pagamento</label>
+              <input
+                required
+                value={proposalData.condicoes}
+                onChange={(e) => setProposalData({ ...proposalData, condicoes: e.target.value })}
+                className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-purple-500"
+                placeholder="Ex: 50% de entrada via Pix, 50% na aprovação final"
+              />
             </div>
-            
+
             <div className="flex justify-end gap-2 mt-6 pt-4 border-t border-white/10">
-                <Button type="button" variant="ghost" onClick={() => setProposalModalLead(null)}>Cancelar</Button>
-                <Button type="submit" className="bg-purple-500 hover:bg-purple-600 text-white">Criar Proposta</Button>
+              <Button type="button" variant="ghost" onClick={() => setProposalModalLead(null)}>
+                Cancelar
+              </Button>
+              <Button type="submit" className="bg-purple-500 hover:bg-purple-600 text-white">
+                Criar Proposta
+              </Button>
             </div>
           </form>
         </DialogContent>

@@ -39,9 +39,10 @@ function ProjectCardItem({ p, idx }: { p: Projeto; idx: number }) {
   const resumo = p.descricao || p.resumo || "";
   const link = p.link || p.url;
   const status = p.status || "Concluído";
-  const recursos = (p.recursos && p.recursos.length > 0) 
-    ? p.recursos 
-    : ["React", "Supabase", "Cloudinary", "Admin Dashboard", "Checkout WhatsApp"];
+  const recursos =
+    p.recursos && p.recursos.length > 0
+      ? p.recursos
+      : ["React", "Supabase", "Cloudinary", "Admin Dashboard", "Checkout WhatsApp"];
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;

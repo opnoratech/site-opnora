@@ -7,6 +7,7 @@ import { supabase } from "@/lib/supabase";
 import { Mail, Lock, Loader2, ArrowRight } from "lucide-react";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { Turnstile } from "@marsidev/react-turnstile";
+import { HeroMedia } from "@/components/performance/HeroMedia";
 
 export const Route = createFileRoute("/login")({
   component: LoginPage,
@@ -74,20 +75,19 @@ function LoginPage() {
   return (
     <div className="min-h-dvh flex items-center justify-center bg-[#050507] p-4 relative overflow-hidden">
       {/* Background Image & Overlay */}
-      <div
-        className="absolute inset-0 z-0 opacity-40 pointer-events-none"
-        style={{
-          backgroundImage: "url('/images/aurora_contact_real.webp')",
-          backgroundSize: "cover",
-          backgroundPosition: "center center",
-          backgroundRepeat: "no-repeat",
-        }}
-      >
-        <div className="absolute inset-0 bg-[#050507]/70 backdrop-blur-3xl"></div>
+      <div className="absolute inset-0 z-0 opacity-40 pointer-events-none">
+        <HeroMedia
+          src="/images/aurora_contact_real.webp"
+          width={1920}
+          height={1080}
+          isPriority={true}
+          alt="Login Background"
+        />
+        <div className="absolute inset-0 bg-[#050507]/70 backdrop-blur-md md:backdrop-blur-3xl"></div>
       </div>
 
       {/* Glowing Orbs */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] max-w-[600px] max-h-[600px] bg-aurora-violet/15 blur-[100px] rounded-full pointer-events-none z-0"></div>
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] max-w-[600px] max-h-[600px] bg-aurora-violet/15 blur-[50px] md:blur-[100px] rounded-full pointer-events-none z-0"></div>
 
       <ScrollReveal delay={100} className="w-full max-w-[440px] relative z-10">
         {/* Form Card */}
@@ -116,7 +116,7 @@ function LoginPage() {
                 <input
                   type="email"
                   value={email}
-                  onChange={(e: any) => setEmail(e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
                   required
                   className="w-full bg-[#121218] border border-white/10 text-white rounded-xl pl-12 pr-4 py-3.5 text-sm focus:outline-none focus:border-aurora-violet focus:shadow-[0_0_15px_rgba(162,128,255,0.15)] transition-all duration-300 placeholder:text-slate-600"
                   placeholder="seu@email.com"
@@ -135,7 +135,7 @@ function LoginPage() {
                 <input
                   type="password"
                   value={password}
-                  onChange={(e: any) => setPassword(e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
                   required
                   className="w-full bg-[#121218] border border-white/10 text-white rounded-xl pl-12 pr-4 py-3.5 text-sm focus:outline-none focus:border-aurora-violet focus:shadow-[0_0_15px_rgba(162,128,255,0.15)] transition-all duration-300 placeholder:text-slate-600"
                   placeholder="••••••••"

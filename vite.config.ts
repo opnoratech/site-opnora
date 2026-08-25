@@ -7,13 +7,14 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 // Helper to generate the email HTML with Opnora Dark/Premium aesthetic (shared with SSR production)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function generateEmailHtml(data: any) {
-	const isSimulador = data.type === "simulador";
-	const isStatusUpdate = data.type === "status_update";
+  const isSimulador = data.type === "simulador";
+  const isStatusUpdate = data.type === "status_update";
 
-	let detailsHtml = "";
-	if (isSimulador) {
-		detailsHtml = `
+  let detailsHtml = "";
+  if (isSimulador) {
+    detailsHtml = `
       <div style="margin-bottom: 25px; background: #121218; padding: 18px; border-radius: 8px; border: 1px solid #1c1c25;">
         <h3 style="color: #a280ff; font-size: 13px; margin-top: 0; margin-bottom: 15px; text-transform: uppercase; font-family: monospace; letter-spacing: 1px; font-weight: bold;">2. Escopo do Simulador</h3>
         <table style="width: 100%; font-size: 13px; color: #d1d1d6; border-collapse: collapse; line-height: 1.6;">
@@ -27,8 +28,8 @@ function generateEmailHtml(data: any) {
         </table>
       </div>
     `;
-	} else if (isStatusUpdate) {
-		detailsHtml = `
+  } else if (isStatusUpdate) {
+    detailsHtml = `
       <div style="margin-bottom: 25px; background: #121218; padding: 18px; border-radius: 8px; border: 1px solid #1c1c25;">
         <h3 style="color: #a280ff; font-size: 13px; margin-top: 0; margin-bottom: 15px; text-transform: uppercase; font-family: monospace; letter-spacing: 1px; font-weight: bold;">2. Atualização de Status</h3>
         <table style="width: 100%; font-size: 13px; color: #d1d1d6; border-collapse: collapse; line-height: 1.6;">
@@ -37,8 +38,8 @@ function generateEmailHtml(data: any) {
         </table>
       </div>
     `;
-	} else {
-		detailsHtml = `
+  } else {
+    detailsHtml = `
       <div style="margin-bottom: 25px; background: #121218; padding: 18px; border-radius: 8px; border: 1px solid #1c1c25;">
         <h3 style="color: #a280ff; font-size: 13px; margin-top: 0; margin-bottom: 15px; text-transform: uppercase; font-family: monospace; letter-spacing: 1px; font-weight: bold;">2. Assunto do Contato</h3>
         <table style="width: 100%; font-size: 13px; color: #d1d1d6; border-collapse: collapse; line-height: 1.6;">
@@ -46,12 +47,14 @@ function generateEmailHtml(data: any) {
         </table>
       </div>
     `;
-	}
+  }
 
-	let headerSubtitle = isStatusUpdate ? "Atualização de Lead (Admin)" : "Nova Oportunidade Comercial";
-	let badgeText = isStatusUpdate ? "Status Admin" : (isSimulador ? "Simulador" : "Contato");
+  const headerSubtitle = isStatusUpdate
+    ? "Atualização de Lead (Admin)"
+    : "Nova Oportunidade Comercial";
+  const badgeText = isStatusUpdate ? "Status Admin" : isSimulador ? "Simulador" : "Contato";
 
-	return `
+  return `
     <!doctype html>
     <html lang="pt-BR">
       <head>
@@ -112,119 +115,110 @@ function generateEmailHtml(data: any) {
 }
 
 export default defineConfig({
-	tanstackStart: {
-		// Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
-		// nitro/vite builds from this
-		server: { entry: "server" },
-	},
-	vite: {
-		plugins: [
-			{
-				name: "api-contato-dev-middleware",
-				configureServer(server) {
-					server.middlewares.use(async (req, res, next) => {
-						if (
-							req.url &&
-							(req.url.startsWith("/api/contato") || req.url === "/api/contato")
-						) {
-							if (req.method !== "POST") {
-								res.statusCode = 405;
-								res.setHeader("Content-Type", "application/json");
-								res.end(JSON.stringify({ error: "Method Not Allowed" }));
-								return;
-							}
+  tanstackStart: {
+    // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
+    // nitro/vite builds from this
+    server: { entry: "server" },
+  },
+  vite: {
+    plugins: [
+      {
+        name: "api-contato-dev-middleware",
+        configureServer(server) {
+          server.middlewares.use(async (req, res, next) => {
+            if (req.url && (req.url.startsWith("/api/contato") || req.url === "/api/contato")) {
+              if (req.method !== "POST") {
+                res.statusCode = 405;
+                res.setHeader("Content-Type", "application/json");
+                res.end(JSON.stringify({ error: "Method Not Allowed" }));
+                return;
+              }
 
-							try {
-								// Ler o body da request
-								const chunks = [];
-								for await (const chunk of req) {
-									chunks.push(chunk);
-								}
-								const data = JSON.parse(Buffer.concat(chunks).toString());
+              try {
+                // Ler o body da request
+                const chunks = [];
+                for await (const chunk of req) {
+                  chunks.push(chunk);
+                }
+                const data = JSON.parse(Buffer.concat(chunks).toString());
 
-								// Validar dados
-								if (!data.nome || !data.email) {
-									res.statusCode = 400;
-									res.setHeader("Content-Type", "application/json");
-									res.end(
-										JSON.stringify({
-											error: "Nome e e-mail são obrigatórios.",
-										}),
-									);
-									return;
-								}
+                // Validar dados
+                if (!data.nome || !data.email) {
+                  res.statusCode = 400;
+                  res.setHeader("Content-Type", "application/json");
+                  res.end(
+                    JSON.stringify({
+                      error: "Nome e e-mail são obrigatórios.",
+                    }),
+                  );
+                  return;
+                }
 
-								const isSimulador = data.type === "simulador";
-								const isStatusUpdate = data.type === "status_update";
+                const isSimulador = data.type === "simulador";
+                const isStatusUpdate = data.type === "status_update";
 
-								// Chamar API do Resend
-								const resendApiKey = process.env.RESEND_API_KEY || "";
-								const receiver =
-									process.env.CONTACT_RECEIVER_EMAIL || "opnora.tech@gmail.com";
-								const sender =
-									process.env.CONTACT_SENDER_EMAIL ||
-									"Opnora <onboarding@resend.dev>";
-								
-								let subject = `Contato Opnora: Nova Mensagem - ${data.nome}`;
-								if (isStatusUpdate) {
-									subject = `Admin Opnora: Lead "${data.nome}" atualizado para ${data.status.toUpperCase()}`;
-								} else if (isSimulador) {
-									subject = `Simulador Opnora: Novo Projeto - ${data.nome} (${data.empresa || "Sem empresa"})`;
-								}
+                // Chamar API do Resend
+                const resendApiKey = process.env.RESEND_API_KEY || "";
+                const receiver = process.env.CONTACT_RECEIVER_EMAIL || "opnora.tech@gmail.com";
+                const sender = process.env.CONTACT_SENDER_EMAIL || "Opnora <onboarding@resend.dev>";
 
-								const emailHtml = generateEmailHtml(data);
+                let subject = `Contato Opnora: Nova Mensagem - ${data.nome}`;
+                if (isStatusUpdate) {
+                  subject = `Admin Opnora: Lead "${data.nome}" atualizado para ${data.status.toUpperCase()}`;
+                } else if (isSimulador) {
+                  subject = `Simulador Opnora: Novo Projeto - ${data.nome} (${data.empresa || "Sem empresa"})`;
+                }
 
-								const resendResponse = await fetch(
-									"https://api.resend.com/emails",
-									{
-										method: "POST",
-										headers: {
-											Authorization: `Bearer ${resendApiKey}`,
-											"Content-Type": "application/json",
-										},
-										body: JSON.stringify({
-											from: sender,
-											to: [receiver],
-											subject: subject,
-											html: emailHtml,
-										}),
-									},
-								);
+                const emailHtml = generateEmailHtml(data);
 
-								if (!resendResponse.ok) {
-									const errText = await resendResponse.text();
-									console.error("Resend API Error (Dev):", errText);
-									res.statusCode = 500;
-									res.setHeader("Content-Type", "application/json");
-									res.end(
-										JSON.stringify({
-											error: "Erro no Resend",
-											details: errText,
-										}),
-									);
-									return;
-								}
+                const resendResponse = await fetch("https://api.resend.com/emails", {
+                  method: "POST",
+                  headers: {
+                    Authorization: `Bearer ${resendApiKey}`,
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    from: sender,
+                    to: [receiver],
+                    subject: subject,
+                    html: emailHtml,
+                  }),
+                });
 
-								res.statusCode = 200;
-								res.setHeader("Content-Type", "application/json");
-								res.end(JSON.stringify({ success: true }));
-							} catch (err: any) {
-								console.error("Dev API Middleware Error:", err);
-								res.statusCode = 500;
-								res.setHeader("Content-Type", "application/json");
-								res.end(
-									JSON.stringify({
-										error: "Internal Server Error",
-										details: err.message,
-									}),
-								);
-							}
-							return;
-						}
-						next();
-					});
-				},
-			},
-		],
-	},
+                if (!resendResponse.ok) {
+                  const errText = await resendResponse.text();
+                  console.error("Resend API Error (Dev):", errText);
+                  res.statusCode = 500;
+                  res.setHeader("Content-Type", "application/json");
+                  res.end(
+                    JSON.stringify({
+                      error: "Erro no Resend",
+                      details: errText,
+                    }),
+                  );
+                  return;
+                }
+
+                res.statusCode = 200;
+                res.setHeader("Content-Type", "application/json");
+                res.end(JSON.stringify({ success: true }));
+              } catch (err) {
+                console.error("Dev API Middleware Error:", err);
+                res.statusCode = 500;
+                res.setHeader("Content-Type", "application/json");
+                res.end(
+                  JSON.stringify({
+                    error: "Internal Server Error",
+                    details: err instanceof Error ? err.message : String(err),
+                  }),
+                );
+              }
+              return;
+            }
+            next();
+          });
+        },
+      },
+    ],
+  },
 });

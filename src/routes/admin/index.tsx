@@ -111,9 +111,7 @@ function AdminDashboard() {
           <h1 className="text-3xl font-display font-bold text-white mb-2 flex items-center gap-3">
             <LayoutDashboard className="size-8 text-purple-400" /> Dashboard Geral
           </h1>
-          <p className="text-slate-400">
-            Visão geral e desempenho dos leads nos últimos 7 dias.
-          </p>
+          <p className="text-slate-400">Visão geral e desempenho dos leads nos últimos 7 dias.</p>
         </div>
       </div>
 
