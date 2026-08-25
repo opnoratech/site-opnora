@@ -78,7 +78,6 @@ function SettingsRoute() {
           .from("site_settings")
           .update({
             ...dataToSave,
-            updated_at: new Date().toISOString(),
           })
           .eq("id", id);
         if (error) throw error;
