@@ -52,7 +52,7 @@ function SettingsRoute() {
   // Fech extra row ID if necessary since useSiteSettings doesn't expose ID
   useEffect(() => {
     async function fetchId() {
-      const { data } = await supabase.from("site_settings").select("id").single();
+      const { data } = await supabase.from("site_settings").select("id").limit(1).maybeSingle();
       if (data) {
         setFormData((prev) => ({ ...prev, id: data.id }));
       }
@@ -84,8 +84,11 @@ function SettingsRoute() {
         if (error) throw error;
       } else {
         // Fallback if no row exists yet
-        const { error } = await supabase.from("site_settings").insert([dataToSave]);
+        const { data, error } = await supabase.from("site_settings").insert([dataToSave]).select("id").single();
         if (error) throw error;
+        if (data) {
+          setFormData((prev) => ({ ...prev, id: data.id }));
+        }
       }
 
       await refreshSettings();

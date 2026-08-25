@@ -61,7 +61,7 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
 
   async function loadSettings() {
     setLoading(true);
-    const { data, error } = await supabase.from("site_settings").select("*").single();
+    const { data, error } = await supabase.from("site_settings").select("*").limit(1).maybeSingle();
 
     if (data && !error) {
       setSettings({
