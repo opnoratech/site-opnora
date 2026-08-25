@@ -4,6 +4,7 @@ import { supabase } from "@/lib/supabase";
 import { CheckCircle2, ShieldCheck, Mail, ArrowRight, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/site/layout/Logo";
+import { trackProposalView } from "@/lib/analytics";
 
 export const Route = createFileRoute("/proposta/$id")({
   component: PublicProposalPage,
@@ -36,8 +37,12 @@ function PublicProposalPage() {
         .single();
 
       if (!error && data) {
-        setProposal(data as unknown as Proposal);
+        const prop = data as unknown as Proposal;
+        setProposal(prop);
         if (data.status === "aceita") setAccepted(true);
+        
+        // Rastrear visualização apenas uma vez quando carregar com sucesso
+        trackProposalView(prop.id, prop.leads?.nome);
       }
       setLoading(false);
     }

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { FaBullhorn, FaChartLine, FaCheck, FaRobot, FaWhatsapp, FaWrench } from "react-icons/fa6";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { CONTACT } from "@/config/site";
+import { trackWhatsAppClick } from "@/lib/analytics";
 
 interface AdicionalItem {
   name: string;
@@ -355,6 +356,7 @@ export function PrecosAdicionais() {
                 href={`${CONTACT.whatsappUrl}?text=${encodeURIComponent("Olá! Gostaria de falar com um consultor da Opnora sobre o acompanhamento pós-lançamento e a estratégia ideal de continuidade do meu projeto.")}`}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => trackWhatsAppClick("secao_precos")}
                 className="group/btn w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-2xl bg-aurora-violet text-white hover:bg-aurora-violet/90 hover:shadow-[0_0_25px_rgba(162,128,255,0.4)] border border-aurora-violet/20 font-display font-bold text-xs uppercase tracking-wider transition-all"
               >
                 <FaWhatsapp className="size-4" />

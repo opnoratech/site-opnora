@@ -3,6 +3,7 @@ import { Instagram, Linkedin, Mail } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa6";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
 import { Logo } from "./Logo";
+import { trackWhatsAppClick } from "@/lib/analytics";
 
 export function Footer() {
   const { settings } = useSiteSettings();
@@ -23,6 +24,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="WhatsApp"
+                onClick={() => trackWhatsAppClick("footer_icon")}
                 className="w-10 h-10 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-slate-400 hover:text-aurora-violet hover:border-aurora-violet/30 hover:bg-aurora-violet/5 transition-all duration-300"
               >
                 <FaWhatsapp className="w-4.5 h-4.5" />
@@ -121,6 +123,7 @@ export function Footer() {
                   href={settings.whatsapp}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => trackWhatsAppClick("footer_link")}
                   className="text-[14px] text-slate-400 transition-colors hover:text-aurora-violet"
                 >
                   WhatsApp

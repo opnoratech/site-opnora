@@ -13,6 +13,7 @@ import {
 import { supabase } from "@/lib/supabase";
 import { useSiteSettings } from "./useSiteSettings";
 import { toast } from "sonner";
+import { trackFormSubmit } from "@/lib/analytics";
 
 export interface ContactFormData {
   nome: string;
@@ -617,6 +618,7 @@ export function useContatoSimulador(defaultPlano?: string, defaultNivel?: string
       }
 
       // Sucesso total
+      trackFormSubmit(basePlanoLabel);
       setSubmitted(true);
       setTimeout(() => {
         const el = document.getElementById("personalize");
