@@ -93,9 +93,9 @@ function SettingsRoute() {
 
       await refreshSettings();
       toast.success("Configurações salvas com sucesso!");
-    } catch (err) {
+    } catch (err: any) {
       console.error("Erro ao salvar:", err);
-      toast.error("Ocorreu um erro ao salvar as configurações.");
+      toast.error(`Erro ao salvar: ${err.message || err.details || "Erro desconhecido"}`);
     } finally {
       setIsSaving(false);
     }
