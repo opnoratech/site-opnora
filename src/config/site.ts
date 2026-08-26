@@ -4,7 +4,7 @@
  */
 export const SITE = {
   name: "Opnora",
-  tagline: "Desenvolvemos software para empresas que querem sair do improviso digital.",
+  tagline: "Soluções em Tecnologia",
   description:
     "A Opnora é uma iniciativa de desenvolvimento de software. Criamos sites, sistemas e plataformas que organizam processos, melhoram o atendimento e ajudam empresas a crescer com tecnologia.",
   // Domínio oficial configurado para SEO/canonical
