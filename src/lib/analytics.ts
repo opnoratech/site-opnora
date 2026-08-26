@@ -33,7 +33,8 @@ export const trackWhatsAppClick = (location: string) => {
  * @param plan (Opcional) Plano escolhido se for formulário de simulador
  */
 export const trackFormSubmit = (plan?: string) => {
-  trackEvent("lead_form_submit", {
+  trackEvent("generate_lead", {
+    lead_source: "contact_form",
     plan_interest: plan || "nenhum",
   });
 };

@@ -289,8 +289,10 @@ function SiteConfigurator() {
       navigate({ to: "/" });
     }
 
-    // 3. Google Analytics Injection
-    if (settings.google_analytics_id && !document.getElementById("ga-script")) {
+    // 3. Google Analytics Injection (apenas se não for localhost)
+    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    
+    if (!isLocalhost && settings.google_analytics_id && !document.getElementById("ga-script")) {
       const script1 = document.createElement("script");
       script1.id = "ga-script";
       script1.async = true;
@@ -317,6 +319,8 @@ function SiteConfigurator() {
 				gtag('config', '${settings.google_analytics_id}');
 			`;
       document.head.appendChild(script2);
+    } else if (isLocalhost) {
+      console.log("[Analytics] Bloqueado no localhost para evitar poluição de dados.");
     }
   }, [settings, loading, location.pathname, navigate]);
 
