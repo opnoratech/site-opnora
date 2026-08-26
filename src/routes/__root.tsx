@@ -13,6 +13,7 @@ import { type ReactNode, useEffect } from "react";
 import { LazyMotion, domAnimation } from "framer-motion";
 import { Footer } from "@/components/site/layout/Footer";
 import { Header } from "@/components/site/layout/Header";
+import { CookieBanner } from "@/components/site/layout/CookieBanner";
 import { Toaster } from "@/components/ui/sonner";
 import { CONTACT, SITE } from "@/config/site";
 import { SettingsProvider, useSiteSettings } from "@/hooks/useSiteSettings";
@@ -301,6 +302,17 @@ function SiteConfigurator() {
       script2.innerHTML = `
 				window.dataLayer = window.dataLayer || [];
 				function gtag(){dataLayer.push(arguments);}
+
+				// Lógica de Consent Mode V2
+				var storedConsent = localStorage.getItem('opnora_consent');
+				var consentState = storedConsent ? JSON.parse(storedConsent) : {
+					ad_storage: 'denied',
+					ad_user_data: 'denied',
+					ad_personalization: 'denied',
+					analytics_storage: 'denied'
+				};
+				gtag('consent', 'default', consentState);
+
 				gtag('js', new Date());
 				gtag('config', '${settings.google_analytics_id}');
 			`;
@@ -380,6 +392,7 @@ function RootComponent() {
             </main>
             {!isAppRoute && <Footer />}
           </div>
+          {!isAppRoute && <CookieBanner />}
           <Toaster />
           <Analytics />
           <SpeedInsights />
